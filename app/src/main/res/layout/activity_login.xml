@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#333D56"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    tools:context=".LoginActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="登 录"
+        android:textColor="@android:color/white"
+        android:textSize="40sp"
+        android:layout_gravity="center_horizontal"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#ffffff"/>
+
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:hint="请输出账号..."
+        android:drawablePadding="10dp"
+        android:layout_gravity="center_horizontal"
+        android:drawableLeft="@mipmap/user_pic"
+        android:textColor="#ffffff"
+        android:id="@+id/username"
+        android:layout_marginTop="100dp"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
+
+        <EditText
+            android:layout_width="270dp"
+            android:layout_height="wrap_content"
+            android:hint="请输入密码..."
+            android:drawablePadding="10dp"
+            android:drawableLeft="@mipmap/passwd_pic"
+            android:textColor="#ffffff"
+            android:id="@+id/password"
+            android:layout_marginTop="20dp"/>
+
+        <CheckBox
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:checked="false"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/password"
+            android:id="@+id/cbPassword"
+            android:button="@drawable/select_password"/>
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="忘记密码？"
+        android:textSize="15sp"
+        android:textColor="#ffffff"
+        android:gravity="right"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal"/>
+
+    <Button
+        android:id="@+id/login_btn"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/login_btn"
+        android:text="确定"
+        android:textSize="20sp"
+        android:textColor="#ffffff" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="登录表示你同意该软件用户服务协议和隐私政策"
+            android:layout_marginBottom="2dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:textColor="@android:color/white"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

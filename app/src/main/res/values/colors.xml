@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="login_btn_color">#53868B</color>
+    <color name="register_btn_color">#104E8B</color>
+    <color name="login_btn">#3D72FF</color>
+    <color name="bg_color">#333D56</color>
+    <color name="toast_textview_color">#00000000</color>
+</resources>

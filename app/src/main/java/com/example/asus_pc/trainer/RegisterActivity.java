@@ -54,7 +54,7 @@ public class RegisterActivity extends AppCompatActivity {
     private void initView(){
         userName = findViewById(R.id.username);
         password = findViewById(R.id.password);
-        phone = findViewById(R.id.tel_num);
+        phone = findViewById(R.id.tel_num); 
         get_code = findViewById(R.id.get_code);
         code = findViewById(R.id.code);
         register_btn = findViewById(R.id.register_btn);
@@ -76,7 +76,7 @@ public class RegisterActivity extends AppCompatActivity {
                 verifyUser();
                 verifyBmobSMSCode();
                 uploadUserInfo();
-                toRunActivity();
+                //toRunActivity();
             }
         });
     }
@@ -179,9 +179,11 @@ public class RegisterActivity extends AppCompatActivity {
         String tel =  phone.getText().toString();
 
         MyUsers myUsers = new MyUsers();
-        myUsers.setUserID(user);
-        myUsers.setUserpass(pass);
-        myUsers.setUserTel(tel);
+        myUsers.setUsername(user);
+        myUsers.setPassword(pass);
+        myUsers.setPhone(tel);
+        Log.e("TAG",user+pass+tel);
+        Log.e("输出",myUsers.toString());
         myUsers.signUp(new SaveListener<MyUsers>() {
             @Override
             public void done(MyUsers myUsers, cn.bmob.v3.exception.BmobException e) {
@@ -189,16 +191,30 @@ public class RegisterActivity extends AppCompatActivity {
                 if (e == null){
                     toastShow.toastShow(RegisterActivity.this,"注册成功");
                 }else{
-                    toastShow.toastShow(RegisterActivity.this,"注册失败，请重试");
+                    toastShow.toastShow(RegisterActivity.this,"注册失败，请重试！");
+                    Log.e("错误",e.getMessage());
                 }
             }
         });
     }
     private void toRunActivity(){
-        Intent intent =  new Intent();
-        //intent.setClass(RegisterActivity.this, RunActivity.class);
-        startActivity(intent);
-        finish();
+        new Thread(){
+            public void run(){
+                super.run();
+                try {
+                    Thread.sleep(1000);  //休眠一秒
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                Intent intent =  new Intent();
+                intent.setClass(RegisterActivity.this, LineShowActivity.class);
+                startActivity(intent);
+                finish();
+
+            }
+        }.start();
+
     }
 
 }

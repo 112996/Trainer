@@ -8,4 +8,5 @@
     <color name="login_btn">#3D72FF</color>
     <color name="bg_color">#333D56</color>
     <color name="toast_textview_color">#00000000</color>
+    <color name="radioButton_textColr_checked">#FF6398</color>
 </resources>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#333D56"
+    android:fitsSystemWindows="true"
+    tools:context=".LineShowActivity">
+
+    <android.support.v4.view.ViewPager
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/viewPager"
+        android:layout_gravity="center"/>
+
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="#2D374C"
+        android:id="@+id/radioGroup"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_height="55dp"
+            android:textColor="@drawable/radiobutton_textcolor"
+            android:layout_weight="1.0"
+            android:button="@null"
+            android:drawableTop="@drawable/radiobutton_icon_lineshow"
+            android:paddingTop="4dp"
+            android:gravity="center"
+            android:id="@+id/lineShow"
+            android:checked="false"
+            android:text="@string/lineShow"
+            android:textSize="13sp"/>
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_height="55dp"
+            android:layout_weight="1.0"
+            android:textColor="@drawable/radiobutton_textcolor"
+            android:gravity="center"
+            android:drawableTop="@drawable/radiobutton_icon_course"
+            android:paddingTop="4dp"
+            android:button="@null"
+            android:id="@+id/course"
+            android:text="@string/course"
+            android:textSize="13sp"/>
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_height="55dp"
+            android:layout_weight="1.0"
+            android:textColor="@drawable/radiobutton_textcolor"
+            android:gravity="center"
+            android:drawableTop="@drawable/radiobutton_icon_me"
+            android:paddingTop="4dp"
+            android:button="@null"
+            android:id="@+id/me"
+            android:text="@string/me"
+            android:textSize="13sp"/>
+
+    </RadioGroup>
+
+</RelativeLayout>

@@ -26,7 +26,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/ImageTranslucentTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".EnterActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,7 +35,11 @@
         </activity>
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".LineShowActivity"></activity>
+        <activity android:name=".LineShowActivity" />
+        <activity android:name=".MainActivity" />
+        <activity android:name=".Me_Activty.BMIActivity" />
+        <activity android:name=".Me_Activty.BFRActivity" />
+        <activity android:name=".Me_Activty.BMRActivity"></activity>
     </application>
 
 </manifest>

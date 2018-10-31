@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.asus_pc.trainer.R;
+
 import cn.bmob.v3.Bmob;
 
 public class MainActivity extends AppCompatActivity{
@@ -17,10 +19,9 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Bmob.initialize(this,"5f0a55cbd319099d5f48f6b952cb17fc");
-
         initView();
-    }
 
+    }
     private void initView(){
         login_btn = findViewById(R.id.login_btn);
         regist_btn = findViewById(R.id.regist_btn);
@@ -29,8 +30,7 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 Intent i = new Intent();
-                //i.setClass(MainActivity.this,LoginActivity.class);
-                i.setClass(MainActivity.this,LineShowActivity.class);
+                i.setClass(MainActivity.this,LoginActivity.class);
                 startActivity(i);
                 finish();
             }
@@ -45,8 +45,5 @@ public class MainActivity extends AppCompatActivity{
                 finish();
             }
         });
-
-
     }
-
 }

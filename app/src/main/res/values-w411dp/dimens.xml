@@ -1,0 +1,8 @@
+<resources>
+   <dimen name="login_btn_width">360dp</dimen>
+    <dimen name="register_btn_width">360dp</dimen>
+    <dimen name="trainer_marginTop">30dp</dimen>
+    <dimen name="it_simple_margin">7.5dp</dimen>
+    <dimen name="login_btn_marginTop">22.5dp</dimen>
+    <dimen name="regist_btn_marginTop">15dp</dimen>
+</resources>

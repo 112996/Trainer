@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.asus_pc.trainer.R;
+
 import java.util.concurrent.TimeUnit;
 
 import cn.bmob.sms.exception.BmobException;

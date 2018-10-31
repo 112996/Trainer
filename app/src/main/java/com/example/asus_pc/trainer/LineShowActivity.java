@@ -12,6 +12,7 @@ import android.widget.RadioGroup;
 import com.example.asus_pc.trainer.Fragment.fragment_course;
 import com.example.asus_pc.trainer.Fragment.fragment_lineShow;
 import com.example.asus_pc.trainer.Fragment.fragment_me;
+import com.example.asus_pc.trainer.R;
 
 import java.util.ArrayList;
 import java.util.List;

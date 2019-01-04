@@ -26,20 +26,46 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/ImageTranslucentTheme">
-        <activity android:name=".EnterActivity">
+        <activity
+            android:theme="@style/SplashTheme"
+            android:name=".EnterActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".LineShowActivity" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".Me_Activty.BMIActivity" />
-        <activity android:name=".Me_Activty.BFRActivity" />
-        <activity android:name=".Me_Activty.BMRActivity"></activity>
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".RegisterActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:launchMode="singleInstance"
+            android:name=".LineShowActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name=".Me_Activty.BMIActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name=".Me_Activty.BFRActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name=".Me_Activty.BMRActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name=".Me_Activty.WhtrActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

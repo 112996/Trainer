@@ -1,9 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#333D56"
+    android:orientation="vertical"
     tools:context=".Me_Activty.BMRActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#2D374C"
+        android:orientation="horizontal">
+        <ImageButton
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/bmr_back_btn"
+            android:src="@drawable/enter_left"
+            android:background="#00000000"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="10dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:padding="15dp"
+            android:text="基础代谢率"
+            android:layout_gravity="center_horizontal"
+            android:textSize="25sp"
+            android:gravity="center" />
+    </RelativeLayout>
 
-</android.support.constraint.ConstraintLayout>
+    <include
+        layout="@layout/age_and_weight_layout"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="运动程度"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:padding="10dp"
+            android:textColor="@android:color/white"/>
+        <RadioGroup
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:id="@+id/sport"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:layout_weight="2">
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="高"
+                android:textSize="20sp"
+                android:textColor="@android:color/white"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="中"
+                android:textSize="20sp"
+                android:textColor="@android:color/white"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="低"
+                android:textSize="20sp"
+                android:textColor="@android:color/white"/>
+        </RadioGroup>
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1.5dp"
+        android:background="#C0C0C0"
+        android:layout_marginTop="5dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="基础代谢率"
+        android:textSize="25sp"
+        android:layout_margin="10dp"
+        android:textColor="@android:color/white"
+        android:gravity="center"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="1880kcal"
+        android:textSize="25sp"
+        android:textColor="@android:color/white"
+        android:gravity="center"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1.5dp"
+        android:background="#C0C0C0"
+        android:layout_marginTop="5dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="总能量消耗"
+        android:layout_marginTop="5dp"
+        android:textSize="25sp"
+        android:textColor="@android:color/white"
+        android:gravity="center"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="3196 - 3760kcal"
+        android:textSize="25sp"
+        android:layout_margin="10dp"
+        android:textColor="@android:color/white"
+        android:gravity="center"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="(取决于您的活动)"
+        android:textSize="25sp"
+        android:textColor="@android:color/white"
+        android:gravity="center"/>
+
+</LinearLayout>

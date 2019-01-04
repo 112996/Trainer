@@ -22,7 +22,20 @@
         android:text="       体重指数"
         android:textSize="20sp"
         android:textColor="@color/register_btn_color"
-        android:drawableLeft="@mipmap/app_icon"
+        android:drawableLeft="@drawable/icon_bmi"
+        android:drawableRight="@drawable/enter_right"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#2D374C"
+        android:padding="15dp"
+        android:gravity="left|center_vertical"
+        android:text="       腰围身高比"
+        android:id="@+id/whtr"
+        android:textColor="@color/register_btn_color"
+        android:textSize="20sp"
+        android:drawableLeft="@drawable/icon_waist"
         android:drawableRight="@drawable/enter_right"/>
     <Button
         android:layout_width="match_parent"
@@ -34,7 +47,7 @@
         android:id="@+id/BFR"
         android:textColor="@color/register_btn_color"
         android:textSize="20sp"
-        android:drawableLeft="@mipmap/app_icon"
+        android:drawableLeft="@drawable/icon_bfr"
         android:drawableRight="@drawable/enter_right"/>
     <Button
         android:layout_width="match_parent"
@@ -46,20 +59,33 @@
         android:id="@+id/BMR"
         android:textColor="@color/register_btn_color"
         android:textSize="20sp"
-        android:drawableLeft="@mipmap/app_icon"
+        android:drawableLeft="@drawable/icon_bmr"
         android:drawableRight="@drawable/enter_right"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#2D374C"
+        android:id="@+id/change_account"
+        android:gravity="center"
+        android:text="       切换账号"
+        android:textSize="20sp"
+        android:textColor="@color/register_btn_color"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_marginTop="10dp"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#2D374C"
         android:id="@+id/logout"
-        android:gravity="left|center_vertical"
+        android:gravity="center"
         android:text="       退出登录"
         android:textSize="20sp"
         android:textColor="@color/register_btn_color"
-        android:paddingLeft="15dp"
-        android:layout_marginTop="10dp"
-        android:drawableLeft="@mipmap/app_icon"/>
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_marginTop="10dp"/>
 
 
 </LinearLayout>

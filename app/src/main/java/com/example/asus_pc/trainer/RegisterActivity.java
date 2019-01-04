@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -12,7 +13,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.asus_pc.trainer.Me_Activty.BMIActivity;
 import com.example.asus_pc.trainer.R;
+import com.example.asus_pc.trainer.until.BaseCompatActivity;
+import com.jaeger.library.StatusBarUtil;
 
 import java.util.concurrent.TimeUnit;
 
@@ -29,7 +33,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
 import rx.functions.Func1;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends BaseCompatActivity {
     private EditText userName;
     private EditText password;
     private EditText phone;
@@ -43,6 +47,7 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        StatusBarUtil.setTransparent(RegisterActivity.this);
 
         //初始化Bmob
         Bmob.initialize(this,"5f0a55cbd319099d5f48f6b952cb17fc");
@@ -78,11 +83,14 @@ public class RegisterActivity extends AppCompatActivity {
                 verifyUser();
                 verifyBmobSMSCode();
                 uploadUserInfo();
-                //toRunActivity();
+                EnterLineActvity();
             }
         });
     }
 
+    /**
+     * 获取短信验证码
+     */
    private void getBmobSMSCode(){
         String tel_phone = phone.getText().toString();
         Log.e("电话",tel_phone);
@@ -111,6 +119,10 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * 验证用户设置账户、密码是否符合规格
+     */
     private void verifyUser(){
         String user = userName.getText().toString();
         String pass = password.getText().toString();
@@ -135,6 +147,9 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * 获取验证码按钮上面的倒计时
+     */
     private void getCode(){
         final int count = 59;
         Observable.interval(0, 1, TimeUnit.SECONDS)//设置0延迟，每隔一秒发送一条数据
@@ -175,6 +190,9 @@ public class RegisterActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * 上传用户信息
+     */
     private void uploadUserInfo(){
         String user = userName.getText().toString();
         String pass = password.getText().toString();
@@ -199,24 +217,17 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
     }
-    private void toRunActivity(){
-        new Thread(){
-            public void run(){
-                super.run();
-                try {
-                    Thread.sleep(1000);  //休眠一秒
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
 
-                Intent intent =  new Intent();
-                intent.setClass(RegisterActivity.this, LineShowActivity.class);
-                startActivity(intent);
-                finish();
-
+    /**
+     * 注册成功，进入主界面
+     */
+    private void EnterLineActvity(){
+        getWindow().getDecorView().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                startActivity(new Intent(RegisterActivity.this, LineShowActivity.class));
             }
-        }.start();
-
+        },1000);
     }
 
 }

@@ -12,7 +12,10 @@ import android.widget.RadioGroup;
 import com.example.asus_pc.trainer.Fragment.fragment_course;
 import com.example.asus_pc.trainer.Fragment.fragment_lineShow;
 import com.example.asus_pc.trainer.Fragment.fragment_me;
+import com.example.asus_pc.trainer.Me_Activty.BMIActivity;
 import com.example.asus_pc.trainer.R;
+import com.example.asus_pc.trainer.until.BaseCompatActivity;
+import com.jaeger.library.StatusBarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,18 +29,20 @@ public class LineShowActivity extends FragmentActivity implements ViewPager.OnPa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_line_show);
+        StatusBarUtil.setTransparent(LineShowActivity.this);
 
         initView();
+        skipFragment();
     }
 
-    private void initView(){
+    private void initView() {
         pager = findViewById(R.id.viewPager);
         radioGroup = findViewById(R.id.radioGroup);
         findViewById(R.id.lineShow).setOnClickListener(this);
         findViewById(R.id.course).setOnClickListener(this);
         findViewById(R.id.me).setOnClickListener(this);
 
-        fragments =  new ArrayList<Fragment>();
+        fragments = new ArrayList<Fragment>();
         fragments.add(new fragment_lineShow());
         fragments.add(new fragment_course());
         fragments.add(new fragment_me());
@@ -60,8 +65,8 @@ public class LineShowActivity extends FragmentActivity implements ViewPager.OnPa
     }
 
     @Override
-    public void finish(){
-        ViewGroup view  = (ViewGroup)getWindow().getDecorView();
+    public void finish() {
+        ViewGroup view = (ViewGroup) getWindow().getDecorView();
         view.removeAllViews();
         super.finish();
     }
@@ -73,7 +78,7 @@ public class LineShowActivity extends FragmentActivity implements ViewPager.OnPa
 
     @Override
     public void onPageSelected(int i) {
-        switch (i){
+        switch (i) {
             case 0:
                 radioGroup.check(R.id.lineShow);
                 break;
@@ -83,8 +88,8 @@ public class LineShowActivity extends FragmentActivity implements ViewPager.OnPa
             case 2:
                 radioGroup.check(R.id.me);
                 break;
-             default:
-                 break;
+            default:
+                break;
         }
     }
 
@@ -95,20 +100,33 @@ public class LineShowActivity extends FragmentActivity implements ViewPager.OnPa
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.lineShow:
-                pager.setCurrentItem(0,true);
+                pager.setCurrentItem(0, true);
                 break;
             case R.id.course:
-                pager.setCurrentItem(1,true);
+                pager.setCurrentItem(1, true);
                 break;
             case R.id.me:
-                pager.setCurrentItem(2,true);
+                pager.setCurrentItem(2, true);
                 break;
-             default:
-                 break;
+            default:
+                break;
 
         }
-
     }
+
+    private void skipFragment() {
+        int id = getIntent().getIntExtra("id", 0);
+        if (id == 2) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.me, new fragment_me())
+                    .addToBackStack(null)
+                    .commit();
+        } else {
+        }
+    }
+
+
 }

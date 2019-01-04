@@ -11,14 +11,17 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
+import com.example.asus_pc.trainer.Me_Activty.BMIActivity;
 import com.example.asus_pc.trainer.R;
+import com.example.asus_pc.trainer.until.BaseCompatActivity;
+import com.jaeger.library.StatusBarUtil;
 
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseCompatActivity {
     private EditText username;
     private EditText password;
     private Button login_btn;
@@ -28,6 +31,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        StatusBarUtil.setTransparent(LoginActivity.this);
         Bmob.initialize(this,"5f0a55cbd319099d5f48f6b952cb17fc");
 
         initView();
@@ -62,9 +66,7 @@ public class LoginActivity extends AppCompatActivity {
                         ToastShow b = new ToastShow();
                         if(e == null){
                             b.toastShow(LoginActivity.this,"登录成功");
-                            Intent i = new Intent();
-                            i.setClass(LoginActivity.this, LineShowActivity.class);
-                            startActivity(i);
+                            startActivity(new Intent(LoginActivity.this, LineShowActivity.class));
                             finish();
                         }else{
                             b.toastShow(LoginActivity.this,"账户或密码错误，请重试！");

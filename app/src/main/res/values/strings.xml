@@ -15,4 +15,10 @@
     <string name="lineShow">体重变化</string>
     <string name="me">我</string>
     <string name="course">课程</string>
+    <string name="less_20">&lt;20</string>
+    <string name="more_40">&gt;40</string>
+    <string name="more_0.63">&gt;0.63</string>
+    <string name="less_0.43">&lt;0.43</string>
+    <string name="less_11">&lt;11%</string>
+    <string name="more_28">&gt;28%</string>
 </resources>

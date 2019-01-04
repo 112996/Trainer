@@ -6,11 +6,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.asus_pc.trainer.Me_Activty.BMIActivity;
 import com.example.asus_pc.trainer.R;
+import com.example.asus_pc.trainer.until.BaseCompatActivity;
+import com.jaeger.library.StatusBarUtil;
 
 import cn.bmob.v3.Bmob;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends BaseCompatActivity {
     private Button login_btn;
     private Button regist_btn;
 
@@ -18,6 +21,7 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        StatusBarUtil.setTransparent(MainActivity.this);
         Bmob.initialize(this,"5f0a55cbd319099d5f48f6b952cb17fc");
         initView();
 
@@ -29,9 +33,7 @@ public class MainActivity extends AppCompatActivity{
         login_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent();
-                i.setClass(MainActivity.this,LoginActivity.class);
-                startActivity(i);
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
                 finish();
             }
         });
@@ -39,9 +41,7 @@ public class MainActivity extends AppCompatActivity{
         regist_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent();
-                i.setClass(MainActivity.this, RegisterActivity.class);
-                startActivity(i);
+                startActivity(new Intent(MainActivity.this, RegisterActivity.class));
                 finish();
             }
         });

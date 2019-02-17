@@ -5,13 +5,51 @@
     android:orientation="vertical"
     android:layout_height="match_parent">
 
-    <Button
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="190dp"
         android:background="#2D374C"
         android:paddingLeft="15dp"
         android:layout_marginBottom="20dp"
-        android:drawableLeft="@mipmap/app_icon"/>
+        android:layout_gravity="center">
+        <com.example.asus_pc.trainer.CircleImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@drawable/portrait"
+            android:id="@+id/user_portrait"
+            android:layout_centerVertical="true" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="口十三工"
+            android:id="@+id/user_ID"
+            android:layout_marginLeft="30dp"
+            android:textSize="30sp"
+            android:textColor="@color/register_btn_color"
+            android:textStyle="bold"
+            android:layout_toRightOf="@+id/user_portrait"
+            android:layout_centerVertical="true"/>
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/user_compile"
+            android:background="@drawable/compile"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="5dp"/>
+    </RelativeLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/Msg"
+        android:background="#2D374C"
+        android:padding="15dp"
+        android:gravity="left|center_vertical"
+        android:text="       个人基本信息"
+        android:textSize="20sp"
+        android:textColor="@color/register_btn_color"
+        android:drawableLeft="@drawable/user_msg"
+        android:drawableRight="@drawable/enter_right"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -68,7 +106,8 @@
         android:background="#2D374C"
         android:id="@+id/change_account"
         android:gravity="center"
-        android:text="       切换账号"
+        android:text="切换账号"
+        android:layout_gravity="center"
         android:textSize="20sp"
         android:textColor="@color/register_btn_color"
         android:paddingTop="5dp"
@@ -80,7 +119,8 @@
         android:background="#2D374C"
         android:id="@+id/logout"
         android:gravity="center"
-        android:text="       退出登录"
+        android:text="退出登录"
+        android:layout_gravity="center"
         android:textSize="20sp"
         android:textColor="@color/register_btn_color"
         android:paddingTop="5dp"

@@ -13,12 +13,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="年龄"
+            android:text="@string/age"
             android:gravity="center"
             android:textSize="20sp"
             android:padding="10dp"
             android:textColor="@android:color/white"/>
-        <EditText
+        <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/edit_bg"
@@ -56,12 +56,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="身高"
+            android:text="@string/height"
             android:gravity="center"
             android:textSize="20sp"
             android:padding="10dp"
             android:textColor="@android:color/white"/>
-        <EditText
+        <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/edit_bg"
@@ -74,7 +74,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="CM"
+            android:text="@string/cm"
             android:textSize="20sp"
             android:gravity="center"
             android:textColor="@android:color/white"
@@ -89,12 +89,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="体重"
+            android:text="@string/weight"
             android:gravity="center"
             android:textSize="20sp"
             android:padding="10dp"
             android:textColor="@android:color/white"/>
-        <EditText
+        <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/edit_bg"
@@ -107,7 +107,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="KG"
+            android:text="@string/kg"
             android:textColor="@android:color/white"
             android:textSize="20sp"
             android:gravity="center"

@@ -1,9 +1,12 @@
 package com.example.asus_pc.trainer.Me_Activty;
 
 import android.app.Activity;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.ConditionVariable;
 import android.os.IInterface;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.example.asus_pc.trainer.DBHelper;
 import com.example.asus_pc.trainer.LineShowActivity;
 import com.example.asus_pc.trainer.R;
 import com.example.asus_pc.trainer.ToastShow;
@@ -25,11 +29,13 @@ import java.math.BigDecimal;
 
 public class BMIActivity extends Activity {
     private ImageButton bmi_back_btn;
-    private EditText age, height, weight;
+    private TextView age, height, weight;
     private Button bmi_res;
     private CheckBox sex;
     private TextView ideal_weight;
     private boolean isFirst_click = true;
+    private DBHelper userDBHelper;
+    private SQLiteDatabase mSQL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +44,7 @@ public class BMIActivity extends Activity {
         //StatusBarUtil.setTranslucent(BMIActivity.this,15);
         StatusBarUtil.setTransparent(BMIActivity.this);
         initView();
+        showConfig();
     }
 
     private void initView() {
@@ -70,7 +77,7 @@ public class BMIActivity extends Activity {
                                 bmi_res.setText(String.valueOf(value));
                                 bmi_res.setTextSize(25);
                                 sWeight();
-                               saveConfig(BMIActivity.this, age.getText().toString(), height.getText().toString(), weight.getText().toString(),bmi);
+                               //saveConfig(BMIActivity.this, age.getText().toString(), height.getText().toString(), weight.getText().toString(),bmi);
 
                             }
                         }, 2000);
@@ -117,6 +124,18 @@ public class BMIActivity extends Activity {
         editor.putString("weight", weight);
         editor.putString("bmi", bmi);
         editor.commit(); //提交数据保存至config文件
+    }
+
+    public void showConfig(){
+        userDBHelper = new DBHelper(getApplicationContext());
+        mSQL = userDBHelper.getWritableDatabase();
+        Cursor cursor = mSQL.query(DBHelper.TABLE_NAME, null,null, null, null, null, null);
+        while (cursor.moveToLast()){
+
+        }
+        age.setText(cursor.getString(cursor.getColumnIndex("age")));
+        height.setText(cursor.getString(cursor.getColumnIndex("height")));
+        weight.setText(cursor.getString(cursor.getColumnIndex("weight")));
     }
 
 }

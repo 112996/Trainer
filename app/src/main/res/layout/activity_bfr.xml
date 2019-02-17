@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:textColor="@android:color/white"
         android:padding="15dp"
-        android:text="体脂率"
+        android:text="@string/bfr"
         android:layout_gravity="center_horizontal"
         android:textSize="25sp"
         android:gravity="center" />
@@ -62,7 +62,7 @@
 
         </LinearLayout>
 
-        <EditText
+        <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/edit_bg"

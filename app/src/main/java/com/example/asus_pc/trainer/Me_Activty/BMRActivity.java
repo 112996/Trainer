@@ -3,22 +3,28 @@ package com.example.asus_pc.trainer.Me_Activty;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
+import com.example.asus_pc.trainer.DBHelper;
 import com.example.asus_pc.trainer.LineShowActivity;
 import com.example.asus_pc.trainer.R;
 import com.jaeger.library.StatusBarUtil;
 
 public class BMRActivity extends Activity {
     private ImageButton bmr_back_btn;
-    private EditText mAge, mHeight, mWeight;
+    private TextView mAge, mHeight, mWeight;
     private CheckBox sex;
     private RadioGroup mSport;
+    private DBHelper userDBHelper;
+    private SQLiteDatabase mSQL;
 
 
     @Override
@@ -55,13 +61,23 @@ public class BMRActivity extends Activity {
      * 从sharedPreference中获取数据显示在EditText中
      */
     public void showConfig(){
-        SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
+        /*SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
         String age = sharedPreferences.getString("age", "");
         String height = sharedPreferences.getString("height","");
         String weight = sharedPreferences.getString("weight", "");
         mAge.setText(age);
         mHeight.setText(height);
-        mWeight.setText(weight);
+        mWeight.setText(weight);*/
+        userDBHelper = new DBHelper(getApplicationContext());
+        mSQL = userDBHelper.getWritableDatabase();
+        Cursor cursor = mSQL.query(DBHelper.TABLE_NAME, null,null, null, null, null, null);
+        while (cursor.moveToLast()){
+
+        }
+        mAge.setText(cursor.getString(cursor.getColumnIndex("age")));
+        mHeight.setText(cursor.getString(cursor.getColumnIndex("height")));
+        mWeight.setText(cursor.getString(cursor.getColumnIndex("weight")));
+
     }
 
     /**

@@ -40,5 +40,5 @@ dependencies {
     implementation 'cn.bmob.android:bmob-sdk:3.5.0'
 
     //设置状态栏
-    implementation'com.jaeger.statusbarutil:library:1.4.0'
+    implementation 'com.jaeger.statusbarutil:library:1.4.0'
 }

@@ -27,9 +27,9 @@
         android:supportsRtl="true"
         android:theme="@style/ImageTranslucentTheme">
         <activity
-            android:theme="@style/SplashTheme"
             android:name=".EnterActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -38,34 +38,35 @@
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".RegisterActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:launchMode="singleInstance"
             android:name=".LineShowActivity"
-            android:screenOrientation="portrait"/>
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:name=".Me_Activty.BMIActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:name=".Me_Activty.BFRActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:name=".Me_Activty.BMRActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:name=".Me_Activty.WhtrActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity android:name=".Me_Activty.UserMsgActivity"></activity>
     </application>
 
 </manifest>

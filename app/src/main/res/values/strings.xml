@@ -21,4 +21,19 @@
     <string name="less_0.43">&lt;0.43</string>
     <string name="less_11">&lt;11%</string>
     <string name="more_28">&gt;28%</string>
+    <string name="age">年龄</string>
+    <string name="height">身高</string>
+    <string name="weight">体重</string>
+    <string name="waist">腰围</string>
+    <string name="neck">颈围</string>
+    <string name="sex">性别</string>
+    <string name="cm">CM</string>
+    <string name="kg">KG</string>
+    <string name="bfr">体脂率</string>
+    <string name="sport">运动程度</string>
+    <string name="high">高</string>
+    <string name="middle">中</string>
+    <string name="low">低</string>
+
+
 </resources>

@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DBHelper extends SQLiteOpenHelper{
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2;
     private static final String DB_NAME = "user.db";
     public static final String TABLE_NAME = "user_Message";
 
@@ -14,8 +14,8 @@ public class DBHelper extends SQLiteOpenHelper{
     }
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        //年龄、身高、体重、腰围、颈围、性别
-        String sql = "create table if not exists " + TABLE_NAME + " (Id integer primary key, Age text, Height text, Weight text, Waist text, Neck text, Sex, text)";
+        //年龄、身高、体重、腰围、颈围、性别、运动
+        String sql = "create table if not exists " + TABLE_NAME + " (Id integer primary key, Age text, Height text, Weight text, Waist text, Neck text, Sex text, Sport text)";
         sqLiteDatabase.execSQL(sql);
 
     }

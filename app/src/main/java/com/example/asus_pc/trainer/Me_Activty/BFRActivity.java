@@ -118,26 +118,14 @@ public class BFRActivity extends Activity {
         mHeight.setText(MyHeight);
         mWaist.setText(MyWaist);*/
         userDBHelper = new DBHelper(getApplicationContext());
-        mSQL = userDBHelper.getWritableDatabase();
+        mSQL = userDBHelper.getReadableDatabase();
         Cursor cursor = mSQL.query(DBHelper.TABLE_NAME, null,null, null, null, null, null);
-        while (cursor.moveToLast()){
+        if (cursor.moveToLast()){
 
         }
-        mAge.setText(cursor.getString(cursor.getColumnIndex("age")));
-        mHeight.setText(cursor.getString(cursor.getColumnIndex("height")));
-        mWaist.setText(cursor.getString(cursor.getColumnIndex("waist")));
-        mNeck.setText(cursor.getString(cursor.getColumnIndex("neck")));
+        mAge.setText(cursor.getString(cursor.getColumnIndex("Age")));
+        mHeight.setText(cursor.getString(cursor.getColumnIndex("Height")));
+        mWaist.setText(cursor.getString(cursor.getColumnIndex("Waist")));
+        mNeck.setText(cursor.getString(cursor.getColumnIndex("Neck")));
     }
-
- /*   *//**
-     * 新增BFR以及颈围信息
-     *//*
-    public void saveConfig(Context context, String neck, String bfr) {
-        SharedPreferences s = context.getSharedPreferences("config", MODE_PRIVATE);
-        SharedPreferences.Editor editor = s.edit();
-        editor.putString("neck", neck);
-        editor.putString("bfr", bfr);
-        editor.commit();
-
-    }*/
 }

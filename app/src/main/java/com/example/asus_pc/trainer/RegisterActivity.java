@@ -103,7 +103,7 @@ public class RegisterActivity extends BaseCompatActivity {
                     if (e == null){
                         Log.e("bmob","短信ID：" + integer);
                     }else{
-                        Log.e("bmob","验证码发送失败");
+                        Log.e("bmob","验证码发送失败"+e.getMessage());
                 }
                 }
             });

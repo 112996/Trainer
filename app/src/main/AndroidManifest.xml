@@ -23,7 +23,6 @@
         android:allowBackup="true"
         android:icon="@mipmap/app_icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/ImageTranslucentTheme">
         <activity
@@ -66,7 +65,11 @@
             android:name=".Me_Activty.WhtrActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name=".Me_Activty.UserMsgActivity"></activity>
+        <activity
+            android:name=".Me_Activty.UserMsgActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
     </application>
 
 </manifest>

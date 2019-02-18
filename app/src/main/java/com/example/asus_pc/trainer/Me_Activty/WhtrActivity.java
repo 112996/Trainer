@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.example.asus_pc.trainer.DBHelper;
 import com.example.asus_pc.trainer.LineShowActivity;
 import com.example.asus_pc.trainer.R;
 import com.example.asus_pc.trainer.ToastShow;
@@ -23,18 +26,19 @@ import java.math.BigDecimal;
 
 public class WhtrActivity extends Activity {
     private ImageButton whtr_back_btn;
-    private EditText mHeight, mWaist, mAge;
+    private TextView mHeight, mWaist, mAge;
     private Button whtr_res;
     private TextView waistline;
     private CheckBox sex;
-    private  boolean isFirstClick = true;
+    private boolean isFirstClick = true;
+    private DBHelper userDBHelper;
+    private SQLiteDatabase mSQL;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_whtr);
-        //StatusBarUtil.setTranslucent(WhtrActivity.this,15);
         StatusBarUtil.setTransparent(WhtrActivity.this);
 
         initView();
@@ -57,7 +61,7 @@ public class WhtrActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(WhtrActivity.this, LineShowActivity.class);
-                i.putExtra("id",2);
+                i.putExtra("id", 2);
                 startActivity(i);
                 finish();
             }
@@ -68,7 +72,7 @@ public class WhtrActivity extends Activity {
     /**
      * 计算理想腰围
      */
-    private void sWaist(){
+    private void sWaist() {
         int height = Integer.parseInt(mHeight.getText().toString());
         int minDeal = (new Double(height * 0.43)).intValue();
         int maxDeal = (new Double(height * 0.53)).intValue();
@@ -78,15 +82,15 @@ public class WhtrActivity extends Activity {
     /**
      * 点击获取结果
      */
-    public void click(){
+    public void click() {
         whtr_res.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mAge.getText().toString().isEmpty() || mHeight .getText().toString().isEmpty() || mWaist.getText().toString().isEmpty()){
+                if (mAge.getText().toString().isEmpty() || mHeight.getText().toString().isEmpty() || mWaist.getText().toString().isEmpty()) {
                     ToastShow b = new ToastShow();
                     b.toastShow(WhtrActivity.this, "请输入完整信息！");
-                }else {
-                    if (isFirstClick){
+                } else {
+                    if (isFirstClick) {
                         getWindow().getDecorView().postDelayed(new Runnable() {
                             @Override
                             public void run() {
@@ -98,7 +102,6 @@ public class WhtrActivity extends Activity {
                                 whtr_res.setText(String.valueOf(value));
                                 whtr_res.setTextSize(25);
                                 sWaist();
-                                saveConfig(WhtrActivity.this, mWaist.getText().toString(), whtr); //继续添加腰围信息
 
                             }
                         }, 2000);
@@ -112,23 +115,22 @@ public class WhtrActivity extends Activity {
 
     /**
      * 从sharedPreferences里面获取信息并且显示在EditText上
+     * 从数据库里面获取信息并且显示
      */
-    public void showConfig(){
-        SharedPreferences s = getSharedPreferences("config",MODE_PRIVATE);
+    public void showConfig() {
+        /*SharedPreferences s = getSharedPreferences("config", MODE_PRIVATE);
         String MyAge = s.getString("age", "");
-        String MyHeight = s.getString("height","");
+        String MyHeight = s.getString("height", "");
         mHeight.setText(MyHeight);
-        mAge.setText(MyAge);
-    }
+        mAge.setText(MyAge);*/
+        userDBHelper = new DBHelper(getApplicationContext());
+        mSQL = userDBHelper.getReadableDatabase();
+        Cursor cursor = mSQL.query(DBHelper.TABLE_NAME, null, null, null, null, null, null);
+        if (cursor.moveToLast()) {
 
-    /**
-     * 存储Whtr信息以及腰围信息
-     */
-    public void saveConfig(Context context, String waist, String whtr){
-        SharedPreferences s =  context.getSharedPreferences("config",MODE_PRIVATE);
-        SharedPreferences.Editor editor = s.edit();
-        editor.putString("waist", waist);
-        editor.putString("whtr", whtr);
-        editor.commit();
+        }
+        mAge.setText(cursor.getString(cursor.getColumnIndex("Age")));
+        mHeight.setText(cursor.getString(cursor.getColumnIndex("Height")));
+        mWaist.setText(cursor.getString(cursor.getColumnIndex("Waist")));
     }
 }

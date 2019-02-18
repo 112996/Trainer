@@ -69,14 +69,14 @@ public class BMRActivity extends Activity {
         mHeight.setText(height);
         mWeight.setText(weight);*/
         userDBHelper = new DBHelper(getApplicationContext());
-        mSQL = userDBHelper.getWritableDatabase();
+        mSQL = userDBHelper.getReadableDatabase();
         Cursor cursor = mSQL.query(DBHelper.TABLE_NAME, null,null, null, null, null, null);
-        while (cursor.moveToLast()){
+        if (cursor.moveToLast()){
 
         }
-        mAge.setText(cursor.getString(cursor.getColumnIndex("age")));
-        mHeight.setText(cursor.getString(cursor.getColumnIndex("height")));
-        mWeight.setText(cursor.getString(cursor.getColumnIndex("weight")));
+        mAge.setText(cursor.getString(cursor.getColumnIndex("Age")));
+        mHeight.setText(cursor.getString(cursor.getColumnIndex("Height")));
+        mWeight.setText(cursor.getString(cursor.getColumnIndex("Weight")));
 
     }
 

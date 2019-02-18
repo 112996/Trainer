@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -28,6 +29,7 @@ import com.example.asus_pc.trainer.CircleImageView;
 import com.example.asus_pc.trainer.Me_Activty.BFRActivity;
 import com.example.asus_pc.trainer.Me_Activty.BMIActivity;
 import com.example.asus_pc.trainer.Me_Activty.BMRActivity;
+import com.example.asus_pc.trainer.Me_Activty.UserMsgActivity;
 import com.example.asus_pc.trainer.Me_Activty.WhtrActivity;
 import com.example.asus_pc.trainer.R;
 import com.example.asus_pc.trainer.ToastShow;
@@ -111,20 +113,24 @@ public class fragment_me extends Fragment {
                 View mView = View.inflate(getActivity(), R.layout.alertdialog_layout, null);
                 builder.setView(mView);
                 builder.setCancelable(true);
-                final EditText input_ID = view.findViewById(R.id.change_ID);  //修改ID
-                Button btn_OK = view.findViewById(R.id.alertDialog_OK);  //确认修改按钮
-                Button btn_cancel = view.findViewById(R.id.alertDialog_cancel);  //取消修改按钮
+                final EditText input_ID = mView.findViewById(R.id.change_ID);  //修改ID
+                Button btn_OK = mView.findViewById(R.id.alertDialog_OK);  //确认修改按钮
+                Button btn_cancel = mView.findViewById(R.id.alertDialog_cancel);  //取消修改按钮
                 final AlertDialog dialog = builder.create();
                 dialog.show();
                 btn_OK.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (input_ID.getText() != null){
+                        if (!input_ID.getText().toString().isEmpty()){
                             user_ID.setText(input_ID.getText().toString());
                         }else{
                             ToastShow ts = new ToastShow();
-                            ts.toastShow(getActivity(),"还未更改ID名！");
+                            //ts.toastShow(getActivity(),"还未更改ID名！");
+                            ts.toastShow(getActivity(),""+ Color.parseColor("#2D374C"));
+
                         }
+                        dialog.dismiss();
+
                     }
                 });
                 btn_cancel.setOnClickListener(new View.OnClickListener() {

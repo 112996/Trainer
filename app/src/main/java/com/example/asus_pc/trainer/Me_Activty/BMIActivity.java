@@ -41,10 +41,10 @@ public class BMIActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bmi);
-        //StatusBarUtil.setTranslucent(BMIActivity.this,15);
         StatusBarUtil.setTransparent(BMIActivity.this);
         initView();
         showConfig();
+        click();
     }
 
     private void initView() {
@@ -56,36 +56,6 @@ public class BMIActivity extends Activity {
         sex = findViewById(R.id.sex);
         ideal_weight = findViewById(R.id.ideal_weight);
 
-        //点击计算结果
-        bmi_res.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (age.getText().toString().isEmpty() || height.getText().toString().isEmpty() || weight.getText().toString().isEmpty()) {
-                    ToastShow b = new ToastShow();
-                    b.toastShow(BMIActivity.this, "请输入完整信息！");
-                } else {
-                    if (isFirst_click) {
-                        getWindow().getDecorView().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                double hh = Double.valueOf(height.getText().toString());
-                                double h = hh * 0.01;
-                                double w = Double.valueOf(weight.getText().toString());
-                                double res = w / (h * h);
-                                double value = new BigDecimal(res).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                                String bmi = "" + value;
-                                bmi_res.setText(String.valueOf(value));
-                                bmi_res.setTextSize(25);
-                                sWeight();
-                               //saveConfig(BMIActivity.this, age.getText().toString(), height.getText().toString(), weight.getText().toString(),bmi);
-
-                            }
-                        }, 2000);
-                    }
-                    isFirst_click = false;
-                }
-            }
-        });
 
         //返回LineShowActivity中的fragment_me
         bmi_back_btn.setOnClickListener(new View.OnClickListener() {
@@ -98,6 +68,33 @@ public class BMIActivity extends Activity {
             }
         });
     }
+
+    public void click() {
+        //点击计算结果
+        bmi_res.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isFirst_click) {
+                    getWindow().getDecorView().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            double hh = Double.valueOf(height.getText().toString());
+                            double h = hh * 0.01;
+                            double w = Double.valueOf(weight.getText().toString());
+                            double res = w / (h * h);
+                            double value = new BigDecimal(res).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                            String bmi = "" + value;
+                            bmi_res.setText(String.valueOf(value));
+                            bmi_res.setTextSize(25);
+                            sWeight();
+                        }
+                    }, 2000);
+                }
+                isFirst_click = false;
+            }
+        });
+    }
+
 
     /**
      * 计算标准体重
@@ -116,26 +113,33 @@ public class BMIActivity extends Activity {
         ideal_weight.setText(String.valueOf(value));
     }
 
-    public void saveConfig(Context context, String age, String height, String weight, String bmi){
-        SharedPreferences s =  context.getSharedPreferences("config", MODE_PRIVATE);
-        SharedPreferences.Editor editor = s.edit();
-        editor.putString("age", age);
-        editor.putString("height", height);
-        editor.putString("weight", weight);
-        editor.putString("bmi", bmi);
-        editor.commit(); //提交数据保存至config文件
-    }
 
-    public void showConfig(){
+    public void showConfig() {
+
+        /*SharedPreferences s = getSharedPreferences("config",MODE_PRIVATE);
+        String MyAge = s.getString("age", "");
+        String MyHeight = s.getString("height","");
+        String MyWeight = s.getString("weight", "");
+        height.setText(MyHeight);
+        age.setText(MyAge);
+        weight.setText(MyWeight);*/
+
         userDBHelper = new DBHelper(getApplicationContext());
-        mSQL = userDBHelper.getWritableDatabase();
-        Cursor cursor = mSQL.query(DBHelper.TABLE_NAME, null,null, null, null, null, null);
-        while (cursor.moveToLast()){
-
+        mSQL = userDBHelper.getReadableDatabase();
+        Cursor cursor = mSQL.query(DBHelper.TABLE_NAME, null, null, null, null, null, null);
+        if (cursor.moveToLast()) {
         }
-        age.setText(cursor.getString(cursor.getColumnIndex("age")));
-        height.setText(cursor.getString(cursor.getColumnIndex("height")));
-        weight.setText(cursor.getString(cursor.getColumnIndex("weight")));
+        String AGE = cursor.getString(cursor.getColumnIndex("Age"));
+        String HEIGHT = cursor.getString(cursor.getColumnIndex("Height"));
+        String WEIGHT = cursor.getString(cursor.getColumnIndex("Weight"));
+        if (AGE.isEmpty() || HEIGHT.isEmpty() || WEIGHT.isEmpty()) {
+            ToastShow b = new ToastShow();
+            b.toastShow(BMIActivity.this, "请前往设置界面完善个人信息！");
+        } else {
+            age.setText(AGE);
+            height.setText(HEIGHT);
+            weight.setText(WEIGHT);
+        }
     }
 
 }

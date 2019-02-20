@@ -115,24 +115,23 @@ public class WhtrActivity extends Activity {
     }
 
     /**
-     * 从sharedPreferences里面获取信息并且显示在EditText上
      * 从数据库里面获取信息并且显示
      */
     public void showConfig() {
-        /*SharedPreferences s = getSharedPreferences("config", MODE_PRIVATE);
-        String MyAge = s.getString("age", "");
-        String MyHeight = s.getString("height", "");
-        mHeight.setText(MyHeight);
-        mAge.setText(MyAge);*/
+
         userDBHelper = new DBHelper(getApplicationContext());
         mSQL = userDBHelper.getReadableDatabase();
         Cursor cursor = mSQL.query(DBHelper.TABLE_NAME, null, null, null, null, null, null);
-        if (cursor.moveToLast()) {
-
+        if (cursor != null){
+             cursor.moveToLast();
+            if (cursor.getCount() != 0){
+                mAge.setText(cursor.getString(cursor.getColumnIndex("Age")));
+                mHeight.setText(cursor.getString(cursor.getColumnIndex("Height")));
+                mWaist.setText(cursor.getString(cursor.getColumnIndex("Waist")));
+                cursor.close();
+            }else{
+            }
         }
-        mAge.setText(cursor.getString(cursor.getColumnIndex("Age")));
-        mHeight.setText(cursor.getString(cursor.getColumnIndex("Height")));
-        mWaist.setText(cursor.getString(cursor.getColumnIndex("Waist")));
-        cursor.close();
+
     }
 }

@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.example.asus_pc.trainer.Me_Activty.BMIActivity;
 import com.example.asus_pc.trainer.R;
@@ -17,8 +18,7 @@ import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 
 public class EnterActivity extends AppCompatActivity {
-    private DBHelper mDBHelper;
-    private SQLiteDatabase mSQL;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,10 +46,11 @@ public class EnterActivity extends AppCompatActivity {
                 public void done(BmobUser bmobUser, BmobException e) {
                     ToastShow b = new ToastShow();
                     if (e == null) {
-                        //b.toastShow(LoginActivity.this,"登录成功");
+                        b.toastShow(EnterActivity.this,"登录成功");
                         startActivity(new Intent(EnterActivity.this, LineShowActivity.class));
                         finish();
                     } else {
+                        b.toastShow(EnterActivity.this,"未注册!");
                         startActivity(new Intent(EnterActivity.this, MainActivity.class));
                         finish();
                     }

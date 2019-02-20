@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -42,6 +43,7 @@ import android.widget.Toast;
 
 import com.example.asus_pc.trainer.CircleImageView;
 import com.example.asus_pc.trainer.DBHelper;
+import com.example.asus_pc.trainer.LoginActivity;
 import com.example.asus_pc.trainer.Me_Activty.BFRActivity;
 import com.example.asus_pc.trainer.Me_Activty.BMIActivity;
 import com.example.asus_pc.trainer.Me_Activty.BMRActivity;
@@ -70,7 +72,7 @@ import static cn.bmob.v3.Bmob.getFilesDir;
 public class fragment_me extends Fragment {
     private TextView user_ID, trainer_ID;
     private View mView;
-    private Button logout, BMI, BFR, BMR, whtr, choosePhoto, takePhoto, cancel, Msg;
+    private Button logout,change_account, BMI, BFR, BMR, whtr, choosePhoto, takePhoto, cancel, Msg;
     private ImageButton user_compile;
     private CircleImageView user_protrait;
     private Dialog dialog;
@@ -103,6 +105,7 @@ public class fragment_me extends Fragment {
         init();
         startToActivity();
         logout();
+        change_account();
     }
 
     /**
@@ -110,6 +113,7 @@ public class fragment_me extends Fragment {
      */
     private void init() {
         logout = mView.findViewById(R.id.logout);
+        change_account = mView.findViewById(R.id.change_account);
         BMI = mView.findViewById(R.id.BMI);
         BFR = mView.findViewById(R.id.BFR);
         BMR = mView.findViewById(R.id.BMR);
@@ -119,19 +123,27 @@ public class fragment_me extends Fragment {
         Msg = mView.findViewById(R.id.Msg);
 
         user_ID = mView.findViewById(R.id.user_ID);
-        Cursor cursor = mSQL.query(DBHelper.TABLE_NAME_USER, null,null, null, null, null, null);
-        if (cursor.moveToLast()){
-        }
-
-        String nickname = cursor.getString(cursor.getColumnIndex("Nickname"));
-        if (nickname == null){
-            user_ID.setText("昵称");
-        }
-        user_ID.setText(nickname);
         trainer_ID = mView.findViewById(R.id.trainer_ID);
+        Cursor cursor = mSQL.query(DBHelper.TABLE_NAME_USER, null,null, null, null, null, null);
+        if (cursor != null){
+            cursor.moveToLast();
+        }
+        if (cursor.getCount() != 0){
 
-        String user_id = cursor.getString(cursor.getColumnIndex("User_ID"));
-        trainer_ID.setText("Trainer号："+user_id);
+            String nickname = cursor.getString(cursor.getColumnIndex("Nickname"));
+            if (nickname == null){
+                user_ID.setText("昵称");
+            }
+            user_ID.setText(nickname);
+
+            String user_id = cursor.getString(cursor.getColumnIndex("User_ID"));
+            trainer_ID.setText("Trainer号："+user_id);
+            cursor.close();
+        }else{
+            user_ID.setText("昵称");
+            trainer_ID.setText("Trainer号：");
+        }
+
 
 
         //头像显示
@@ -197,22 +209,26 @@ public class fragment_me extends Fragment {
                     public void onClick(View view) {
                         if (!input_ID.getText().toString().isEmpty()) {
                             user_ID.setText(input_ID.getText().toString()); //显示昵称
-
                             //将用户信息先读出来
                             Cursor cursor = mSQL.query(DBHelper.TABLE_NAME_USER, null,null, null, null, null, null);
-                            if (cursor.moveToLast()){
+                            if (cursor != null){
+                                cursor.moveToLast();
+                            }else {
+                                return;
                             }
-                            String user_id = cursor.getString(cursor.getColumnIndex("User_ID"));
-                            String passwd = cursor.getString(cursor.getColumnIndex("PassWd"));
-                            String tel = cursor.getString(cursor.getColumnIndex("Tel"));
+                            if (cursor.getCount() != 0){
+                                String user_id = cursor.getString(cursor.getColumnIndex("User_ID"));
+                                String passwd = cursor.getString(cursor.getColumnIndex("PassWd"));
+                                String tel = cursor.getString(cursor.getColumnIndex("Tel"));
+                                //将修改的昵称存入数据库
+                                ContentValues contentValues = new ContentValues();
+                                contentValues.put("Nickname", input_ID.getText().toString());
+                                contentValues.put("User_ID",user_id);
+                                contentValues.put("PassWd",passwd);
+                                contentValues.put("Tel",tel);
+                                mSQL2.insert(DBHelper.TABLE_NAME_USER, null, contentValues);
+                            }
 
-                            //将修改的昵称存入数据库
-                            ContentValues contentValues = new ContentValues();
-                            contentValues.put("Nickname", input_ID.getText().toString());
-                            contentValues.put("User_ID",user_id);
-                            contentValues.put("PassWd",passwd);
-                            contentValues.put("Tel",tel);
-                            mSQL2.insert(DBHelper.TABLE_NAME_USER, null, contentValues);
 
                         } else {
                             ToastShow ts = new ToastShow();
@@ -424,6 +440,18 @@ public class fragment_me extends Fragment {
             public void onClick(View view) {
                 Intent i = new Intent("com.example.asus_pc.trainer.logout");
                 BmobUser.logOut();
+            }
+        });
+    }
+
+    /**
+     * 切换账号
+     */
+    private void change_account(){
+        change_account.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //startActivity(new Intent(getActivity(), LoginActivity.class));
             }
         });
     }

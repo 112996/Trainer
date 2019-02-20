@@ -42,7 +42,7 @@ public class BMIActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bmi);
-        StatusBarUtil.setColor(BMIActivity.this, Color.parseColor("#2D374C"),0);
+        StatusBarUtil.setColor(BMIActivity.this, Color.parseColor("#2D374C"), 0);
         initView();
         showConfig();
         click();
@@ -117,31 +117,25 @@ public class BMIActivity extends Activity {
 
     public void showConfig() {
 
-        /*SharedPreferences s = getSharedPreferences("config",MODE_PRIVATE);
-        String MyAge = s.getString("age", "");
-        String MyHeight = s.getString("height","");
-        String MyWeight = s.getString("weight", "");
-        height.setText(MyHeight);
-        age.setText(MyAge);
-        weight.setText(MyWeight);*/
-
         userDBHelper = new DBHelper(getApplicationContext());
         mSQL = userDBHelper.getReadableDatabase();
         Cursor cursor = mSQL.query(DBHelper.TABLE_NAME, null, null, null, null, null, null);
-        if (cursor.moveToLast()) {
+        if (cursor != null) {
+            cursor.moveToLast();
+            if (cursor.getCount() != 0) {
+                String AGE = cursor.getString(cursor.getColumnIndex("Age"));
+                String HEIGHT = cursor.getString(cursor.getColumnIndex("Height"));
+                String WEIGHT = cursor.getString(cursor.getColumnIndex("Weight"));
+                if (AGE.isEmpty() || HEIGHT.isEmpty() || WEIGHT.isEmpty()) {
+                    ToastShow b = new ToastShow();
+                    b.toastShow(BMIActivity.this, "请前往设置界面完善个人信息！");
+                } else {
+                    age.setText(AGE);
+                    height.setText(HEIGHT);
+                    weight.setText(WEIGHT);
+                }
+                cursor.close();
+            }
         }
-        String AGE = cursor.getString(cursor.getColumnIndex("Age"));
-        String HEIGHT = cursor.getString(cursor.getColumnIndex("Height"));
-        String WEIGHT = cursor.getString(cursor.getColumnIndex("Weight"));
-        if (AGE.isEmpty() || HEIGHT.isEmpty() || WEIGHT.isEmpty()) {
-            ToastShow b = new ToastShow();
-            b.toastShow(BMIActivity.this, "请前往设置界面完善个人信息！");
-        } else {
-            age.setText(AGE);
-            height.setText(HEIGHT);
-            weight.setText(WEIGHT);
-        }
-        cursor.close();
     }
-
 }

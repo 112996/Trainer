@@ -28,7 +28,7 @@
         <activity
             android:name=".EnterActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -81,6 +81,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
+        <activity android:name=".ForgetPasswdActivity"></activity>
     </application>
 
 </manifest>

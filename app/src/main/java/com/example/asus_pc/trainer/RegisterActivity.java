@@ -83,8 +83,9 @@ public class RegisterActivity extends BaseCompatActivity {
         get_code.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getCode();
                 getBmobSMSCode();
+                getCode();
+
 
             }
         });

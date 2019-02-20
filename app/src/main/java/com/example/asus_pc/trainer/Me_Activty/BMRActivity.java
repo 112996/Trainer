@@ -32,7 +32,6 @@ public class BMRActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bmr);
-        //StatusBarUtil.setTranslucent(BMRActivity.this,15);
         StatusBarUtil.setColor(BMRActivity.this, Color.parseColor("#2D374C"),0);
 
         initView();
@@ -59,26 +58,21 @@ public class BMRActivity extends Activity {
     }
 
     /**
-     * 从sharedPreference中获取数据显示在EditText中
+     * 从数据库中获取数据显示在EditText中
      */
     public void showConfig(){
-        /*SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
-        String age = sharedPreferences.getString("age", "");
-        String height = sharedPreferences.getString("height","");
-        String weight = sharedPreferences.getString("weight", "");
-        mAge.setText(age);
-        mHeight.setText(height);
-        mWeight.setText(weight);*/
         userDBHelper = new DBHelper(getApplicationContext());
         mSQL = userDBHelper.getReadableDatabase();
         Cursor cursor = mSQL.query(DBHelper.TABLE_NAME, null,null, null, null, null, null);
-        if (cursor.moveToLast()){
-
+        if (cursor != null){
+            cursor.moveToLast();
         }
-        mAge.setText(cursor.getString(cursor.getColumnIndex("Age")));
-        mHeight.setText(cursor.getString(cursor.getColumnIndex("Height")));
-        mWeight.setText(cursor.getString(cursor.getColumnIndex("Weight")));
-        cursor.close();
+        if (cursor.getCount() != 0){
+            mAge.setText(cursor.getString(cursor.getColumnIndex("Age")));
+            mHeight.setText(cursor.getString(cursor.getColumnIndex("Height")));
+            mWeight.setText(cursor.getString(cursor.getColumnIndex("Weight")));
+            cursor.close();
+        }
     }
 
     /**

@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.asus_pc.trainer.Me_Activty.BMIActivity;
 import com.example.asus_pc.trainer.R;
@@ -26,6 +27,7 @@ public class LoginActivity extends BaseCompatActivity {
     private EditText username;
     private EditText password;
     private Button login_btn;
+    private TextView passwd_forget;
     private CheckBox cbPassword;
 
     @Override
@@ -42,6 +44,7 @@ public class LoginActivity extends BaseCompatActivity {
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
         login_btn = findViewById(R.id.login_btn);
+        passwd_forget = findViewById(R.id.password_forget);
         cbPassword = findViewById(R.id.cbPassword);
 
         cbPassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -76,6 +79,14 @@ public class LoginActivity extends BaseCompatActivity {
                     }
                 });
                 saveUserMsgToSP();
+            }
+        });
+
+        passwd_forget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(LoginActivity.this, ForgetPasswdActivity.class));
+                //根据手机号验证登录
             }
         });
 

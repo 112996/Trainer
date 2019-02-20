@@ -41,6 +41,8 @@
     <string name="change_id">修改昵称</string>
     <string name="trainer_id">Trainer号:</string>
     <string name="nicheng">昵称</string>
+    <string name="change_account">切换账号</string>
+    <string name="logout">退出登录</string>
 
 
 </resources>

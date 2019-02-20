@@ -1,15 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:background="#333D56"
     android:layout_height="match_parent">
 
-    <TextView
+    <lecho.lib.hellocharts.view.LineChartView
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="lineShow"
-        android:textSize="50sp"
-        android:gravity="center"
-        android:textColor="@android:color/white"/>
+        android:layout_marginBottom="200dp"
+        android:id="@+id/lineChartView"/>
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="55dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:id="@+id/line_weight"
+            android:background="#6C5B7B"
+            android:text="体重"
+            android:textSize="25sp"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:id="@+id/line_BMI"
+            android:background="#6C5B7B"
+            android:text="BMI"
+            android:textSize="25sp"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:id="@+id/line_BFR"
+            android:background="#C06C84"
+            android:text="BFR"
+            android:textSize="25sp"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:id="@+id/line_BMR"
+            android:background="#C06C84"
+            android:text="BMR"
+            android:textSize="25sp"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:id="@+id/line_Whtr"
+            android:background="#C06C84"
+            android:text="Whtr"
+            android:textSize="25sp"/>
+    </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

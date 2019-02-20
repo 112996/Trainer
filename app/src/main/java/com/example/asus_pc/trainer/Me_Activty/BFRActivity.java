@@ -37,8 +37,7 @@ public class BFRActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bfr);
-        //StatusBarUtil.setTranslucent(BFRActivity.this,15);
-        StatusBarUtil.setColor(BFRActivity.this, Color.parseColor("#2D374C"),0);
+        StatusBarUtil.setColor(BFRActivity.this, Color.parseColor("#2D374C"), 0);
 
         initView();
         showConfig();
@@ -111,22 +110,18 @@ public class BFRActivity extends Activity {
      * 从数据库里面获取信息并且显示在EditText上
      */
     public void showConfig() {
-        /*SharedPreferences s = getSharedPreferences("config", MODE_PRIVATE);
-        String MyAge = s.getString("age", "");
-        String MyHeight = s.getString("height", "");
-        String MyWaist = s.getString("waist", "");
-        mAge.setText(MyAge);
-        mHeight.setText(MyHeight);
-        mWaist.setText(MyWaist);*/
         userDBHelper = new DBHelper(getApplicationContext());
         mSQL = userDBHelper.getReadableDatabase();
-        Cursor cursor = mSQL.query(DBHelper.TABLE_NAME, null,null, null, null, null, null);
-        if (cursor.moveToLast()){
+        Cursor cursor = mSQL.query(DBHelper.TABLE_NAME, null, null, null, null, null, null);
+        if (cursor != null) {
+            cursor.moveToLast();
+            if (cursor.getCount() != 0) {
+                mAge.setText(cursor.getString(cursor.getColumnIndex("Age")));
+                mHeight.setText(cursor.getString(cursor.getColumnIndex("Height")));
+                mWaist.setText(cursor.getString(cursor.getColumnIndex("Waist")));
+                mNeck.setText(cursor.getString(cursor.getColumnIndex("Neck")));
+                cursor.close();
+            }
         }
-        mAge.setText(cursor.getString(cursor.getColumnIndex("Age")));
-        mHeight.setText(cursor.getString(cursor.getColumnIndex("Height")));
-        mWaist.setText(cursor.getString(cursor.getColumnIndex("Waist")));
-        mNeck.setText(cursor.getString(cursor.getColumnIndex("Neck")));
-        cursor.close();
     }
 }

@@ -34,6 +34,13 @@
     <string name="high">高</string>
     <string name="middle">中</string>
     <string name="low">低</string>
+    <string name="takePhoto">相机</string>
+    <string name="gallery">相册</string>
+    <string name="cancel">取消</string>
+    <string name="sure">确定</string>
+    <string name="change_id">修改昵称</string>
+    <string name="trainer_id">Trainer号:</string>
+    <string name="nicheng">昵称</string>
 
 
 </resources>

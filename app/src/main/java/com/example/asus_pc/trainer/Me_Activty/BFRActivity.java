@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -37,7 +38,7 @@ public class BFRActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bfr);
         //StatusBarUtil.setTranslucent(BFRActivity.this,15);
-        StatusBarUtil.setTransparent(BFRActivity.this);
+        StatusBarUtil.setColor(BFRActivity.this, Color.parseColor("#2D374C"),0);
 
         initView();
         showConfig();
@@ -121,11 +122,11 @@ public class BFRActivity extends Activity {
         mSQL = userDBHelper.getReadableDatabase();
         Cursor cursor = mSQL.query(DBHelper.TABLE_NAME, null,null, null, null, null, null);
         if (cursor.moveToLast()){
-
         }
         mAge.setText(cursor.getString(cursor.getColumnIndex("Age")));
         mHeight.setText(cursor.getString(cursor.getColumnIndex("Height")));
         mWaist.setText(cursor.getString(cursor.getColumnIndex("Waist")));
         mNeck.setText(cursor.getString(cursor.getColumnIndex("Neck")));
+        cursor.close();
     }
 }

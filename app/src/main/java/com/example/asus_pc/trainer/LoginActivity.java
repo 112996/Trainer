@@ -1,6 +1,7 @@
 package com.example.asus_pc.trainer;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
@@ -32,23 +33,23 @@ public class LoginActivity extends BaseCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         StatusBarUtil.setTransparent(LoginActivity.this);
-        Bmob.initialize(this,"5f0a55cbd319099d5f48f6b952cb17fc");
+        Bmob.initialize(this, "5f0a55cbd319099d5f48f6b952cb17fc");
 
         initView();
     }
 
-    private void initView(){
+    private void initView() {
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
-        login_btn =  findViewById(R.id.login_btn);
+        login_btn = findViewById(R.id.login_btn);
         cbPassword = findViewById(R.id.cbPassword);
 
         cbPassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(cbPassword.isChecked()){
+                if (cbPassword.isChecked()) {
                     password.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-                }else{
+                } else {
                     password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                 }
             }
@@ -64,19 +65,30 @@ public class LoginActivity extends BaseCompatActivity {
                     @Override
                     public void done(BmobUser bmobUser, BmobException e) {
                         ToastShow b = new ToastShow();
-                        if(e == null){
-                            b.toastShow(LoginActivity.this,"登录成功");
+                        if (e == null) {
+                            b.toastShow(LoginActivity.this, "登录成功");
                             startActivity(new Intent(LoginActivity.this, LineShowActivity.class));
                             finish();
-                        }else{
-                            b.toastShow(LoginActivity.this,"账户或密码错误，请重试！");
-                            Log.e("错误",e.getMessage());
+                        } else {
+                            b.toastShow(LoginActivity.this, "账户或密码错误，请重试！");
+                            Log.e("错误", e.getMessage());
                         }
                     }
                 });
+                saveUserMsgToSP();
             }
         });
 
+    }
+
+    private void saveUserMsgToSP() {
+        String user = username.getText().toString();
+        String pass = password.getText().toString();
+        SharedPreferences preferences = getSharedPreferences("UserMsg", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("user_id", user);
+        editor.putString("user_pass", pass);
+        editor.commit();
     }
 }
 

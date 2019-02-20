@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.ConditionVariable;
 import android.os.IInterface;
 import android.support.v7.app.AppCompatActivity;
@@ -41,7 +42,7 @@ public class BMIActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bmi);
-        StatusBarUtil.setTransparent(BMIActivity.this);
+        StatusBarUtil.setColor(BMIActivity.this, Color.parseColor("#2D374C"),0);
         initView();
         showConfig();
         click();
@@ -140,6 +141,7 @@ public class BMIActivity extends Activity {
             height.setText(HEIGHT);
             weight.setText(WEIGHT);
         }
+        cursor.close();
     }
 
 }

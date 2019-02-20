@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
@@ -32,7 +33,7 @@ public class BMRActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bmr);
         //StatusBarUtil.setTranslucent(BMRActivity.this,15);
-        StatusBarUtil.setTransparent(BMRActivity.this);
+        StatusBarUtil.setColor(BMRActivity.this, Color.parseColor("#2D374C"),0);
 
         initView();
         showConfig();
@@ -77,7 +78,7 @@ public class BMRActivity extends Activity {
         mAge.setText(cursor.getString(cursor.getColumnIndex("Age")));
         mHeight.setText(cursor.getString(cursor.getColumnIndex("Height")));
         mWeight.setText(cursor.getString(cursor.getColumnIndex("Weight")));
-
+        cursor.close();
     }
 
     /**

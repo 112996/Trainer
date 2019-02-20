@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,7 +40,7 @@ public class WhtrActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_whtr);
-        StatusBarUtil.setTransparent(WhtrActivity.this);
+        StatusBarUtil.setColor(WhtrActivity.this, Color.parseColor("#2D374C"),0);
 
         initView();
         showConfig();
@@ -132,5 +133,6 @@ public class WhtrActivity extends Activity {
         mAge.setText(cursor.getString(cursor.getColumnIndex("Age")));
         mHeight.setText(cursor.getString(cursor.getColumnIndex("Height")));
         mWaist.setText(cursor.getString(cursor.getColumnIndex("Waist")));
+        cursor.close();
     }
 }

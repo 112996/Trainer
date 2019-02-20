@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Color;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -42,7 +43,7 @@ public class UserMsgActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_msg);
-        StatusBarUtil.setColor(UserMsgActivity.this, Color.parseColor("#2D374C"),120);
+        StatusBarUtil.setColor(UserMsgActivity.this, Color.parseColor("#2D374C"),0);
 
 
         initViews();
@@ -52,6 +53,8 @@ public class UserMsgActivity extends Activity {
 
 
     }
+
+
 
     private void initViews(){
         mAge = findViewById(R.id.age);

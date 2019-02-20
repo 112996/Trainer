@@ -15,26 +15,38 @@
         <com.example.asus_pc.trainer.CircleImageView
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:background="@drawable/portrait"
             android:id="@+id/user_portrait"
             android:layout_centerVertical="true" />
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="口十三工"
-            android:id="@+id/user_ID"
             android:layout_marginLeft="30dp"
-            android:textSize="30sp"
-            android:textColor="@color/register_btn_color"
-            android:textStyle="bold"
             android:layout_toRightOf="@+id/user_portrait"
-            android:layout_centerVertical="true"/>
+            android:layout_centerVertical="true"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/user_ID"
+                android:textSize="30sp"
+                android:textColor="@color/register_btn_color"
+                android:textStyle="bold"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:id="@+id/trainer_ID"
+                android:textSize="20sp"
+                android:textColor="@color/register_btn_color"/>
+        </LinearLayout>
+
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/user_compile"
             android:background="@drawable/compile"
             android:layout_alignParentRight="true"
+            android:padding="10dp"
             android:layout_marginTop="5dp"/>
     </RelativeLayout>
 

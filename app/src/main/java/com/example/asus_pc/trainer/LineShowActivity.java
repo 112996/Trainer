@@ -1,5 +1,6 @@
 package com.example.asus_pc.trainer;
 
+import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -12,6 +13,7 @@ import android.widget.RadioGroup;
 import com.example.asus_pc.trainer.Fragment.fragment_course;
 import com.example.asus_pc.trainer.Fragment.fragment_lineShow;
 import com.example.asus_pc.trainer.Fragment.fragment_me;
+import com.example.asus_pc.trainer.Me_Activty.BFRActivity;
 import com.example.asus_pc.trainer.Me_Activty.BMIActivity;
 import com.example.asus_pc.trainer.R;
 import com.example.asus_pc.trainer.until.BaseCompatActivity;
@@ -29,7 +31,7 @@ public class LineShowActivity extends FragmentActivity implements ViewPager.OnPa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_line_show);
-        StatusBarUtil.setTransparent(LineShowActivity.this);
+        StatusBarUtil.setColor(LineShowActivity.this, Color.parseColor("#2D374C"),0);
 
         initView();
         skipFragment();

@@ -14,6 +14,8 @@
         android:layout_width="match_parent"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:maxLength="8"
+        android:singleLine="true"
         android:layout_height="40dp"
         android:id="@+id/change_ID"
         android:layout_gravity="center"/>

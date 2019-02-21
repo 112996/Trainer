@@ -11,6 +11,7 @@ import android.widget.Button;
 
 import com.example.asus_pc.trainer.Me_Activty.BMIActivity;
 import com.example.asus_pc.trainer.R;
+import com.example.asus_pc.trainer.until.ActivityCollector;
 import com.example.asus_pc.trainer.until.BaseCompatActivity;
 import com.jaeger.library.StatusBarUtil;
 
@@ -30,6 +31,8 @@ public class MainActivity extends BaseCompatActivity {
         setContentView(R.layout.activity_main);
         StatusBarUtil.setTransparent(MainActivity.this);
         Bmob.initialize(this,"5f0a55cbd319099d5f48f6b952cb17fc");
+
+        ActivityCollector.addActivity(this);
 
         initView();
 

@@ -1,16 +1,27 @@
 package com.example.asus_pc.trainer.Fragment;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import com.example.asus_pc.trainer.DBHelper;
 import com.example.asus_pc.trainer.R;
+
+import java.io.ByteArrayInputStream;
 
 import io.reactivex.annotations.Nullable;
 
 public class fragment_course extends Fragment {
+
 
     private View mView;
     @Override
@@ -19,6 +30,13 @@ public class fragment_course extends Fragment {
             mView = inflater.inflate(R.layout.fragment_course_layout, container, false);
         }
         return mView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+
     }
 
     @Override

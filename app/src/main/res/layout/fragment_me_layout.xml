@@ -15,6 +15,7 @@
         <com.example.asus_pc.trainer.CircleImageView
             android:layout_width="80dp"
             android:layout_height="80dp"
+            android:background="@drawable/user_portrait"
             android:id="@+id/user_portrait"
             android:layout_centerVertical="true" />
         <LinearLayout

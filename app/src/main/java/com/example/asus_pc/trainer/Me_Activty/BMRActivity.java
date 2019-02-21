@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.example.asus_pc.trainer.DBHelper;
 import com.example.asus_pc.trainer.LineShowActivity;
 import com.example.asus_pc.trainer.R;
+import com.example.asus_pc.trainer.until.ActivityCollector;
 import com.jaeger.library.StatusBarUtil;
 
 public class BMRActivity extends Activity {
@@ -33,6 +34,7 @@ public class BMRActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bmr);
         StatusBarUtil.setColor(BMRActivity.this, Color.parseColor("#2D374C"),0);
+        ActivityCollector.addActivity(this);
 
         initView();
         showConfig();

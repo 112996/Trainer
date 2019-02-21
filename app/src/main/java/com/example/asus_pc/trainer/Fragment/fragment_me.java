@@ -9,6 +9,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -51,6 +52,7 @@ import com.example.asus_pc.trainer.Me_Activty.UserMsgActivity;
 import com.example.asus_pc.trainer.Me_Activty.WhtrActivity;
 import com.example.asus_pc.trainer.R;
 import com.example.asus_pc.trainer.ToastShow;
+import com.example.asus_pc.trainer.until.ActivityCollector;
 import com.example.asus_pc.trainer.until.DisplayUtil;
 import com.example.asus_pc.trainer.until.FileUtils;
 
@@ -66,13 +68,15 @@ import cn.bmob.v3.BmobUser;
 import io.reactivex.annotations.Nullable;
 
 import static android.content.Context.MODE_PRIVATE;
+import static android.content.Context.RECEIVER_VISIBLE_TO_INSTANT_APPS;
+import static cn.bmob.v3.Bmob.getAllTableSchema;
 import static cn.bmob.v3.Bmob.getFilesDir;
 
 
 public class fragment_me extends Fragment {
     private TextView user_ID, trainer_ID;
     private View mView;
-    private Button logout,change_account, BMI, BFR, BMR, whtr, choosePhoto, takePhoto, cancel, Msg;
+    private Button logout, change_account, BMI, BFR, BMR, whtr, choosePhoto, takePhoto, cancel, Msg;
     private ImageButton user_compile;
     private CircleImageView user_protrait;
     private Dialog dialog;
@@ -122,38 +126,37 @@ public class fragment_me extends Fragment {
         user_compile = mView.findViewById(R.id.user_compile);
         Msg = mView.findViewById(R.id.Msg);
 
-        user_ID = mView.findViewById(R.id.user_ID);
-        trainer_ID = mView.findViewById(R.id.trainer_ID);
-        Cursor cursor = mSQL.query(DBHelper.TABLE_NAME_USER, null,null, null, null, null, null);
-        if (cursor != null){
+        user_ID = mView.findViewById(R.id.user_ID); //昵称
+        trainer_ID = mView.findViewById(R.id.trainer_ID);  //用户名
+        Cursor cursor = mSQL.query(DBHelper.TABLE_NAME_USER, null, null, null, null, null, null);
+        if (cursor != null) {
             cursor.moveToLast();
         }
-        if (cursor.getCount() != 0){
+        if (cursor.getCount() != 0) {
+
+            String user_id = cursor.getString(cursor.getColumnIndex("User_ID"));
+            trainer_ID.setText("Trainer号：" + user_id);  //从数据库读取并显示
 
             String nickname = cursor.getString(cursor.getColumnIndex("Nickname"));
-            if (nickname == null){
+            if (nickname == null) {
                 user_ID.setText("昵称");
             }
             user_ID.setText(nickname);
-
-            String user_id = cursor.getString(cursor.getColumnIndex("User_ID"));
-            trainer_ID.setText("Trainer号："+user_id);
             cursor.close();
-        }else{
+        } else {
             user_ID.setText("昵称");
             trainer_ID.setText("Trainer号：");
         }
 
-
-
         //头像显示
         SharedPreferences s = getActivity().getSharedPreferences("UserMsg", MODE_PRIVATE);
-        String resImageBase64 = s.getString("savePortrait","");
-        if (!resImageBase64.isEmpty()){
-            byte[] base64byte = Base64.decode(resImageBase64,Base64.DEFAULT);
+        String resImageBase64 = s.getString("savePortrait", "");
+        if (!resImageBase64.isEmpty()) {
+            byte[] base64byte = Base64.decode(resImageBase64, Base64.DEFAULT);
             ByteArrayInputStream instream = new ByteArrayInputStream(base64byte);
-            user_protrait.setImageDrawable(Drawable.createFromStream(instream,"res_img"));
+            user_protrait.setImageDrawable(Drawable.createFromStream(instream, "res_img"));
         }
+
 
         //修改头像
         user_protrait.setOnClickListener(new View.OnClickListener() {
@@ -191,7 +194,7 @@ public class fragment_me extends Fragment {
         user_compile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),R.style.DialogNobg);
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.DialogNobg);
                 View mView = View.inflate(getActivity(), R.layout.alertdialog_layout, null);
                 builder.setView(mView);
                 builder.setCancelable(true);
@@ -202,7 +205,7 @@ public class fragment_me extends Fragment {
                 dialog.show();
                 WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
                 params.height = DisplayUtil.px2dip(getActivity(), 4000);
-                params.width = DisplayUtil.px2dip(getActivity(),3000);
+                params.width = DisplayUtil.px2dip(getActivity(), 3000);
                 dialog.getWindow().setAttributes(params);
                 btn_OK.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -210,22 +213,22 @@ public class fragment_me extends Fragment {
                         if (!input_ID.getText().toString().isEmpty()) {
                             user_ID.setText(input_ID.getText().toString()); //显示昵称
                             //将用户信息先读出来
-                            Cursor cursor = mSQL.query(DBHelper.TABLE_NAME_USER, null,null, null, null, null, null);
-                            if (cursor != null){
+                            Cursor cursor = mSQL.query(DBHelper.TABLE_NAME_USER, null, null, null, null, null, null);
+                            if (cursor != null) {
                                 cursor.moveToLast();
-                            }else {
+                            } else {
                                 return;
                             }
-                            if (cursor.getCount() != 0){
+                            if (cursor.getCount() != 0) {
                                 String user_id = cursor.getString(cursor.getColumnIndex("User_ID"));
                                 String passwd = cursor.getString(cursor.getColumnIndex("PassWd"));
                                 String tel = cursor.getString(cursor.getColumnIndex("Tel"));
                                 //将修改的昵称存入数据库
                                 ContentValues contentValues = new ContentValues();
                                 contentValues.put("Nickname", input_ID.getText().toString());
-                                contentValues.put("User_ID",user_id);
-                                contentValues.put("PassWd",passwd);
-                                contentValues.put("Tel",tel);
+                                contentValues.put("User_ID", user_id);
+                                contentValues.put("PassWd", passwd);
+                                contentValues.put("Tel", tel);
                                 mSQL2.insert(DBHelper.TABLE_NAME_USER, null, contentValues);
                             }
 
@@ -280,13 +283,13 @@ public class fragment_me extends Fragment {
             startActivityForResult(takeIntent, CODE_TAKE_PHOTO);
 */
             // 步骤一：创建存储照片的文件
-             file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "hahaha");
-            if(!file.getParentFile().exists())
+            file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "hahaha");
+            if (!file.getParentFile().exists())
                 file.getParentFile().mkdirs();
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 //步骤二：Android 7.0及以上获取文件 Uri
-                  mUri = FileProvider.getUriForFile(getActivity(), "com.example.asus_pc.trainer"+ ".fileprovider", file);
+                mUri = FileProvider.getUriForFile(getActivity(), "com.example.asus_pc.trainer" + ".fileprovider", file);
             } else {
                 //步骤三：获取文件Uri
                 mUri = Uri.fromFile(file);
@@ -301,11 +304,12 @@ public class fragment_me extends Fragment {
     /**
      * 获取Uri
      * 封装类
+     *
      * @param type
      * @return
      */
     public Uri getMediaFileUri(int type) {
-         mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "hahaha");
+        mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "hahaha");
         if (!mediaStorageDir.exists()) {
             if (!mediaStorageDir.mkdirs()) {
                 return null;
@@ -382,13 +386,13 @@ public class fragment_me extends Fragment {
     /**
      * 保存头像到SP
      */
-    private void savePortraitToSP(){
-        SharedPreferences preferences = getActivity().getSharedPreferences("UserMsg",MODE_PRIVATE);
+    private void savePortraitToSP() {
+        SharedPreferences preferences = getActivity().getSharedPreferences("UserMsg", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        ((BitmapDrawable)user_protrait.getDrawable()).getBitmap().compress(Bitmap.CompressFormat.JPEG, 50, stream);
+        ((BitmapDrawable) user_protrait.getDrawable()).getBitmap().compress(Bitmap.CompressFormat.JPEG, 50, stream);
         String imgBase64 = new String(Base64.encodeToString(stream.toByteArray(), Base64.DEFAULT));
-        editor.putString("savePortrait",imgBase64);
+        editor.putString("savePortrait", imgBase64);
         editor.commit();
     }
 
@@ -439,7 +443,12 @@ public class fragment_me extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent("com.example.asus_pc.trainer.logout");
-                BmobUser.logOut();
+
+                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserMsg", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear();
+                editor.commit();
+                ActivityCollector.finishAll();
             }
         });
     }
@@ -447,7 +456,7 @@ public class fragment_me extends Fragment {
     /**
      * 切换账号
      */
-    private void change_account(){
+    private void change_account() {
         change_account.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -456,9 +465,28 @@ public class fragment_me extends Fragment {
         });
     }
 
+    /**
+     * 保存头像到数据库
+     */
+    private void savePortraitToSQLite() {
+        //将图片转换为字节
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        Bitmap bitmap = ((BitmapDrawable) user_protrait.getDrawable()).getBitmap();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+        byte[] img = stream.toByteArray();
+
+        mDBHelper = new DBHelper(getActivity().getApplicationContext());
+        mSQL2 = mDBHelper.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("Portrait_uri", img);
+        mSQL2.insert(mDBHelper.TABLE_NAME_USER, null, contentValues);
+    }
+
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        //savePortraitToSQLite(); 最开始未设置头像，这里会出错，显示bitmap是个空对象
         ((ViewGroup) mView.getParent()).removeView(mView);
     }
 }

@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.example.asus_pc.trainer.Me_Activty.BMIActivity;
 import com.example.asus_pc.trainer.R;
+import com.example.asus_pc.trainer.until.ActivityCollector;
 import com.jaeger.library.StatusBarUtil;
 
 import cn.bmob.v3.Bmob;
@@ -26,6 +27,8 @@ public class EnterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_enter);
         StatusBarUtil.setTransparent(EnterActivity.this);
         Bmob.initialize(this, "5f0a55cbd319099d5f48f6b952cb17fc");
+
+        ActivityCollector.addActivity(this);
 
         ifUserFromSP();
     }

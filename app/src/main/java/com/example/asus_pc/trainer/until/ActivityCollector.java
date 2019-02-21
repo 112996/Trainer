@@ -1,6 +1,9 @@
 package com.example.asus_pc.trainer.until;
 
 import android.app.Activity;
+import android.content.Intent;
+
+import com.example.asus_pc.trainer.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,21 +11,23 @@ import java.util.List;
 public class ActivityCollector {
     private ActivityCollector() {
     }
+    public static ArrayList<Activity> mActivityList = new ArrayList<Activity>();
 
-    private static List<Activity> actList = new ArrayList<>();
 
     public static void addActivity(Activity act) {
-        actList.add(act);
+        if (!mActivityList.contains(act)){
+            mActivityList.add(act);
+        }
     }
 
     public static void removeActivity(Activity act) {
-        actList.remove(act);
+        mActivityList.remove(act);
     }
 
     public static void finishAll() {
-        for (Activity act : actList) {
-            if (!act.isFinishing()) {
-                act.finish();
+        for (Activity activity : mActivityList){
+            if (!activity.isFinishing()){
+                activity.finish();
             }
         }
     }

@@ -16,6 +16,7 @@ import com.example.asus_pc.trainer.Fragment.fragment_me;
 import com.example.asus_pc.trainer.Me_Activty.BFRActivity;
 import com.example.asus_pc.trainer.Me_Activty.BMIActivity;
 import com.example.asus_pc.trainer.R;
+import com.example.asus_pc.trainer.until.ActivityCollector;
 import com.example.asus_pc.trainer.until.BaseCompatActivity;
 import com.jaeger.library.StatusBarUtil;
 
@@ -32,6 +33,8 @@ public class LineShowActivity extends FragmentActivity implements ViewPager.OnPa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_line_show);
         StatusBarUtil.setColor(LineShowActivity.this, Color.parseColor("#2D374C"),0);
+
+        ActivityCollector.addActivity(this);
 
         initView();
         skipFragment();

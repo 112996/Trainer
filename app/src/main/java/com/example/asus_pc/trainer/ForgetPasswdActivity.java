@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
+import com.example.asus_pc.trainer.until.ActivityCollector;
 import com.jaeger.library.StatusBarUtil;
 
 import java.util.List;
@@ -47,6 +48,8 @@ public class ForgetPasswdActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forget_passwd);
         StatusBarUtil.setTransparent(ForgetPasswdActivity.this);
+
+        ActivityCollector.addActivity(this);
 
         Bmob.initialize(this, "5f0a55cbd319099d5f48f6b952cb17fc");
         BmobSMS.initialize(this, "5f0a55cbd319099d5f48f6b952cb17fc");

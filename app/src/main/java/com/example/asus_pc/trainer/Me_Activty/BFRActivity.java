@@ -20,6 +20,7 @@ import com.example.asus_pc.trainer.DBHelper;
 import com.example.asus_pc.trainer.LineShowActivity;
 import com.example.asus_pc.trainer.R;
 import com.example.asus_pc.trainer.ToastShow;
+import com.example.asus_pc.trainer.until.ActivityCollector;
 import com.jaeger.library.StatusBarUtil;
 
 import java.math.BigDecimal;
@@ -38,7 +39,7 @@ public class BFRActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bfr);
         StatusBarUtil.setColor(BFRActivity.this, Color.parseColor("#2D374C"), 0);
-
+        ActivityCollector.addActivity(this);
         initView();
         showConfig();
         click();

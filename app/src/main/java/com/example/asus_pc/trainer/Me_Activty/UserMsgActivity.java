@@ -25,6 +25,7 @@ import com.example.asus_pc.trainer.R;
 import com.example.asus_pc.trainer.RegisterActivity;
 import com.example.asus_pc.trainer.ToastShow;
 import com.example.asus_pc.trainer.UsersMsg;
+import com.example.asus_pc.trainer.until.ActivityCollector;
 import com.jaeger.library.StatusBarUtil;
 
 public class UserMsgActivity extends Activity {
@@ -45,6 +46,7 @@ public class UserMsgActivity extends Activity {
         setContentView(R.layout.activity_user_msg);
         StatusBarUtil.setColor(UserMsgActivity.this, Color.parseColor("#2D374C"),0);
 
+        ActivityCollector.addActivity(this);
 
         initViews();
         userDBHelper = new DBHelper(getApplicationContext());

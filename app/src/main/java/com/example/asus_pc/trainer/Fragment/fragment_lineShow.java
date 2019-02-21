@@ -36,16 +36,16 @@ import lecho.lib.hellocharts.view.LineChartView;
 public class fragment_lineShow extends Fragment implements View.OnClickListener {
     private Button line_weight, line_BMI, line_BFR, line_BMR, line_Whtr;
     private LineChartView lineChartView;
-    String[] date = {"周一", "周二", "周三", "周四", "周五", "周六", "周日"};//X轴的标注
-    int[] weather = new int[]{1, 2, 3, 5, 8, 6, 3};
-    int[] score = {50, 42, 90, 33, 10, 74, 22};//图表的数据点
+    String[] X_values = {"周一", "周二", "周三", "周四", "周五", "周六", "周日"};//X轴的标注
+    String [] Y_values = {"0, 10, 20, 30, 40, 50, 60, 70, 80, 90"};
     private List<PointValue> mPointValues = new ArrayList<PointValue>();
     private List<AxisValue> mAxisXvalues = new ArrayList<AxisValue>();
+    private List<AxisValue>mAxisYvalues = new ArrayList<>();
 
     private DBHelper dbHelper;
     private SQLiteDatabase mSQL;
     private ArrayList<String> weightList = new ArrayList<String>();
-    String[] user_weight = {};
+
 
     private Boolean isFirstSearch = true;
 
@@ -79,6 +79,7 @@ public class fragment_lineShow extends Fragment implements View.OnClickListener 
         line_weight.setOnClickListener(this);
 
         getAxisXlables();//获取X轴的标注
+        getAxisYlables();//获取Y轴的标注
         getAxisPoints();//获取坐标点
         initLineChart();//初始化lineChartView
 
@@ -86,11 +87,20 @@ public class fragment_lineShow extends Fragment implements View.OnClickListener 
     }
 
     /**
-     * 设置X轴的显示
+     * 设置X轴上的值
      */
     private void getAxisXlables() {
-        for (int i = 0; i < date.length; i++) {
-            mAxisXvalues.add(new AxisValue(i).setLabel(date[i]));
+        for (int i = 0; i < X_values.length; i++) {
+            mAxisXvalues.add(new AxisValue(i).setLabel(X_values[i]));
+        }
+    }
+
+    /**
+     * 设置Y轴上的值
+     */
+    private void getAxisYlables(){
+        for (int i = 0; i < Y_values.length; i++){
+            mAxisYvalues.add(new AxisValue(i).setLabel(Y_values[i]));
         }
     }
 
@@ -104,7 +114,7 @@ public class fragment_lineShow extends Fragment implements View.OnClickListener 
             mPointValues.add(new PointValue(i, weather[i]));
         }*/
 
-        //从数据库拿数据
+        //
         if (isFirstSearch) {
             Cursor cursor = mSQL.query(DBHelper.TABLE_NAME, null, null, null, null, null, null);
             if (cursor != null && cursor.getCount() > 0) {
@@ -150,9 +160,10 @@ public class fragment_lineShow extends Fragment implements View.OnClickListener 
 
         // Y轴是根据数据的大小自动设置Y轴上限(在下面我会给出固定Y轴数据个数的解决方案)
         Axis axisY = new Axis();  //Y轴
-        axisY.setName("");//y轴标注
+        axisY.setName("重量");//y轴标注
         axisY.setTextSize(10);//设置字体大小
         data.setAxisYLeft(axisY);  //Y轴设置在左边
+        axisY.setValues(mAxisYvalues);
         //data.setAxisYRight(axisY);  //y轴设置在右边
 
 
@@ -179,22 +190,11 @@ public class fragment_lineShow extends Fragment implements View.OnClickListener 
         ((ViewGroup) mView.getParent()).removeView(mView);
     }
 
-    /**
-     * 更改
-     */
-    private void clickBFR() {
-        for (int i = 0; i < score.length; i++) {
-            mPointValues.add(new PointValue(i, weather[i]));
-        }
-    }
-
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.line_BFR:
-                clickBFR();
-                //initLineChart();
                 break;
             case R.id.line_BMI:
                 break;

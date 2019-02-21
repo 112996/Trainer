@@ -112,6 +112,18 @@
         android:textSize="20sp"
         android:drawableLeft="@drawable/icon_bmr"
         android:drawableRight="@drawable/enter_right"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#2D374C"
+        android:padding="15dp"
+        android:gravity="left|center_vertical"
+        android:text="       健身日志"
+        android:id="@+id/train_log"
+        android:textColor="@color/register_btn_color"
+        android:textSize="20sp"
+        android:drawableLeft="@drawable/train_log"
+        android:drawableRight="@drawable/enter_right"/>
 
     <Button
         android:layout_width="match_parent"

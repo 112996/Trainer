@@ -81,7 +81,8 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".ForgetPasswdActivity"></activity>
+        <activity android:name=".ForgetPasswdActivity" />
+        <activity android:name=".Me_Activty.Train_LogActivity"></activity>
     </application>
 
 </manifest>

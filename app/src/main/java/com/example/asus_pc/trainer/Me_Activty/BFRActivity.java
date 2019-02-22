@@ -15,6 +15,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.asus_pc.trainer.DBHelper;
 import com.example.asus_pc.trainer.LineShowActivity;
@@ -33,6 +34,7 @@ public class BFRActivity extends Activity {
     private CheckBox sex;
     private DBHelper userDBHelper;
     private SQLiteDatabase mSQL;
+    private String man="男", woman = "女";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,27 +79,33 @@ public class BFRActivity extends Activity {
                     ToastShow b = new ToastShow();
                     b.toastShow(BFRActivity.this, "请输入完整信息！");
                 } else {
+                    bfr_res.setText("请稍后...");
                     if (isFirstClick) {
                         getWindow().getDecorView().postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 //体脂率 =1.2×BMI+0.23× 年龄-5.4-10.8×性别（男为1，女为0）
                                 SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
-                                String bmi = sharedPreferences.getString("bmi", "");
+                                String bmi = sharedPreferences.getString("BMI", "");
                                 String age = sharedPreferences.getString("age", "");
-                                String bfr;
-                                if (sex.isChecked()) {
-                                    double bfr_ = Double.parseDouble(bmi) * 1.2 + 0.23 * Double.parseDouble(age) - 5.4 - 10.8 * 0;
-                                    double value = new BigDecimal(bfr_).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                                    bfr = "" + value;
-                                } else {
-                                    double bfr_ = Double.parseDouble(bmi) * 1.2 + 0.23 * Double.parseDouble(age) - 5.4 - 10.8 * 1;
-                                    double value = new BigDecimal(bfr_).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                                    bfr = "" + value;
+                                if (bmi.isEmpty() || age.isEmpty()){
+                                    Toast.makeText(BFRActivity.this,bmi+age,Toast.LENGTH_SHORT).show();
+                                }else {
+                                    String bfr;
+                                    if (sex.isChecked()) {
+                                        double bfr_ = Double.valueOf(bmi) * 1.2 + 0.23 * Double.valueOf(age) - 5.4 - 10.8 * 0;
+                                        double value = new BigDecimal(bfr_).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                                        bfr = "" + value;
+                                    } else {
+                                        double bfr_ = Double.valueOf(bmi) * 1.2 + 0.23 * Double.valueOf(age) - 5.4 - 10.8 * 1;
+                                        double value = new BigDecimal(bfr_).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                                        bfr = "" + value;
+                                    }
+                                    bfr_res.setText(bfr);
+                                    bfr_res.setTextSize(25);
+                                    saveBFRToSP(bfr);
                                 }
-                                bfr_res.setText(bfr);
-                                bfr_res.setTextSize(25);
-                                //saveConfig(BFRActivity.this, mNeck.getText().toString(), bfr);
+
                             }
                         }, 1500);
                     }
@@ -114,15 +122,26 @@ public class BFRActivity extends Activity {
         userDBHelper = new DBHelper(getApplicationContext());
         mSQL = userDBHelper.getReadableDatabase();
         Cursor cursor = mSQL.query(DBHelper.TABLE_NAME, null, null, null, null, null, null);
-        if (cursor != null) {
+        if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToLast();
-            if (cursor.getCount() != 0) {
-                mAge.setText(cursor.getString(cursor.getColumnIndex("Age")));
-                mHeight.setText(cursor.getString(cursor.getColumnIndex("Height")));
-                mWaist.setText(cursor.getString(cursor.getColumnIndex("Waist")));
-                mNeck.setText(cursor.getString(cursor.getColumnIndex("Neck")));
-                cursor.close();
+            mAge.setText(cursor.getString(cursor.getColumnIndex("Age")));
+            mHeight.setText(cursor.getString(cursor.getColumnIndex("Height")));
+            mWaist.setText(cursor.getString(cursor.getColumnIndex("Waist")));
+            mNeck.setText(cursor.getString(cursor.getColumnIndex("Neck")));
+            String SEX = cursor.getString(cursor.getColumnIndex("Sex"));
+            if (SEX.equals(woman)){
+                sex.setChecked(true);
+            }else {
+                sex.setChecked(false);
             }
+            cursor.close();
         }
+    }
+
+    private void saveBFRToSP(String bfr){
+        SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("BFR", bfr);
+        editor.commit();
     }
 }

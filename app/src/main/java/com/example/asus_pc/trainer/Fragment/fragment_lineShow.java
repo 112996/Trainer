@@ -14,6 +14,7 @@ import android.widget.Button;
 
 import com.example.asus_pc.trainer.DBHelper;
 import com.example.asus_pc.trainer.R;
+import com.example.asus_pc.trainer.ToastShow;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,20 +37,17 @@ import lecho.lib.hellocharts.view.LineChartView;
 public class fragment_lineShow extends Fragment implements View.OnClickListener {
     private Button line_weight, line_BMI, line_BFR, line_BMR, line_Whtr;
     private LineChartView lineChartView;
+    private View mView;
     String[] X_values = {"周一", "周二", "周三", "周四", "周五", "周六", "周日"};//X轴的标注
-    String [] Y_values = {"0, 10, 20, 30, 40, 50, 60, 70, 80, 90"};
+    String[] Y_values = {"0, 10, 20, 30, 40, 50, 60, 70, 80, 90"};
     private List<PointValue> mPointValues = new ArrayList<PointValue>();
     private List<AxisValue> mAxisXvalues = new ArrayList<AxisValue>();
-    private List<AxisValue>mAxisYvalues = new ArrayList<>();
+    private List<AxisValue> mAxisYvalues = new ArrayList<>();
 
     private DBHelper dbHelper;
     private SQLiteDatabase mSQL;
     private ArrayList<String> weightList = new ArrayList<String>();
-
-
     private Boolean isFirstSearch = true;
-
-    private View mView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -98,8 +96,8 @@ public class fragment_lineShow extends Fragment implements View.OnClickListener 
     /**
      * 设置Y轴上的值
      */
-    private void getAxisYlables(){
-        for (int i = 0; i < Y_values.length; i++){
+    private void getAxisYlables() {
+        for (int i = 0; i < Y_values.length; i++) {
             mAxisYvalues.add(new AxisValue(i).setLabel(Y_values[i]));
         }
     }
@@ -107,14 +105,8 @@ public class fragment_lineShow extends Fragment implements View.OnClickListener 
     /**
      * 图表每个点的显示
      */
-    private void getAxisPoints() {
+    private void   getAxisPoints() {
 
-        //测试数据
-        /*for (int i = 0; i < weather.length; i++) {
-            mPointValues.add(new PointValue(i, weather[i]));
-        }*/
-
-        //
         if (isFirstSearch) {
             Cursor cursor = mSQL.query(DBHelper.TABLE_NAME, null, null, null, null, null, null);
             if (cursor != null && cursor.getCount() > 0) {
@@ -139,7 +131,7 @@ public class fragment_lineShow extends Fragment implements View.OnClickListener 
         line.setCubic(false);//曲线是否平滑，即是曲线还是折线
         line.setFilled(false);//是否填充曲线的面积
         line.setHasLabels(true);//曲线的数据坐标是否加上备注
-//      line.setHasLabelsOnlyForSelected(true);//点击数据坐标提示数据（设置了这个line.setHasLabels(true);就无效）
+        line.setHasLabelsOnlyForSelected(true);//点击数据坐标提示数据（设置了这个line.setHasLabels(true);就无效）
         line.setHasLines(true);//是否用线显示。如果为false 则没有曲线只有点显示
         line.setHasPoints(true);//是否显示圆点 如果为false 则没有原点只有点显示（每个数据点都是个大的圆点）
         lines.add(line);
@@ -158,7 +150,7 @@ public class fragment_lineShow extends Fragment implements View.OnClickListener 
         //data.setAxisXTop(axisX);  //x 轴在顶部
         axisX.setHasLines(true); //x 轴分割线
 
-        // Y轴是根据数据的大小自动设置Y轴上限(在下面我会给出固定Y轴数据个数的解决方案)
+        // Y轴是根据数据的大小自动设置Y轴上限
         Axis axisY = new Axis();  //Y轴
         axisY.setName("重量");//y轴标注
         axisY.setTextSize(10);//设置字体大小
@@ -195,12 +187,40 @@ public class fragment_lineShow extends Fragment implements View.OnClickListener 
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.line_BFR:
+                Cursor cursor_BFR = mSQL.query(DBHelper.TABLE_NAME_ARGS, null, null, null, null, null, null);
+                if (cursor_BFR != null && cursor_BFR.getCount() > 0) {
+
+                } else {
+                    ToastShow t = new ToastShow();
+                    t.toastShow(getActivity(), "请先到个人中心完善数据");
+                }
                 break;
             case R.id.line_BMI:
+                Cursor cursor_BMI = mSQL.query(DBHelper.TABLE_NAME_ARGS, null, null, null, null, null, null);
+                if (cursor_BMI != null && cursor_BMI.getCount() > 0) {
+
+                } else {
+                    ToastShow t = new ToastShow();
+                    t.toastShow(getActivity(), "请先到个人中心完善数据");
+                }
                 break;
             case R.id.line_BMR:
+                Cursor cursor_BMR = mSQL.query(DBHelper.TABLE_NAME_ARGS, null, null, null, null, null, null);
+                if (cursor_BMR != null && cursor_BMR.getCount() > 0) {
+
+                } else {
+                    ToastShow t = new ToastShow();
+                    t.toastShow(getActivity(), "请先到个人中心完善数据");
+                }
                 break;
             case R.id.line_Whtr:
+                Cursor cursor_Whtr = mSQL.query(DBHelper.TABLE_NAME_ARGS, null, null, null, null, null, null);
+                if (cursor_Whtr != null && cursor_Whtr.getCount() > 0) {
+
+                } else {
+                    ToastShow t = new ToastShow();
+                    t.toastShow(getActivity(), "请先到个人中心完善数据");
+                }
                 break;
             default:
                 break;

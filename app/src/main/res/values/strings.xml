@@ -25,6 +25,8 @@
     <string name="height">身高</string>
     <string name="weight">体重</string>
     <string name="waist">腰围</string>
+    <string name="tips1">（在肚脐处测量）</string>
+    <string name="tips2">(最窄处)</string>
     <string name="neck">颈围</string>
     <string name="sex">性别</string>
     <string name="cm">CM</string>
@@ -43,6 +45,9 @@
     <string name="nicheng">昵称</string>
     <string name="change_account">切换账号</string>
     <string name="logout">退出登录</string>
+    <string name="sport_low">少量运动（每周1&#045;3天轻量运动）</string>
+    <string name="sport_middle">中等运动（每周3&#045;5天中等程度运动）</string>
+    <string name="sport_high">高运动量（每周6&#045;7天高强度运动）</string>
 
 
 </resources>

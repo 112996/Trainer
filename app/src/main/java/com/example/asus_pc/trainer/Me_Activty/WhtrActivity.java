@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.CursorIndexOutOfBoundsException;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
@@ -25,6 +26,7 @@ import com.example.asus_pc.trainer.until.ActivityCollector;
 import com.jaeger.library.StatusBarUtil;
 
 import java.math.BigDecimal;
+import java.nio.file.FileAlreadyExistsException;
 
 public class WhtrActivity extends Activity {
     private ImageButton whtr_back_btn;
@@ -34,16 +36,20 @@ public class WhtrActivity extends Activity {
     private CheckBox sex;
     private boolean isFirstClick = true;
     private DBHelper userDBHelper;
-    private SQLiteDatabase mSQL;
+    private SQLiteDatabase mSQL, mSQL2;
+    private String woman = "女", man = "男";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_whtr);
-        StatusBarUtil.setColor(WhtrActivity.this, Color.parseColor("#2D374C"),0);
+        StatusBarUtil.setColor(WhtrActivity.this, Color.parseColor("#2D374C"), 0);
+
 
         ActivityCollector.addActivity(this);
+
+        userDBHelper = new DBHelper(getApplicationContext());
 
         initView();
         showConfig();
@@ -106,6 +112,7 @@ public class WhtrActivity extends Activity {
                                 whtr_res.setText(String.valueOf(value));
                                 whtr_res.setTextSize(25);
                                 sWaist();
+                                saveWhtrToSP(whtr);
 
                             }
                         }, 2000);
@@ -122,19 +129,28 @@ public class WhtrActivity extends Activity {
      */
     public void showConfig() {
 
-        userDBHelper = new DBHelper(getApplicationContext());
+
         mSQL = userDBHelper.getReadableDatabase();
         Cursor cursor = mSQL.query(DBHelper.TABLE_NAME, null, null, null, null, null, null);
-        if (cursor != null){
-             cursor.moveToLast();
-            if (cursor.getCount() != 0){
-                mAge.setText(cursor.getString(cursor.getColumnIndex("Age")));
-                mHeight.setText(cursor.getString(cursor.getColumnIndex("Height")));
-                mWaist.setText(cursor.getString(cursor.getColumnIndex("Waist")));
-                cursor.close();
-            }else{
+        if (cursor != null && cursor.getCount() > 0) {
+            cursor.moveToLast();
+            mAge.setText(cursor.getString(cursor.getColumnIndex("Age")));
+            mHeight.setText(cursor.getString(cursor.getColumnIndex("Height")));
+            mWaist.setText(cursor.getString(cursor.getColumnIndex("Waist")));
+            String SEX = cursor.getString(cursor.getColumnIndex("Sex"));
+            if (SEX.equals(woman)) {
+                sex.setChecked(true);
+            } else {
+                sex.setChecked(false);
             }
+            cursor.close();
         }
+    }
 
+    private void saveWhtrToSP(String whtr) {
+        SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("Whtr", whtr);
+        editor.commit();
     }
 }

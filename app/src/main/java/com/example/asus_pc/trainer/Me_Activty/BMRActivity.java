@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -18,9 +19,15 @@ import android.widget.TextView;
 
 import com.example.asus_pc.trainer.DBHelper;
 import com.example.asus_pc.trainer.LineShowActivity;
+import com.example.asus_pc.trainer.MyUsers;
 import com.example.asus_pc.trainer.R;
+import com.example.asus_pc.trainer.User_Args;
 import com.example.asus_pc.trainer.until.ActivityCollector;
 import com.jaeger.library.StatusBarUtil;
+
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.SaveListener;
 
 public class BMRActivity extends Activity {
     private ImageButton bmr_back_btn;
@@ -130,6 +137,7 @@ public class BMRActivity extends Activity {
         kll_range.setText(String.valueOf(KLL_low)+"-"+String.valueOf(KLL_high)+"Kcal");
         saveBMRToSP(String.valueOf(bmr));
         saveAllToSQL();
+        saveToBmob();
     }
 
     private void saveBMRToSP(String bmr){
@@ -153,5 +161,34 @@ public class BMRActivity extends Activity {
         cv.put("BMR", bmr);
         mSQL2.insert(DBHelper.TABLE_NAME_ARGS, null, cv);
     }
+
+    /**
+     * 到服务器
+     */
+    private void saveToBmob(){
+        SharedPreferences s = getSharedPreferences("config", MODE_PRIVATE);
+        String bmi = s.getString("BMI", "");
+        String whtr = s.getString("Whtr", "");
+        String bfr = s.getString("BFR", "");
+        String bmr = s.getString("BMR", "");
+
+        User_Args user_args = new User_Args();
+        user_args.setBfr(bfr);
+        user_args.setBmi(bmi);
+        user_args.setBmr(bmr);
+        user_args.setWhtr(whtr);
+        user_args.setAuthor(BmobUser.getCurrentUser(MyUsers.class));
+        user_args.save(new SaveListener<String>() {
+            @Override
+            public void done(String s, BmobException e) {
+                if (e == null){
+                    Log.d("saveToBmob","okokokokoko");
+                }else {
+                    Log.e("saveToBmob",e.toString());
+                }
+            }
+        });
+    }
 }
+
 

@@ -7,14 +7,17 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.asus_pc.trainer.DBHelper;
+import com.example.asus_pc.trainer.MyUsers;
 import com.example.asus_pc.trainer.R;
 import com.example.asus_pc.trainer.ToastShow;
+import com.example.asus_pc.trainer.User_Message;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +25,10 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 import io.reactivex.annotations.Nullable;
 import lecho.lib.hellocharts.gesture.ContainerScrollType;
 import lecho.lib.hellocharts.gesture.ZoomType;
@@ -105,10 +112,10 @@ public class fragment_lineShow extends Fragment implements View.OnClickListener 
     /**
      * 图表每个点的显示
      */
-    private void   getAxisPoints() {
+    private void getAxisPoints() {
 
         if (isFirstSearch) {
-            Cursor cursor = mSQL.query(DBHelper.TABLE_NAME, null, null, null, null, null, null);
+           /* Cursor cursor = mSQL.query(DBHelper.TABLE_NAME, null, null, null, null, null, null);
             if (cursor != null && cursor.getCount() > 0) {
 
                 while (cursor.moveToNext()) {
@@ -119,7 +126,9 @@ public class fragment_lineShow extends Fragment implements View.OnClickListener 
             cursor.close();
             for (int i = 0; i < weightList.size(); i++) {
                 mPointValues.add(new PointValue(i, Integer.parseInt(weightList.get(i))));
-            }
+            }*/
+            queryFromBmob();
+
         }
         isFirstSearch = false;
     }
@@ -173,6 +182,26 @@ public class fragment_lineShow extends Fragment implements View.OnClickListener 
         v.left = 0;
         v.right = 7;
         lineChartView.setCurrentViewport(v);
+    }
+
+    private void queryFromBmob() {
+        BmobQuery<User_Message> query = new BmobQuery<>();
+        query.addWhereEqualTo("author", BmobUser.getCurrentUser(MyUsers.class));
+        query.order("-updatedAt");
+        //包含作者信息
+        query.include("author");
+        query.findObjects(new FindListener<User_Message>() {
+            @Override
+            public void done(List<User_Message> list, BmobException e) {
+                for (User_Message user_message : list){
+
+                    weightList.add(user_message.getWeight());
+
+                }
+                /*for (int i = 0; i < weightList.size(); i++) {
+                    mPointValues.add(new PointValue(i, Integer.parseInt(weightList.get(i))));*/
+            }
+        });
     }
 
 

@@ -26,6 +26,7 @@ import com.example.asus_pc.trainer.MyUsers;
 import com.example.asus_pc.trainer.R;
 import com.example.asus_pc.trainer.RegisterActivity;
 import com.example.asus_pc.trainer.ToastShow;
+import com.example.asus_pc.trainer.User_Args;
 import com.example.asus_pc.trainer.User_Message;
 import com.example.asus_pc.trainer.UsersMsg;
 import com.example.asus_pc.trainer.until.ActivityCollector;
@@ -229,7 +230,16 @@ public class UserMsgActivity extends Activity {
             @Override
             public void done(List<User_Message> object, BmobException e) {
                 if (e == null) {
-                    Log.d("queryFromBmob","okokokokoko");
+                    object.size();
+                    for (User_Message user_message : object){
+                        user_message.getAge();
+                        user_message.getHeight();
+                        user_message.getWaist();
+                        user_message.getWeight();
+                        user_message.getNeck();
+                        Log.d("年龄", user_message.getAge());
+                    }
+                    Log.d("queryFromBmob","查询成功");
                 } else {
                     Log.e("FromBmob", e.toString());
                 }

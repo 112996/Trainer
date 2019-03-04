@@ -230,7 +230,7 @@ public class UserMsgActivity extends Activity {
             @Override
             public void done(List<User_Message> object, BmobException e) {
                 if (e == null) {
-                    object.size();
+                    //object.size();
                     for (User_Message user_message : object){
                         user_message.getAge();
                         user_message.getHeight();

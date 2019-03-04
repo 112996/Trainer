@@ -16,11 +16,13 @@ import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.asus_pc.trainer.DBHelper;
 import com.example.asus_pc.trainer.LineShowActivity;
 import com.example.asus_pc.trainer.MyUsers;
 import com.example.asus_pc.trainer.R;
+import com.example.asus_pc.trainer.ToastShow;
 import com.example.asus_pc.trainer.User_Args;
 import com.example.asus_pc.trainer.until.ActivityCollector;
 import com.jaeger.library.StatusBarUtil;
@@ -171,7 +173,10 @@ public class BMRActivity extends Activity {
         String whtr = s.getString("Whtr", "");
         String bfr = s.getString("BFR", "");
         String bmr = s.getString("BMR", "");
-
+        if (bmi.isEmpty() || whtr.isEmpty() || bfr.isEmpty() || bmr.isEmpty()){
+            ToastShow t = new ToastShow();
+            t.toastShow(this,"还没有完善数据哦");
+        }
         User_Args user_args = new User_Args();
         user_args.setBfr(bfr);
         user_args.setBmi(bmi);

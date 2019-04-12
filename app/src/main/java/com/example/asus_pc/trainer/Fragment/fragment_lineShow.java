@@ -8,10 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.asus_pc.trainer.MyUsers;
+import com.example.asus_pc.trainer.bean.MyUsers;
 import com.example.asus_pc.trainer.R;
-import com.example.asus_pc.trainer.User_Args;
-import com.example.asus_pc.trainer.User_Message;
+import com.example.asus_pc.trainer.bean.User_Args;
+import com.example.asus_pc.trainer.bean.User_Message;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +64,6 @@ public class fragment_lineShow extends Fragment implements View.OnClickListener 
     @Override
     public void onStart() {
         super.onStart();
-        //mPointValues_BMI.clear();  //只装第一次的数据
 
         lineChart = mView.findViewById(R.id.lineChartView);
 
@@ -122,21 +121,26 @@ public class fragment_lineShow extends Fragment implements View.OnClickListener 
             public void done(List<User_Args> object, BmobException e) {
                 if (e == null) {
                     for (User_Args user_Args : object) {
-                        list_BMI.add(user_Args.getBmi());
-                        list_BFR.add(user_Args.getBfr());
-                        list_BMR.add(user_Args.getBmr());
-                        list_Whtr.add(user_Args.getWhtr());
-                        Log.d("BMI", list_BMI.toString());
+                        if (user_Args.getBmi().isEmpty() && user_Args.getBfr().isEmpty() && user_Args.getWhtr().isEmpty() && user_Args.getBmr().isEmpty()) {
+                            Log.e("数据不全", "数据不全");
+                        } else {
+                            list_BMI.add(user_Args.getBmi());
+                            list_BFR.add(user_Args.getBfr());
+                            list_BMR.add(user_Args.getBmr());
+                            list_Whtr.add(user_Args.getWhtr());
+                            Log.d("BMI", list_BMI.toString());
+                        }
                     }
                     if (isSecond) {
                         for (int i = 0; i < list_BMI.size(); i++) {
                             mPointValues_BMI.add(new PointValue(i, Float.parseFloat((String) list_BMI.get(i))));
                         }
-                        for (int j = 0; j < list_BFR.size(); j++){
+                        for (int j = 0; j < list_BFR.size(); j++) {
                             mPointValues_BFR.add(new PointValue(j, Float.parseFloat((String) list_BFR.get(j))));
                         }
                     }
                     isSecond = false;
+
                 } else {
                     Log.e("FromBmob", e.toString());
                 }
@@ -186,7 +190,6 @@ public class fragment_lineShow extends Fragment implements View.OnClickListener 
 
         LineChartData data = new LineChartData();
         data.setLines(lines);
-        //data.setLines(lines);
 
         //坐标轴
         Axis axisX = new Axis(); //X轴

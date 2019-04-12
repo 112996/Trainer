@@ -2,6 +2,9 @@ package com.example.asus_pc.trainer;
 
 import android.util.Log;
 
+import com.example.asus_pc.trainer.bean.MyUsers;
+import com.example.asus_pc.trainer.bean.User_Message;
+
 import java.util.ArrayList;
 import java.util.List;
 

@@ -7,7 +7,7 @@
     android:id="@+id/line_show_layout"
     android:background="#333D56"
     android:fitsSystemWindows="true"
-    tools:context=".LineShowActivity">
+    tools:context=".activities.LineShowActivity">
 
     <com.example.asus_pc.trainer.until.NoScrollViewPager
         android:layout_width="match_parent"

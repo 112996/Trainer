@@ -1,15 +1,12 @@
-package com.example.asus_pc.trainer;
+package com.example.asus_pc.trainer.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 
-import com.example.asus_pc.trainer.Me_Activty.BMIActivity;
 import com.example.asus_pc.trainer.R;
+import com.example.asus_pc.trainer.until.ToastShow;
 import com.example.asus_pc.trainer.until.ActivityCollector;
 import com.jaeger.library.StatusBarUtil;
 

@@ -1,8 +1,6 @@
-package com.example.asus_pc.trainer;
+package com.example.asus_pc.trainer.bean;
 
-import cn.bmob.v3.BmobObject;
-
-public class User_Message extends BmobObject {
+public class UsersMsg {
     public String age;
     public String height;
     public String weight;
@@ -10,7 +8,6 @@ public class User_Message extends BmobObject {
     public String neck;
     public String sex;
     public String sport;
-    private MyUsers author;
 
     public String getAge() {
         return age;
@@ -66,14 +63,6 @@ public class User_Message extends BmobObject {
 
     public void setSport(String sport) {
         this.sport = sport;
-    }
-
-    public MyUsers getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(MyUsers author) {
-        this.author = author;
     }
 
 }

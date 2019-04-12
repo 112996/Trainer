@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.example.asus_pc.trainer.MainActivity;
+import com.example.asus_pc.trainer.activities.MainActivity;
 
 public class LogOutBroadCastReceiver extends BroadcastReceiver{
     @Override

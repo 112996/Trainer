@@ -7,12 +7,12 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="190dp"
+        android:layout_height="160dp"
         android:background="#2D374C"
         android:paddingLeft="15dp"
         android:layout_marginBottom="20dp"
         android:layout_gravity="center">
-        <com.example.asus_pc.trainer.CircleImageView
+        <com.example.asus_pc.trainer.until.CircleImageView
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:background="@drawable/user_portrait"
@@ -125,19 +125,40 @@
         android:drawableLeft="@drawable/train_log"
         android:drawableRight="@drawable/enter_right"/>
 
-    <Button
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#2D374C"
-        android:id="@+id/change_account"
-        android:gravity="center"
-        android:text="@string/change_account"
-        android:layout_gravity="center"
-        android:textSize="20sp"
-        android:textColor="@color/register_btn_color"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:layout_marginTop="10dp"/>
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#00000000"
+            android:id="@+id/clear_cache"
+            android:drawableLeft="@drawable/clean_cache"
+            android:gravity="center"
+            android:text="       清除缓存"
+            android:layout_gravity="center"
+            android:paddingLeft="15dp"
+            android:textSize="20sp"
+            android:textColor="@color/register_btn_color"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"/>
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@android:color/white"
+            android:gravity="right"
+            android:text="1.0MB"
+            android:id="@+id/cache"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"/>
+
+    </LinearLayout>
+
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

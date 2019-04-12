@@ -43,7 +43,7 @@
     <string name="change_id">修改昵称</string>
     <string name="trainer_id">Trainer号:</string>
     <string name="nicheng">昵称</string>
-    <string name="change_account">切换账号</string>
+    <string name="clear_cache">清除缓存</string>
     <string name="logout">退出登录</string>
     <string name="sport_low">少量运动（每周1&#045;3天轻量运动）</string>
     <string name="sport_middle">中等运动（每周3&#045;5天中等程度运动）</string>

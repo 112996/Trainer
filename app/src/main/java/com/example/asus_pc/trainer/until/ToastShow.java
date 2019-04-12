@@ -1,4 +1,4 @@
-package com.example.asus_pc.trainer;
+package com.example.asus_pc.trainer.until;
 
 import android.content.Context;
 import android.view.Gravity;
@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.asus_pc.trainer.R;
 
 public class ToastShow {
 

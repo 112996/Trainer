@@ -1,40 +1,30 @@
 package com.example.asus_pc.trainer.Me_Activty;
 
 import android.app.Activity;
-import android.content.ContentUris;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
-import android.os.ConditionVariable;
-import android.os.IInterface;
-import android.os.strictmode.WebViewMethodCalledOnWrongThreadViolation;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.HeaderViewListAdapter;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.example.asus_pc.trainer.DBHelper;
-import com.example.asus_pc.trainer.LineShowActivity;
+import com.example.asus_pc.trainer.db.DBHelper;
+import com.example.asus_pc.trainer.activities.LineShowActivity;
 import com.example.asus_pc.trainer.R;
-import com.example.asus_pc.trainer.ToastShow;
+import com.example.asus_pc.trainer.until.ToastShow;
 import com.example.asus_pc.trainer.until.ActivityCollector;
 import com.jaeger.library.StatusBarUtil;
 
 import java.math.BigDecimal;
 
 public class BMIActivity extends Activity {
-    private ImageButton bmi_back_btn;
     private TextView age, height, weight;
     private Button bmi_res;
     private CheckBox sex;
@@ -43,6 +33,7 @@ public class BMIActivity extends Activity {
     private DBHelper userDBHelper;
     private SQLiteDatabase mSQL;
     private String woman = "女", man = "男";
+    private String SEX;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,10 +48,10 @@ public class BMIActivity extends Activity {
         mSQL = userDBHelper.getWritableDatabase();
         showConfig();
         click();
+        checkBoxListener();
     }
 
     private void initView() {
-        bmi_back_btn = findViewById(R.id.bmi_back_btn);
         age = findViewById(R.id.age);
         height = findViewById(R.id.height);
         weight = findViewById(R.id.weight);
@@ -69,16 +60,6 @@ public class BMIActivity extends Activity {
         ideal_weight = findViewById(R.id.ideal_weight);
 
 
-        //返回LineShowActivity中的fragment_me
-        bmi_back_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(BMIActivity.this, LineShowActivity.class);
-                i.putExtra("id", 2);
-                startActivity(i);
-                finish();
-            }
-        });
     }
 
     public void click() {
@@ -136,6 +117,16 @@ public class BMIActivity extends Activity {
 
     }
 
+    private void checkBoxListener(){
+        sex.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                ToastShow toastShow = new ToastShow();
+                toastShow.toastShow(BMIActivity.this, "您现在是"+SEX+"生，别乱改！");
+            }
+        });
+    }
+
     public void showConfig() {
 
         Cursor cursor = mSQL.query(DBHelper.TABLE_NAME, null, null, null, null, null, null);
@@ -145,7 +136,7 @@ public class BMIActivity extends Activity {
                 String AGE = cursor.getString(cursor.getColumnIndex("Age"));
                 String HEIGHT = cursor.getString(cursor.getColumnIndex("Height"));
                 String WEIGHT = cursor.getString(cursor.getColumnIndex("Weight"));
-                String SEX= cursor.getString(cursor.getColumnIndex("Sex"));
+                SEX= cursor.getString(cursor.getColumnIndex("Sex"));
                 if (AGE.isEmpty() || HEIGHT.isEmpty() || WEIGHT.isEmpty()) {
                     ToastShow b = new ToastShow();
                     b.toastShow(BMIActivity.this, "请前往设置界面完善个人信息！");

@@ -5,12 +5,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Color;
-import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,17 +14,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
-import android.widget.Toast;
 
-import com.example.asus_pc.trainer.DBHelper;
-import com.example.asus_pc.trainer.LineShowActivity;
-import com.example.asus_pc.trainer.MyUsers;
+import com.example.asus_pc.trainer.db.DBHelper;
+import com.example.asus_pc.trainer.activities.LineShowActivity;
+import com.example.asus_pc.trainer.bean.MyUsers;
 import com.example.asus_pc.trainer.R;
-import com.example.asus_pc.trainer.RegisterActivity;
-import com.example.asus_pc.trainer.ToastShow;
-import com.example.asus_pc.trainer.User_Args;
-import com.example.asus_pc.trainer.User_Message;
-import com.example.asus_pc.trainer.UsersMsg;
+import com.example.asus_pc.trainer.until.ToastShow;
+import com.example.asus_pc.trainer.bean.User_Message;
+import com.example.asus_pc.trainer.bean.UsersMsg;
 import com.example.asus_pc.trainer.until.ActivityCollector;
 import com.jaeger.library.StatusBarUtil;
 
@@ -44,7 +37,6 @@ import cn.bmob.v3.listener.SaveListener;
 public class UserMsgActivity extends Activity {
     private EditText mAge, mHeight, mWeight, mWaist, mNeck;
     private RadioButton man, woman, high, middle, low;
-    private ImageButton user_back_btn;
     private Button ok;
     private DBHelper userDBHelper;
     private SQLiteDatabase mSQL, mSQL1;
@@ -81,16 +73,7 @@ public class UserMsgActivity extends Activity {
         high = findViewById(R.id.high);
         middle = findViewById(R.id.middle);
         low = findViewById(R.id.low);
-        user_back_btn = findViewById(R.id.user_back_btn);
-        user_back_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(UserMsgActivity.this, LineShowActivity.class);
-                i.putExtra("id", 2);
-                startActivity(i);
-                finish();
-            }
-        });
+
         ok = findViewById(R.id.ok);
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,7 +178,7 @@ public class UserMsgActivity extends Activity {
             user_message.setSex(WOMAN) ;
         }
         if (high.isChecked()) {
-            user_message.setSport(HIGH); ;
+            user_message.setSport(HIGH);
         } else if (middle.isChecked()) {
             user_message.setSport(MIDDLE) ;
         } else {

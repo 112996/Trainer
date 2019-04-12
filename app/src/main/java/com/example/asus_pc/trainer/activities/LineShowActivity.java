@@ -1,5 +1,6 @@
-package com.example.asus_pc.trainer;
+package com.example.asus_pc.trainer.activities;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -13,15 +14,14 @@ import android.widget.RadioGroup;
 import com.example.asus_pc.trainer.Fragment.fragment_course;
 import com.example.asus_pc.trainer.Fragment.fragment_lineShow;
 import com.example.asus_pc.trainer.Fragment.fragment_me;
-import com.example.asus_pc.trainer.Me_Activty.BFRActivity;
-import com.example.asus_pc.trainer.Me_Activty.BMIActivity;
 import com.example.asus_pc.trainer.R;
 import com.example.asus_pc.trainer.until.ActivityCollector;
-import com.example.asus_pc.trainer.until.BaseCompatActivity;
 import com.jaeger.library.StatusBarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.ButterKnife;
 
 public class LineShowActivity extends FragmentActivity implements ViewPager.OnPageChangeListener, View.OnClickListener {
     private ViewPager pager;
@@ -31,8 +31,14 @@ public class LineShowActivity extends FragmentActivity implements ViewPager.OnPa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0){
+            finish();
+            return;
+        }
+
         setContentView(R.layout.activity_line_show);
-        StatusBarUtil.setColor(LineShowActivity.this, Color.parseColor("#2D374C"),0);
+        StatusBarUtil.setColor(LineShowActivity.this, Color.parseColor("#2D374C"), 0);
 
         ActivityCollector.addActivity(this);
 
@@ -132,6 +138,4 @@ public class LineShowActivity extends FragmentActivity implements ViewPager.OnPa
         } else {
         }
     }
-
-
 }

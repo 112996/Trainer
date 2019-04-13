@@ -145,20 +145,37 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingTop="10dp">
-        <TextView
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/waist"
             android:gravity="center"
-            android:textSize="20sp"
+            android:orientation="vertical"
             android:padding="10dp"
-            android:textColor="@android:color/white"/>
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/waist"
+                android:singleLine="false"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:textColor="@android:color/white"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tips1"
+                android:gravity="center"
+                android:textSize="12sp"
+                android:layout_marginTop="5dp"
+                android:textColor="@android:color/white"/>
+
+        </LinearLayout>
         <EditText
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/edit_bg"
             android:gravity="center"
+            android:layout_gravity="center"
             android:digits="1234567890"
             android:inputType="number|phone"
             android:singleLine="true"
@@ -171,6 +188,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_gravity="center"
             android:text="@string/cm"
             android:textSize="20sp"
             android:gravity="center"
@@ -182,20 +200,37 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingTop="10dp">
-        <TextView
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/neck"
             android:gravity="center"
-            android:textSize="20sp"
+            android:orientation="vertical"
             android:padding="10dp"
-            android:textColor="@android:color/white"/>
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/neck"
+                android:singleLine="false"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:textColor="@android:color/white"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tips2"
+                android:gravity="center"
+                android:textSize="12sp"
+                android:layout_marginTop="5dp"
+                android:textColor="@android:color/white"/>
+
+        </LinearLayout>
         <EditText
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/edit_bg"
             android:gravity="center"
+            android:layout_gravity="center"
             android:id="@+id/neck"
             android:digits="1234567890"
             android:inputType="number|phone"
@@ -208,6 +243,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_gravity="center"
+
             android:text="@string/cm"
             android:textSize="20sp"
             android:gravity="center"
@@ -262,7 +299,19 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
-        android:text="hahahhaahahahhahaahahahah"/>
+        android:text="@string/sport_low"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/sport_middle"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/sport_high"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -48,6 +48,7 @@ import com.example.asus_pc.trainer.LoginActivity;
 import com.example.asus_pc.trainer.Me_Activty.BFRActivity;
 import com.example.asus_pc.trainer.Me_Activty.BMIActivity;
 import com.example.asus_pc.trainer.Me_Activty.BMRActivity;
+import com.example.asus_pc.trainer.Me_Activty.Train_LogActivity;
 import com.example.asus_pc.trainer.Me_Activty.UserMsgActivity;
 import com.example.asus_pc.trainer.Me_Activty.WhtrActivity;
 import com.example.asus_pc.trainer.R;
@@ -76,7 +77,7 @@ import static cn.bmob.v3.Bmob.getFilesDir;
 public class fragment_me extends Fragment {
     private TextView user_ID, trainer_ID;
     private View mView;
-    private Button logout, change_account, BMI, BFR, BMR, whtr, choosePhoto, takePhoto, cancel, Msg;
+    private Button logout, change_account, BMI, BFR, BMR, whtr, choosePhoto, takePhoto, cancel, Msg, train_log;
     private ImageButton user_compile;
     private CircleImageView user_protrait;
     private Dialog dialog;
@@ -125,6 +126,7 @@ public class fragment_me extends Fragment {
         user_protrait = mView.findViewById(R.id.user_portrait);
         user_compile = mView.findViewById(R.id.user_compile);
         Msg = mView.findViewById(R.id.Msg);
+        train_log = mView.findViewById(R.id.train_log);
 
         user_ID = mView.findViewById(R.id.user_ID); //昵称
         trainer_ID = mView.findViewById(R.id.trainer_ID);  //用户名
@@ -431,6 +433,12 @@ public class fragment_me extends Fragment {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getActivity(), WhtrActivity.class));
+            }
+        });
+        train_log.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), Train_LogActivity.class));
             }
         });
     }

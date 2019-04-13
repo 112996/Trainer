@@ -2,6 +2,7 @@ package com.example.asus_pc.trainer.Me_Activty;
 
 import android.app.Activity;
 import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,6 +11,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.ConditionVariable;
 import android.os.IInterface;
+import android.os.strictmode.WebViewMethodCalledOnWrongThreadViolation;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +20,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.HeaderViewListAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -38,6 +42,7 @@ public class BMIActivity extends Activity {
     private boolean isFirst_click = true;
     private DBHelper userDBHelper;
     private SQLiteDatabase mSQL;
+    private String woman = "女", man = "男";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +52,9 @@ public class BMIActivity extends Activity {
         ActivityCollector.addActivity(this);
 
         initView();
+
+        userDBHelper = new DBHelper(getApplicationContext());
+        mSQL = userDBHelper.getWritableDatabase();
         showConfig();
         click();
     }
@@ -82,15 +90,25 @@ public class BMIActivity extends Activity {
                     getWindow().getDecorView().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            double hh = Double.valueOf(height.getText().toString());
-                            double h = hh * 0.01;
-                            double w = Double.valueOf(weight.getText().toString());
-                            double res = w / (h * h);
-                            double value = new BigDecimal(res).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                            String bmi = "" + value;
-                            bmi_res.setText(String.valueOf(value));
-                            bmi_res.setTextSize(25);
-                            sWeight();
+                            String hfromheight = height.getText().toString();
+                            String wfromweight = weight.getText().toString();
+                            if (hfromheight.isEmpty() || wfromweight.isEmpty()){
+                                ToastShow b = new ToastShow();
+                                b.toastShow(BMIActivity.this,"数据为空");
+                            }else {
+                                double hh = Double.valueOf(height.getText().toString());
+                                double h = hh * 0.01;
+                                double w = Double.valueOf(weight.getText().toString());
+                                double res = w / (h * h);
+                                double value = new BigDecimal(res).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                                String bmi = "" + value;
+                                bmi_res.setText(String.valueOf(value));
+                                bmi_res.setTextSize(25);
+                                sWeight();
+                                saveBMIToSP(bmi);
+                                saveBMIToSQL(bmi);
+                            }
+
                         }
                     }, 2000);
                 }
@@ -115,13 +133,11 @@ public class BMIActivity extends Activity {
         }
         double value = new BigDecimal(sWeight).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         ideal_weight.setText(String.valueOf(value));
-    }
 
+    }
 
     public void showConfig() {
 
-        userDBHelper = new DBHelper(getApplicationContext());
-        mSQL = userDBHelper.getReadableDatabase();
         Cursor cursor = mSQL.query(DBHelper.TABLE_NAME, null, null, null, null, null, null);
         if (cursor != null) {
             cursor.moveToLast();
@@ -129,6 +145,7 @@ public class BMIActivity extends Activity {
                 String AGE = cursor.getString(cursor.getColumnIndex("Age"));
                 String HEIGHT = cursor.getString(cursor.getColumnIndex("Height"));
                 String WEIGHT = cursor.getString(cursor.getColumnIndex("Weight"));
+                String SEX= cursor.getString(cursor.getColumnIndex("Sex"));
                 if (AGE.isEmpty() || HEIGHT.isEmpty() || WEIGHT.isEmpty()) {
                     ToastShow b = new ToastShow();
                     b.toastShow(BMIActivity.this, "请前往设置界面完善个人信息！");
@@ -136,9 +153,27 @@ public class BMIActivity extends Activity {
                     age.setText(AGE);
                     height.setText(HEIGHT);
                     weight.setText(WEIGHT);
+                    if (SEX.equals(woman)){
+                        sex.setChecked(true);
+                    }else {
+                        sex.setChecked(false);
+                    }
                 }
                 cursor.close();
             }
         }
     }
+
+    private void saveBMIToSP(String bmi){
+        SharedPreferences sharedPreferences = getSharedPreferences("config",MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("BMI", bmi);
+        editor.commit();
+    }
+    private void saveBMIToSQL(String bmi){
+        ContentValues cv = new ContentValues();
+        cv.put("BMI", bmi);
+        mSQL.insert(DBHelper.TABLE_NAME_ARGS, null, cv);
+    }
+
 }

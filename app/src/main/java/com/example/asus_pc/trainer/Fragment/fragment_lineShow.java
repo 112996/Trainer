@@ -14,6 +14,7 @@ import android.widget.Button;
 
 import com.example.asus_pc.trainer.DBHelper;
 import com.example.asus_pc.trainer.R;
+import com.example.asus_pc.trainer.ToastShow;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,20 +37,17 @@ import lecho.lib.hellocharts.view.LineChartView;
 public class fragment_lineShow extends Fragment implements View.OnClickListener {
     private Button line_weight, line_BMI, line_BFR, line_BMR, line_Whtr;
     private LineChartView lineChartView;
-    String[] date = {"周一", "周二", "周三", "周四", "周五", "周六", "周日"};//X轴的标注
-    int[] weather = new int[]{1, 2, 3, 5, 8, 6, 3};
-    int[] score = {50, 42, 90, 33, 10, 74, 22};//图表的数据点
+    private View mView;
+    String[] X_values = {"周一", "周二", "周三", "周四", "周五", "周六", "周日"};//X轴的标注
+    String[] Y_values = {"0, 10, 20, 30, 40, 50, 60, 70, 80, 90"};
     private List<PointValue> mPointValues = new ArrayList<PointValue>();
     private List<AxisValue> mAxisXvalues = new ArrayList<AxisValue>();
+    private List<AxisValue> mAxisYvalues = new ArrayList<>();
 
     private DBHelper dbHelper;
     private SQLiteDatabase mSQL;
     private ArrayList<String> weightList = new ArrayList<String>();
-    String[] user_weight = {};
-
     private Boolean isFirstSearch = true;
-
-    private View mView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -79,6 +77,7 @@ public class fragment_lineShow extends Fragment implements View.OnClickListener 
         line_weight.setOnClickListener(this);
 
         getAxisXlables();//获取X轴的标注
+        getAxisYlables();//获取Y轴的标注
         getAxisPoints();//获取坐标点
         initLineChart();//初始化lineChartView
 
@@ -86,25 +85,28 @@ public class fragment_lineShow extends Fragment implements View.OnClickListener 
     }
 
     /**
-     * 设置X轴的显示
+     * 设置X轴上的值
      */
     private void getAxisXlables() {
-        for (int i = 0; i < date.length; i++) {
-            mAxisXvalues.add(new AxisValue(i).setLabel(date[i]));
+        for (int i = 0; i < X_values.length; i++) {
+            mAxisXvalues.add(new AxisValue(i).setLabel(X_values[i]));
+        }
+    }
+
+    /**
+     * 设置Y轴上的值
+     */
+    private void getAxisYlables() {
+        for (int i = 0; i < Y_values.length; i++) {
+            mAxisYvalues.add(new AxisValue(i).setLabel(Y_values[i]));
         }
     }
 
     /**
      * 图表每个点的显示
      */
-    private void getAxisPoints() {
+    private void   getAxisPoints() {
 
-        //测试数据
-        /*for (int i = 0; i < weather.length; i++) {
-            mPointValues.add(new PointValue(i, weather[i]));
-        }*/
-
-        //从数据库拿数据
         if (isFirstSearch) {
             Cursor cursor = mSQL.query(DBHelper.TABLE_NAME, null, null, null, null, null, null);
             if (cursor != null && cursor.getCount() > 0) {
@@ -129,7 +131,7 @@ public class fragment_lineShow extends Fragment implements View.OnClickListener 
         line.setCubic(false);//曲线是否平滑，即是曲线还是折线
         line.setFilled(false);//是否填充曲线的面积
         line.setHasLabels(true);//曲线的数据坐标是否加上备注
-//      line.setHasLabelsOnlyForSelected(true);//点击数据坐标提示数据（设置了这个line.setHasLabels(true);就无效）
+        line.setHasLabelsOnlyForSelected(true);//点击数据坐标提示数据（设置了这个line.setHasLabels(true);就无效）
         line.setHasLines(true);//是否用线显示。如果为false 则没有曲线只有点显示
         line.setHasPoints(true);//是否显示圆点 如果为false 则没有原点只有点显示（每个数据点都是个大的圆点）
         lines.add(line);
@@ -148,11 +150,12 @@ public class fragment_lineShow extends Fragment implements View.OnClickListener 
         //data.setAxisXTop(axisX);  //x 轴在顶部
         axisX.setHasLines(true); //x 轴分割线
 
-        // Y轴是根据数据的大小自动设置Y轴上限(在下面我会给出固定Y轴数据个数的解决方案)
+        // Y轴是根据数据的大小自动设置Y轴上限
         Axis axisY = new Axis();  //Y轴
-        axisY.setName("");//y轴标注
+        axisY.setName("重量");//y轴标注
         axisY.setTextSize(10);//设置字体大小
         data.setAxisYLeft(axisY);  //Y轴设置在左边
+        axisY.setValues(mAxisYvalues);
         //data.setAxisYRight(axisY);  //y轴设置在右边
 
 
@@ -179,28 +182,45 @@ public class fragment_lineShow extends Fragment implements View.OnClickListener 
         ((ViewGroup) mView.getParent()).removeView(mView);
     }
 
-    /**
-     * 更改
-     */
-    private void clickBFR() {
-        for (int i = 0; i < score.length; i++) {
-            mPointValues.add(new PointValue(i, weather[i]));
-        }
-    }
-
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.line_BFR:
-                clickBFR();
-                //initLineChart();
+                Cursor cursor_BFR = mSQL.query(DBHelper.TABLE_NAME_ARGS, null, null, null, null, null, null);
+                if (cursor_BFR != null && cursor_BFR.getCount() > 0) {
+
+                } else {
+                    ToastShow t = new ToastShow();
+                    t.toastShow(getActivity(), "请先到个人中心完善数据");
+                }
                 break;
             case R.id.line_BMI:
+                Cursor cursor_BMI = mSQL.query(DBHelper.TABLE_NAME_ARGS, null, null, null, null, null, null);
+                if (cursor_BMI != null && cursor_BMI.getCount() > 0) {
+
+                } else {
+                    ToastShow t = new ToastShow();
+                    t.toastShow(getActivity(), "请先到个人中心完善数据");
+                }
                 break;
             case R.id.line_BMR:
+                Cursor cursor_BMR = mSQL.query(DBHelper.TABLE_NAME_ARGS, null, null, null, null, null, null);
+                if (cursor_BMR != null && cursor_BMR.getCount() > 0) {
+
+                } else {
+                    ToastShow t = new ToastShow();
+                    t.toastShow(getActivity(), "请先到个人中心完善数据");
+                }
                 break;
             case R.id.line_Whtr:
+                Cursor cursor_Whtr = mSQL.query(DBHelper.TABLE_NAME_ARGS, null, null, null, null, null, null);
+                if (cursor_Whtr != null && cursor_Whtr.getCount() > 0) {
+
+                } else {
+                    ToastShow t = new ToastShow();
+                    t.toastShow(getActivity(), "请先到个人中心完善数据");
+                }
                 break;
             default:
                 break;

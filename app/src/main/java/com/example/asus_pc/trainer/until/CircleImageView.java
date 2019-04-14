@@ -1,4 +1,4 @@
-package com.example.asus_pc.trainer;
+package com.example.asus_pc.trainer.until;
 
 import android.support.v7.widget.AppCompatImageView;
 import android.content.Context;
@@ -16,6 +16,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.util.AttributeSet;
+
+import com.example.asus_pc.trainer.R;
 
 public class CircleImageView extends AppCompatImageView{
     private static final ScaleType SCALE_TYPE = ScaleType.CENTER_CROP;

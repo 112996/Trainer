@@ -1,25 +1,23 @@
-package com.example.asus_pc.trainer;
+package com.example.asus_pc.trainer.activities;
 
 import android.Manifest;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.provider.SyncStateContract;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.asus_pc.trainer.Me_Activty.BMIActivity;
+import com.example.asus_pc.trainer.db.DBHelper;
+import com.example.asus_pc.trainer.bean.MyUsers;
 import com.example.asus_pc.trainer.R;
+import com.example.asus_pc.trainer.until.ToastShow;
 import com.example.asus_pc.trainer.until.ActivityCollector;
 import com.example.asus_pc.trainer.until.BaseCompatActivity;
 import com.jaeger.library.StatusBarUtil;
@@ -102,7 +100,6 @@ public class RegisterActivity extends BaseCompatActivity {
                 saveUserID_Ps();
                 saveUserMsgToSP();
                 EnterLineActvity();
-
 
             }
         });

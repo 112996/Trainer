@@ -8,22 +8,36 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.EditText;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.example.asus_pc.trainer.DBHelper;
-import com.example.asus_pc.trainer.LineShowActivity;
+import com.example.asus_pc.trainer.db.DBHelper;
+import com.example.asus_pc.trainer.activities.LineShowActivity;
+import com.example.asus_pc.trainer.bean.MyUsers;
 import com.example.asus_pc.trainer.R;
+import com.example.asus_pc.trainer.until.ToastShow;
+import com.example.asus_pc.trainer.bean.User_Args;
 import com.example.asus_pc.trainer.until.ActivityCollector;
 import com.jaeger.library.StatusBarUtil;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.SaveListener;
+
 public class BMRActivity extends Activity {
-    private ImageButton bmr_back_btn;
     private TextView mAge, mHeight, mWeight, bmr_res, kll_range;
     private CheckBox sex;
     private RadioGroup mSport;
@@ -32,13 +46,15 @@ public class BMRActivity extends Activity {
     private SQLiteDatabase mSQL, mSQL2;
     private String man = "男", woman = "女";
     private String Rbtn_high = "高", Rbtn_middle = "中", Rbtn_low = "低";
+    private String SEX, t;
+    private List list_t = new ArrayList();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bmr);
-        StatusBarUtil.setColor(BMRActivity.this, Color.parseColor("#2D374C"),0);
+        StatusBarUtil.setColor(BMRActivity.this, Color.parseColor("#2D374C"), 0);
         ActivityCollector.addActivity(this);
 
         userDBHelper = new DBHelper(getApplicationContext());
@@ -46,6 +62,8 @@ public class BMRActivity extends Activity {
         initView();
         showConfig();
         click();
+        searchBmob();
+        checkBoxListener();
     }
 
     private void initView() {
@@ -59,14 +77,14 @@ public class BMRActivity extends Activity {
         low = findViewById(R.id.Rlow);
         bmr_res = findViewById(R.id.bmr_res);
         kll_range = findViewById(R.id.kll_range);
-        bmr_back_btn = findViewById(R.id.bmr_back_btn);
-        bmr_back_btn.setOnClickListener(new View.OnClickListener() {
+    }
+
+    private void checkBoxListener() {
+        sex.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View view) {
-                Intent i = new Intent(BMRActivity.this, LineShowActivity.class);
-                i.putExtra("id", 2);
-                startActivity(i);
-                finish();
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                ToastShow toastShow = new ToastShow();
+                toastShow.toastShow(BMRActivity.this, "您现在是" + SEX + "生，别乱改！");
             }
         });
     }
@@ -74,27 +92,27 @@ public class BMRActivity extends Activity {
     /**
      * 从数据库中获取数据显示在EditText中
      */
-    public void showConfig(){
+    public void showConfig() {
 
         mSQL = userDBHelper.getReadableDatabase();
-        Cursor cursor = mSQL.query(DBHelper.TABLE_NAME, null,null, null, null, null, null);
-        if (cursor != null && cursor.getCount() > 0){
+        Cursor cursor = mSQL.query(DBHelper.TABLE_NAME, null, null, null, null, null, null);
+        if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToLast();
             mAge.setText(cursor.getString(cursor.getColumnIndex("Age")));
             mHeight.setText(cursor.getString(cursor.getColumnIndex("Height")));
             mWeight.setText(cursor.getString(cursor.getColumnIndex("Weight")));
-            String SEX = cursor.getString(cursor.getColumnIndex("Sex"));
-            if (SEX.equals(woman)){
+            SEX = cursor.getString(cursor.getColumnIndex("Sex"));
+            if (SEX.equals(woman)) {
                 sex.setChecked(true);
-            }else {
+            } else {
                 sex.setChecked(false);
             }
             String Sports = cursor.getString(cursor.getColumnIndex("Sport"));
-            if (Sports.equals(Rbtn_high)){
+            if (Sports.equals(Rbtn_high)) {
                 high.setChecked(true);
-            }else if (Sports.equals(Rbtn_middle)){
+            } else if (Sports.equals(Rbtn_middle)) {
                 middle.setChecked(true);
-            }else if (Sports.equals(Rbtn_low)){
+            } else if (Sports.equals(Rbtn_low)) {
                 low.setChecked(true);
             }
             cursor.close();
@@ -102,44 +120,43 @@ public class BMRActivity extends Activity {
     }
 
     /**
-     * 点击获取结果
+     * 获取结果
      */
-    public void click(){
+    public void click() {
         //BMR（男）=（13.7×体重（公斤））+（5.0×身高（公分））-（6.8×年龄）+66
         //BMR（女）=（9.6×体重（公斤））+（1.8×身高（公分））-（4.7×年龄）+655
-        SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
-        String weight = sharedPreferences.getString("weight", "");
-        String height = sharedPreferences.getString("height", "");
-        String age = sharedPreferences.getString("age", "");
+        String weight = mWeight.getText().toString();
+        String height = mHeight.getText().toString();
+        String age = mAge.getText().toString();
         Double bmr;
-        if (sex.isChecked()){
-             bmr = ((9.6 * Double.valueOf(weight)) + (1.8 * Double.valueOf(height))) - (4.7 * Double.valueOf(age)) + 655;
-        }else{
-             bmr = ((13.7 * Double.valueOf(weight)) + (5.0 * Double.valueOf(height))) - (6.8 * Double.valueOf(age)) + 66;
+        if (sex.isChecked()) {
+            bmr = ((9.6 * Double.valueOf(weight)) + (1.8 * Double.valueOf(height))) - (4.7 * Double.valueOf(age)) + 655;
+        } else {
+            bmr = ((13.7 * Double.valueOf(weight)) + (5.0 * Double.valueOf(height))) - (6.8 * Double.valueOf(age)) + 66;
         }
-
 
         //少量运动（每周1-3天轻量运动）：卡路里 = BMR × 1.375
         //中等运动量（每周3-5天中等程度运动）：卡路里 =  BMR × 1.55
         //高运动量（每周6-7天高强度运动）：卡路里 = BMR × 1.725
-        Double KLL_low, KLL_high ;
+        Double KLL_low, KLL_high;
         KLL_low = bmr * 1.375;
         KLL_high = bmr * 1.725;
 
         bmr_res.setText(String.valueOf(bmr) + "kcal");
-        kll_range.setText(String.valueOf(KLL_low)+"-"+String.valueOf(KLL_high)+"Kcal");
+        kll_range.setText(String.valueOf(KLL_low) + "-" + String.valueOf(KLL_high) + "Kcal");
         saveBMRToSP(String.valueOf(bmr));
         saveAllToSQL();
+
     }
 
-    private void saveBMRToSP(String bmr){
+    private void saveBMRToSP(String bmr) {
         SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("BMR", bmr);
         editor.commit();
     }
 
-    private void saveAllToSQL(){
+    private void saveAllToSQL() {
         SharedPreferences s = getSharedPreferences("config", MODE_PRIVATE);
         String bmi = s.getString("BMI", "");
         String whtr = s.getString("Whtr", "");
@@ -147,11 +164,75 @@ public class BMRActivity extends Activity {
         String bmr = s.getString("BMR", "");
         mSQL2 = userDBHelper.getWritableDatabase();
         ContentValues cv = new ContentValues();
-        cv.put("BMI",bmi);
+        cv.put("BMI", bmi);
         cv.put("Whtr", whtr);
         cv.put("BFR", bfr);
         cv.put("BMR", bmr);
         mSQL2.insert(DBHelper.TABLE_NAME_ARGS, null, cv);
     }
-}
 
+    /**
+     * 到服务器
+     */
+    private void saveToBmob() {
+
+        SharedPreferences s = getSharedPreferences("config", MODE_PRIVATE);
+        String bmi = s.getString("BMI", "");
+        String whtr = s.getString("Whtr", "");
+        String bfr = s.getString("BFR", "");
+        String bmr = s.getString("BMR", "");
+        if (bmi.isEmpty() || whtr.isEmpty() || bfr.isEmpty() || bmr.isEmpty()) {
+            ToastShow t = new ToastShow();
+            t.toastShow(this, "还没有完善数据哦");
+        }
+        User_Args user_args = new User_Args();
+        user_args.setBfr(bfr);
+        user_args.setBmi(bmi);
+        user_args.setBmr(bmr);
+        user_args.setWhtr(whtr);
+        user_args.setAuthor(BmobUser.getCurrentUser(MyUsers.class));
+        user_args.save(new SaveListener<String>() {
+            @Override
+            public void done(String s, BmobException e) {
+                if (e == null) {
+                    Log.d("saveToBmob", "okokokokoko");
+                } else {
+                    Log.e("saveToBmob", e.toString());
+                }
+            }
+        });
+    }
+
+    private void searchBmob() {
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date(System.currentTimeMillis());
+        final String time = simpleDateFormat.format(date);
+
+        BmobQuery<User_Args> query_other = new BmobQuery<>();
+        query_other.addWhereEqualTo("author", BmobUser.getCurrentUser(MyUsers.class));
+        query_other.order("-updatedAt");
+        //包含作者信息
+        query_other.include("author");
+        query_other.findObjects(new FindListener<User_Args>() {
+
+            @Override
+            public void done(List<User_Args> object, BmobException e) {
+
+                if (e == null) {
+                    for (User_Args user_Args : object) {
+                        if (user_Args.getBmi().isEmpty() && user_Args.getBfr().isEmpty() && user_Args.getWhtr().isEmpty() && user_Args.getBmr().isEmpty()) {
+                            Log.e("数据不全", "数据不全");
+                        } else {
+                            list_t.add(user_Args.getUpdatedAt());
+                        }
+                    }
+                    t = list_t.get(0).toString().substring(0, list_t.get(0).toString().indexOf(" "));
+                    if (!t.equals(time)){
+                        saveToBmob();
+                    }
+                }
+            }
+        });
+    }
+}

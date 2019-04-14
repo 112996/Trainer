@@ -1,4 +1,4 @@
-package com.example.asus_pc.trainer;
+package com.example.asus_pc.trainer.bean;
 
 public class UsersMsg {
     public String age;

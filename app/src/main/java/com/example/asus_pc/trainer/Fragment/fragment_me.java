@@ -4,12 +4,10 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -20,16 +18,14 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
-import android.support.v4.graphics.PathUtils;
 import android.util.Base64;
 import android.util.Log;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,9 +38,11 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.asus_pc.trainer.CircleImageView;
-import com.example.asus_pc.trainer.DBHelper;
-import com.example.asus_pc.trainer.LoginActivity;
+import com.example.asus_pc.trainer.MyApplication;
+import com.example.asus_pc.trainer.MySingleton;
+import com.example.asus_pc.trainer.bean.MyUsers;
+import com.example.asus_pc.trainer.until.CircleImageView;
+import com.example.asus_pc.trainer.db.DBHelper;
 import com.example.asus_pc.trainer.Me_Activty.BFRActivity;
 import com.example.asus_pc.trainer.Me_Activty.BMIActivity;
 import com.example.asus_pc.trainer.Me_Activty.BMRActivity;
@@ -52,32 +50,33 @@ import com.example.asus_pc.trainer.Me_Activty.Train_LogActivity;
 import com.example.asus_pc.trainer.Me_Activty.UserMsgActivity;
 import com.example.asus_pc.trainer.Me_Activty.WhtrActivity;
 import com.example.asus_pc.trainer.R;
-import com.example.asus_pc.trainer.ToastShow;
+import com.example.asus_pc.trainer.until.ToastShow;
 import com.example.asus_pc.trainer.until.ActivityCollector;
+import com.example.asus_pc.trainer.until.CleanCache;
 import com.example.asus_pc.trainer.until.DisplayUtil;
-import com.example.asus_pc.trainer.until.FileUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import butterknife.ButterKnife;
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.UpdateListener;
 import io.reactivex.annotations.Nullable;
 
 import static android.content.Context.MODE_PRIVATE;
-import static android.content.Context.RECEIVER_VISIBLE_TO_INSTANT_APPS;
 import static cn.bmob.v3.Bmob.getAllTableSchema;
 import static cn.bmob.v3.Bmob.getFilesDir;
 
 
 public class fragment_me extends Fragment {
-    private TextView user_ID, trainer_ID;
+    private TextView user_ID, trainer_ID, cache;
     private View mView;
-    private Button logout, change_account, BMI, BFR, BMR, whtr, choosePhoto, takePhoto, cancel, Msg, train_log;
+    private Button logout, clear_cache, BMI, BFR, BMR, whtr, choosePhoto, takePhoto, cancel, Msg, train_log;
     private ImageButton user_compile;
     private CircleImageView user_protrait;
     private Dialog dialog;
@@ -89,6 +88,21 @@ public class fragment_me extends Fragment {
     public final int CODE_SELECT_IMAGE = 2;//相册RequestCode
     private DBHelper mDBHelper;
     private SQLiteDatabase mSQL, mSQL2;
+
+    public Handler handler = new Handler() {
+
+        public void handleMessage(android.os.Message msg) {
+            switch (msg.what) {
+                case 0:
+                    Toast.makeText(getActivity(), "清理完成", Toast.LENGTH_SHORT).show();
+                    try {
+                        cache.setText(CleanCache.getTotalCacheSize(getActivity()));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+            }
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -110,7 +124,6 @@ public class fragment_me extends Fragment {
         init();
         startToActivity();
         logout();
-        change_account();
     }
 
     /**
@@ -118,7 +131,8 @@ public class fragment_me extends Fragment {
      */
     private void init() {
         logout = mView.findViewById(R.id.logout);
-        change_account = mView.findViewById(R.id.change_account);
+        clear_cache = mView.findViewById(R.id.clear_cache);
+        cache = mView.findViewById(R.id.cache);
         BMI = mView.findViewById(R.id.BMI);
         BFR = mView.findViewById(R.id.BFR);
         BMR = mView.findViewById(R.id.BMR);
@@ -128,27 +142,43 @@ public class fragment_me extends Fragment {
         Msg = mView.findViewById(R.id.Msg);
         train_log = mView.findViewById(R.id.train_log);
 
+        try {
+            cache.setText(CleanCache.getTotalCacheSize(getActivity()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        clear_cache.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new Thread(new Clean()).start();
+            }
+        });
+
+        //进入应用时的user_id和trainer号
         user_ID = mView.findViewById(R.id.user_ID); //昵称
         trainer_ID = mView.findViewById(R.id.trainer_ID);  //用户名
-        Cursor cursor = mSQL.query(DBHelper.TABLE_NAME_USER, null, null, null, null, null, null);
-        if (cursor != null) {
-            cursor.moveToLast();
+        SharedPreferences preferences = getActivity().getSharedPreferences("UserMsg", MODE_PRIVATE);
+        String trainer_ID_name = preferences.getString("user_id", "");
+        if (trainer_ID_name != null) {
+            if (!trainer_ID_name.isEmpty()) {
+                Log.e("trainer号", trainer_ID_name);
+                trainer_ID.setText("trainer号：" + trainer_ID_name);
+
+            } else {
+                Log.e("trainer号", "为空");
+            }
         }
-        if (cursor.getCount() != 0) {
-
-            String user_id = cursor.getString(cursor.getColumnIndex("User_ID"));
-            trainer_ID.setText("Trainer号：" + user_id);  //从数据库读取并显示
-
-            String nickname = cursor.getString(cursor.getColumnIndex("Nickname"));
-            if (nickname == null) {
+        String nickName = preferences.getString("nickname", "");
+        if (nickName != null) {
+            if (!nickName.isEmpty()) {
+                Log.e("user_ID", nickName);
+                user_ID.setText(nickName);
+            } else {
+                Log.e("user_ID", "为空");
                 user_ID.setText("昵称");
             }
-            user_ID.setText(nickname);
-            cursor.close();
-        } else {
-            user_ID.setText("昵称");
-            trainer_ID.setText("Trainer号：");
         }
+
 
         //头像显示
         SharedPreferences s = getActivity().getSharedPreferences("UserMsg", MODE_PRIVATE);
@@ -214,26 +244,12 @@ public class fragment_me extends Fragment {
                     public void onClick(View view) {
                         if (!input_ID.getText().toString().isEmpty()) {
                             user_ID.setText(input_ID.getText().toString()); //显示昵称
-                            //将用户信息先读出来
-                            Cursor cursor = mSQL.query(DBHelper.TABLE_NAME_USER, null, null, null, null, null, null);
-                            if (cursor != null) {
-                                cursor.moveToLast();
-                            } else {
-                                return;
-                            }
-                            if (cursor.getCount() != 0) {
-                                String user_id = cursor.getString(cursor.getColumnIndex("User_ID"));
-                                String passwd = cursor.getString(cursor.getColumnIndex("PassWd"));
-                                String tel = cursor.getString(cursor.getColumnIndex("Tel"));
-                                //将修改的昵称存入数据库
-                                ContentValues contentValues = new ContentValues();
-                                contentValues.put("Nickname", input_ID.getText().toString());
-                                contentValues.put("User_ID", user_id);
-                                contentValues.put("PassWd", passwd);
-                                contentValues.put("Tel", tel);
-                                mSQL2.insert(DBHelper.TABLE_NAME_USER, null, contentValues);
-                            }
 
+                            SharedPreferences preferences1 = getActivity().getSharedPreferences("UserMsg", MODE_PRIVATE);
+                            SharedPreferences.Editor editor = preferences1.edit();
+                            editor.putString("nickname", input_ID.getText().toString());
+                            editor.commit();
+                            updateUser(input_ID.getText().toString());
 
                         } else {
                             ToastShow ts = new ToastShow();
@@ -254,7 +270,6 @@ public class fragment_me extends Fragment {
             }
         });
     }
-
 
     /**
      * 底部显示选择
@@ -461,17 +476,6 @@ public class fragment_me extends Fragment {
         });
     }
 
-    /**
-     * 切换账号
-     */
-    private void change_account() {
-        change_account.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //startActivity(new Intent(getActivity(), LoginActivity.class));
-            }
-        });
-    }
 
     /**
      * 保存头像到数据库
@@ -488,6 +492,45 @@ public class fragment_me extends Fragment {
         ContentValues contentValues = new ContentValues();
         contentValues.put("Portrait_uri", img);
         mSQL2.insert(mDBHelper.TABLE_NAME_USER, null, contentValues);
+    }
+
+    /**
+     * 实现Runnable完成清空缓存
+     * 内部类
+     */
+    class Clean implements Runnable {
+        @Override
+        public void run() {
+            CleanCache.clearAllCache(getActivity());
+            try {
+                Thread.sleep(3000);
+                if (CleanCache.getTotalCacheSize(getActivity()).startsWith("0")) ;
+                handler.sendEmptyMessage(0);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * 更新保存nickname到服务器
+     * @param nickname
+     */
+    private void updateUser(String nickname){
+        MyUsers myUsers = BmobUser.getCurrentUser(MyUsers.class);
+        myUsers.setNickname(nickname);
+        myUsers.update(new UpdateListener() {
+            @Override
+            public void done(BmobException e) {
+                if (e == null){
+                    Log.e("更新成功", "success");
+                }else {
+                    Log.e("更新失败", e.toString());
+                }
+            }
+        });
     }
 
 

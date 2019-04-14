@@ -1,12 +1,8 @@
 package com.example.asus_pc.trainer.until;
 
 import android.app.Activity;
-import android.content.Intent;
-
-import com.example.asus_pc.trainer.MainActivity;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ActivityCollector {
     private ActivityCollector() {

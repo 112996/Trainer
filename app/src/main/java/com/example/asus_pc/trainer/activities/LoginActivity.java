@@ -1,8 +1,7 @@
-package com.example.asus_pc.trainer;
+package com.example.asus_pc.trainer.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -13,8 +12,8 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.asus_pc.trainer.Me_Activty.BMIActivity;
 import com.example.asus_pc.trainer.R;
+import com.example.asus_pc.trainer.until.ToastShow;
 import com.example.asus_pc.trainer.until.ActivityCollector;
 import com.example.asus_pc.trainer.until.BaseCompatActivity;
 import com.jaeger.library.StatusBarUtil;
@@ -73,6 +72,7 @@ public class LoginActivity extends BaseCompatActivity {
                         ToastShow b = new ToastShow();
                         if (e == null) {
                             b.toastShow(LoginActivity.this, "登录成功");
+                            saveUserMsgToSP();
                             startActivity(new Intent(LoginActivity.this, LineShowActivity.class));
                             finish();
                         } else {
@@ -81,7 +81,6 @@ public class LoginActivity extends BaseCompatActivity {
                         }
                     }
                 });
-                saveUserMsgToSP();
             }
         });
 
@@ -103,6 +102,7 @@ public class LoginActivity extends BaseCompatActivity {
         editor.putString("user_id", user);
         editor.putString("user_pass", pass);
         editor.commit();
+        Log.e("存储成功", user+pass);
     }
 }
 

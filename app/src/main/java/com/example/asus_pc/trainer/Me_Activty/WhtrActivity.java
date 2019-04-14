@@ -1,43 +1,38 @@
 package com.example.asus_pc.trainer.Me_Activty;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.database.CursorIndexOutOfBoundsException;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.example.asus_pc.trainer.DBHelper;
-import com.example.asus_pc.trainer.LineShowActivity;
+import com.example.asus_pc.trainer.db.DBHelper;
+import com.example.asus_pc.trainer.activities.LineShowActivity;
 import com.example.asus_pc.trainer.R;
-import com.example.asus_pc.trainer.ToastShow;
+import com.example.asus_pc.trainer.until.ToastShow;
 import com.example.asus_pc.trainer.until.ActivityCollector;
 import com.jaeger.library.StatusBarUtil;
 
 import java.math.BigDecimal;
-import java.nio.file.FileAlreadyExistsException;
 
 public class WhtrActivity extends Activity {
-    private ImageButton whtr_back_btn;
     private TextView mHeight, mWaist, mAge;
     private Button whtr_res;
     private TextView waistline;
     private CheckBox sex;
     private boolean isFirstClick = true;
     private DBHelper userDBHelper;
-    private SQLiteDatabase mSQL, mSQL2;
+    private SQLiteDatabase mSQL;
     private String woman = "女", man = "男";
+    private String SEX;
 
 
     @Override
@@ -54,6 +49,7 @@ public class WhtrActivity extends Activity {
         initView();
         showConfig();
         click();
+        checkBoxListener();
 
     }
 
@@ -65,18 +61,16 @@ public class WhtrActivity extends Activity {
         sex = findViewById(R.id.sex);
         whtr_res = findViewById(R.id.whtr_res);
         waistline = findViewById(R.id.waistline);
+    }
 
-        whtr_back_btn = findViewById(R.id.whtr_back_btn);
-        whtr_back_btn.setOnClickListener(new View.OnClickListener() {
+    private void checkBoxListener(){
+        sex.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View view) {
-                Intent i = new Intent(WhtrActivity.this, LineShowActivity.class);
-                i.putExtra("id", 2);
-                startActivity(i);
-                finish();
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                ToastShow toastShow = new ToastShow();
+                toastShow.toastShow(WhtrActivity.this, "您现在是"+SEX+"生，别乱改！");
             }
         });
-
     }
 
     /**
@@ -137,7 +131,7 @@ public class WhtrActivity extends Activity {
             mAge.setText(cursor.getString(cursor.getColumnIndex("Age")));
             mHeight.setText(cursor.getString(cursor.getColumnIndex("Height")));
             mWaist.setText(cursor.getString(cursor.getColumnIndex("Waist")));
-            String SEX = cursor.getString(cursor.getColumnIndex("Sex"));
+            SEX = cursor.getString(cursor.getColumnIndex("Sex"));
             if (SEX.equals(woman)) {
                 sex.setChecked(true);
             } else {

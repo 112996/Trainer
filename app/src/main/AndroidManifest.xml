@@ -22,11 +22,12 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/app_icon"
+        android:name=".MyApplication"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/ImageTranslucentTheme">
         <activity
-            android:name=".EnterActivity"
+            android:name=".activities.EnterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
@@ -36,18 +37,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".activities.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".RegisterActivity"
+            android:name=".activities.RegisterActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".LineShowActivity"
-            android:launchMode="singleInstance"
+            android:name=".activities.LineShowActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Me_Activty.BMIActivity"
@@ -67,7 +67,6 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name=".Me_Activty.UserMsgActivity"
-            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
@@ -81,8 +80,10 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".ForgetPasswdActivity" />
-        <activity android:name=".Me_Activty.Train_LogActivity"></activity>
+        <activity android:name=".activities.ForgetPasswdActivity" />
+        <activity android:name=".Me_Activty.Train_LogActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
     </application>
 
 </manifest>

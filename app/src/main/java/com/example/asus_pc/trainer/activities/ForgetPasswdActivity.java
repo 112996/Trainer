@@ -1,4 +1,4 @@
-package com.example.asus_pc.trainer;
+package com.example.asus_pc.trainer.activities;
 
 import android.Manifest;
 import android.content.Intent;
@@ -12,8 +12,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 
+import com.example.asus_pc.trainer.bean.MyUsers;
+import com.example.asus_pc.trainer.R;
+import com.example.asus_pc.trainer.until.ToastShow;
 import com.example.asus_pc.trainer.until.ActivityCollector;
 import com.jaeger.library.StatusBarUtil;
 
@@ -26,12 +28,7 @@ import cn.bmob.sms.listener.RequestSMSCodeListener;
 import cn.bmob.sms.listener.VerifySMSCodeListener;
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.FindListener;
-import cn.bmob.v3.listener.LogInListener;
-import cn.bmob.v3.listener.QueryListListener;
-import cn.bmob.v3.listener.QueryListener;
-import cn.bmob.v3.listener.SaveListener;
 import rx.Observable;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;

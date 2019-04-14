@@ -1,4 +1,4 @@
-package com.example.asus_pc.trainer;
+package com.example.asus_pc.trainer.db;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

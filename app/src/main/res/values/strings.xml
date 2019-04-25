@@ -14,7 +14,7 @@
     <string name="title_activity_line_show">LineShowActivity</string>
     <string name="lineShow">体重变化</string>
     <string name="me">我</string>
-    <string name="course">课程</string>
+    <string name="note">日志</string>
     <string name="less_20">&lt;20</string>
     <string name="more_40">&gt;40</string>
     <string name="more_0.63">&gt;0.63</string>

@@ -46,7 +46,7 @@ public class EnterActivity extends AppCompatActivity {
                 public void done(BmobUser bmobUser, BmobException e) {
                     ToastShow b = new ToastShow();
                     if (e == null) {
-                        b.toastShow(EnterActivity.this,"登录成功");
+                       // b.toastShow(EnterActivity.this,"登录成功");
                         startActivity(new Intent(EnterActivity.this, LineShowActivity.class));
                         finish();
                     } else {

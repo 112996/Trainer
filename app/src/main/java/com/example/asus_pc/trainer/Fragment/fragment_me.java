@@ -1,6 +1,7 @@
 package com.example.asus_pc.trainer.Fragment;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -13,6 +14,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -38,8 +40,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.asus_pc.trainer.MyApplication;
-import com.example.asus_pc.trainer.MySingleton;
+
 import com.example.asus_pc.trainer.bean.MyUsers;
 import com.example.asus_pc.trainer.until.CircleImageView;
 import com.example.asus_pc.trainer.db.DBHelper;
@@ -53,7 +54,6 @@ import com.example.asus_pc.trainer.R;
 import com.example.asus_pc.trainer.until.ToastShow;
 import com.example.asus_pc.trainer.until.ActivityCollector;
 import com.example.asus_pc.trainer.until.CleanCache;
-import com.example.asus_pc.trainer.until.DisplayUtil;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -61,7 +61,6 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import butterknife.ButterKnife;
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
@@ -69,8 +68,6 @@ import cn.bmob.v3.listener.UpdateListener;
 import io.reactivex.annotations.Nullable;
 
 import static android.content.Context.MODE_PRIVATE;
-import static cn.bmob.v3.Bmob.getAllTableSchema;
-import static cn.bmob.v3.Bmob.getFilesDir;
 
 
 public class fragment_me extends Fragment {
@@ -224,8 +221,10 @@ public class fragment_me extends Fragment {
         });
 
         user_compile.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("ResourceAsColor")
             @Override
             public void onClick(View view) {
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.DialogNobg);
                 View mView = View.inflate(getActivity(), R.layout.alertdialog_layout, null);
                 builder.setView(mView);
@@ -235,10 +234,10 @@ public class fragment_me extends Fragment {
                 Button btn_cancel = mView.findViewById(R.id.alertDialog_cancel);  //取消修改按钮
                 final AlertDialog dialog = builder.create();
                 dialog.show();
-                WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+                /*WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
                 params.height = DisplayUtil.px2dip(getActivity(), 4000);
                 params.width = DisplayUtil.px2dip(getActivity(), 3000);
-                dialog.getWindow().setAttributes(params);
+                dialog.getWindow().setAttributes(params);*/ //dialog的显示位置
                 btn_OK.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

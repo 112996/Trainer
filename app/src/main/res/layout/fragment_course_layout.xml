@@ -12,7 +12,6 @@
         android:background="#2D374C">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_height="50dp">
             <ImageView
@@ -25,6 +24,7 @@
                 android:layout_height="30dp"
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="10dp"
+                android:id="@+id/note_add"
                 android:background="@drawable/log_add"/>
         </RelativeLayout>
     </RelativeLayout>
@@ -33,8 +33,8 @@
     <!--中间总运动时长+总锻炼天数-->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginBottom="2dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
         android:layout_height="130dp"
@@ -64,7 +64,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:background="@drawable/log_total_times"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -72,8 +72,8 @@
                     android:text="5.00"
                     android:id="@+id/total_times"
                     android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp"
                     android:textSize="25sp"
                     android:textColor="#ffffff"/>
                 <TextView
@@ -101,7 +101,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="5dp"
                         android:layout_gravity="center"
                         android:background="@drawable/log_total_days"/>
                     <TextView
@@ -110,8 +110,8 @@
                         android:text="3"
                         android:id="@+id/total_days"
                         android:layout_gravity="center"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginBottom="6dp"
                         android:textSize="25sp"
                         android:textColor="#ffffff"/>
                     <TextView
@@ -131,7 +131,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="60dp"
         android:orientation="horizontal">
 
         <!--总跑步距离块-->
@@ -148,7 +148,7 @@
                 android:text="5.50"
                 android:id="@+id/total_run"
                 android:textColor="#ffffff"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="5dp"
                 android:textSize="22sp"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -172,7 +172,7 @@
                 android:text="110"
                 android:id="@+id/total_yangwo"
                 android:textColor="#ffffff"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="5dp"
                 android:textSize="22sp"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -197,7 +197,7 @@
                 android:textColor="#ffffff"
                 android:id="@+id/total_qixie"
                 android:textSize="22sp"
-                android:layout_marginBottom="10dp"/>
+                android:layout_marginBottom="5dp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -209,6 +209,11 @@
 
     </LinearLayout>
 
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/srl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -217,5 +222,5 @@
         android:scrollbars="none"
         android:dividerHeight="10pt"/>
 
-
+    </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

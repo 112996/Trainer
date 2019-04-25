@@ -41,7 +41,6 @@ public class WhtrActivity extends Activity {
         setContentView(R.layout.activity_whtr);
         StatusBarUtil.setColor(WhtrActivity.this, Color.parseColor("#2D374C"), 0);
 
-
         ActivityCollector.addActivity(this);
 
         userDBHelper = new DBHelper(getApplicationContext());

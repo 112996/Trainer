@@ -11,15 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.asus_pc.trainer.MyApplication;
 import com.example.asus_pc.trainer.R;
 import com.example.asus_pc.trainer.activities.AddNoteActivity;
-import com.example.asus_pc.trainer.adapter.Log_RecyAdapter;
 import com.example.asus_pc.trainer.adapter.TrainNoteAdapter;
 import com.example.asus_pc.trainer.bean.MyUsers;
 import com.example.asus_pc.trainer.bean.TrainNoteEntity;
@@ -30,9 +27,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
@@ -139,39 +133,6 @@ public class fragment_course extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-<<<<<<< HEAD
-        Map<String, String> map = new HashMap();
-        map.put("space","传奇健身房(成都店)");
-        map.put("date","2019-4-12");
-        map.put("time","1.00(h)");
-        map.put("length","2.00(km)");
-        map.put("yangwo","20(个)");
-        map.put("qixie","5(组)");
-        Map<String, String> map1 = new HashMap();
-        map1.put("space","传奇健身房(成都店)");
-        map1.put("date","2019-4-13");
-        map1.put("time","1.50(h)");
-        map1.put("length","2.00(km)");
-        map1.put("yangwo","40(个)");
-        map1.put("qixie","6(组)");
-        Map<String, String> map2 = new HashMap();
-        map2.put("space","传奇健身房(成都店)");
-        map2.put("date","2019-4-14");
-        map2.put("time","0.50(h)");
-        map2.put("length","2.00(km)");
-        map2.put("yangwo","20(个)");
-        map2.put("qixie","2(组)");
-        List<Map<String, String>> mDatas = new ArrayList<Map<String, String>>();
-           mDatas.add(map);
-           mDatas.add(map1);
-           mDatas.add(map2);
-
-
-        Log_RecyAdapter log_recyAdapter = new Log_RecyAdapter(MyApplication.mContext,mDatas );
-        logRecycler.setAdapter(log_recyAdapter);
-=======
-
->>>>>>> 日志模块
     }
 
     @Override

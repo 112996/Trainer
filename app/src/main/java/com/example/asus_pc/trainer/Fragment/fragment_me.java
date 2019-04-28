@@ -14,7 +14,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -47,7 +46,7 @@ import com.example.asus_pc.trainer.db.DBHelper;
 import com.example.asus_pc.trainer.Me_Activty.BFRActivity;
 import com.example.asus_pc.trainer.Me_Activty.BMIActivity;
 import com.example.asus_pc.trainer.Me_Activty.BMRActivity;
-import com.example.asus_pc.trainer.Me_Activty.Train_LogActivity;
+import com.example.asus_pc.trainer.Me_Activty.Health_NewsActivity;
 import com.example.asus_pc.trainer.Me_Activty.UserMsgActivity;
 import com.example.asus_pc.trainer.Me_Activty.WhtrActivity;
 import com.example.asus_pc.trainer.R;
@@ -234,10 +233,6 @@ public class fragment_me extends Fragment {
                 Button btn_cancel = mView.findViewById(R.id.alertDialog_cancel);  //取消修改按钮
                 final AlertDialog dialog = builder.create();
                 dialog.show();
-                /*WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
-                params.height = DisplayUtil.px2dip(getActivity(), 4000);
-                params.width = DisplayUtil.px2dip(getActivity(), 3000);
-                dialog.getWindow().setAttributes(params);*/ //dialog的显示位置
                 btn_OK.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -452,7 +447,7 @@ public class fragment_me extends Fragment {
         train_log.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), Train_LogActivity.class));
+                startActivity(new Intent(getActivity(), Health_NewsActivity.class));
             }
         });
     }

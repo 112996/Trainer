@@ -82,7 +82,7 @@
 
         <activity android:name=".activities.ForgetPasswdActivity" />
         <activity
-            android:name=".Me_Activty.Train_LogActivity"
+            android:name=".Me_Activty.Health_NewsActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".activities.AddNoteActivity"

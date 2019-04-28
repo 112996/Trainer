@@ -5,11 +5,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DBHelper extends SQLiteOpenHelper{
-    private static final int DB_VERSION = 5;
+    private static final int DB_VERSION = 6;
     private static final String DB_NAME = "user.db";
     public static final String TABLE_NAME = "user_Message";
     public static final String TABLE_NAME_USER = "user_me";
     public static final String TABLE_NAME_ARGS = "user_Args";
+    public static final String TABLE_NAME_HEALTH = "health_course";
 
     public DBHelper(Context context){
         super(context, DB_NAME, null, DB_VERSION);
@@ -25,6 +26,9 @@ public class DBHelper extends SQLiteOpenHelper{
         //BMI、BFR、BMR、Whtr
         String sql_args = "create table if not exists " + TABLE_NAME_ARGS + " (Id integer primary key, BFR text, BMI text, BMR text, Whtr text)";
         sqLiteDatabase.execSQL(sql_args);
+
+        String sql_health = "create table if not exists " + TABLE_NAME_HEALTH + " (Id integer primary key, title text, tname text, content text, media_name text, ctime text)";
+        sqLiteDatabase.execSQL(sql_health);
     }
 
     @Override
@@ -32,9 +36,11 @@ public class DBHelper extends SQLiteOpenHelper{
         String sql = "DROP TABLE IF EXISTS " + TABLE_NAME;
         String sql_user = "DROP TABLE IF EXISTS " + TABLE_NAME_USER;
         String sql_args = "DROP TABLE IF EXISTS " + TABLE_NAME_ARGS;
+        String sql_health = "DROP TABLE IF EXISTS " + TABLE_NAME_HEALTH;
         sqLiteDatabase.execSQL(sql);
         sqLiteDatabase.execSQL(sql_user);
         sqLiteDatabase.execSQL(sql_args);
+        sqLiteDatabase.execSQL(sql_health);
         onCreate(sqLiteDatabase);
     }
 }

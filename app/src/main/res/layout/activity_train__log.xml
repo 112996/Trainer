@@ -1,11 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#333D56"
-    android:orientation="vertical"
-    tools:context=".Me_Activty.Train_LogActivity">
+    tools:context=".Me_Activty.Health_NewsActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:id="@+id/rel"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:textSize="25sp"
+            android:id="@+id/title"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/title"
+            android:id="@+id/tname"
+            android:textSize="18sp"
+            android:layout_marginRight="30dp"/>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="500dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:id="@+id/scrollView"
+            android:scrollbars="none"
+            android:layout_below="@+id/tname">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:lineSpacingExtra="2dp"
+                android:textScaleX="1.1"
+                android:text="炒菜时间越长，营养流失也会相对越多，特别是一些水溶性的维生素（如维生素C、B族维生素）非常容易在长时间烹调过程中流失。,但是，这不代表所有蔬菜都要生吃才好。虽说蔬菜生吃能更好地保留蔬菜中的营养物质，比如维生素C、一些抗癌成分等。但是，蔬菜生吃也有不足的地方。,,首先，是卫生安全问题，有些人购买蔬菜比较随意，清洗蔬菜的时候也是马马虎虎的，对于这样的蔬菜，如果生吃，很容易摄入一些虫卵、致病菌和有机磷农药等。而且有些蔬菜根本就不适合生吃，例如生的四季豆，含有皂苷和血细胞凝集素，对人体消化道具有强烈的刺激性，并对红细胞有溶解或凝集作用，因此，要保证充分加热、彻底炒熟，使其由鲜绿色变为暗绿，且吃起来无豆腥味了才可以吃。,其次，生吃蔬菜难以提高食用量。比如说，半斤生菜炒熟可以很容易吃下去，但要生吃半斤生菜就有些困难了。,另外，还有一个营养素利用率的问题。比方说，菠菜含有比较多的草酸，如果生吃会影响钙、镁等营养素的吸收和利用。,,那么，哪些蔬菜适合生吃呢？常见适合生吃的蔬菜有黄瓜、番茄、生菜、紫甘蓝、甜椒、洋葱、卷心菜等。,生吃蔬菜的时候还要注意这几点：,1.注意安全卫生，例如尽量选择专门拿来生吃的蔬菜，并且充分清洗干净。,2.根据自身实际情况来生吃蔬菜，例如有些人一生吃蔬菜就会胃胀、消化不良，这样的人就不适合生吃蔬菜。,3.注意少油少盐少糖，虽说蔬菜生吃少了加油加盐烹调这些环节，但有些人生吃蔬菜时会加很多沙拉酱、白糖等，这样也很容易摄入过多的油盐糖，因此要注意合理控制油盐糖的用量。（【刘萍萍生活营养】系悟空问答签约作者。作者微信：13266550409）,（图片来源于网络"
+                android:id="@+id/content"/>
+        </ScrollView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/scrollView"
+            android:layout_toLeftOf="@+id/ctime"
+            android:layout_marginRight="20dp"
+            android:id="@+id/media_name"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ctime"
+            android:layout_below="@+id/scrollView"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="bottom"
+        android:id="@+id/linear"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="10dp"
+        android:gravity="bottom">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="收藏列表"
+            android:id="@+id/btn_health_list"
+            android:drawableLeft="@drawable/health_list"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" 收藏"
+            android:drawableLeft="@drawable/health_add"
+            android:id="@+id/btn_ok"
+            android:layout_gravity="bottom"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="取消收藏"
+            android:id="@+id/btn_cancel"
+            android:layout_gravity="bottom"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="暂无数据哦"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:visibility="gone"
+        android:id="@+id/tv"/>
 
 
-</LinearLayout>
+</RelativeLayout>

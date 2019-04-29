@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import com.example.asus_pc.trainer.db.DBHelper;
 import com.example.asus_pc.trainer.activities.LineShowActivity;
@@ -25,6 +27,8 @@ import com.example.asus_pc.trainer.bean.UsersMsg;
 import com.example.asus_pc.trainer.until.ActivityCollector;
 import com.jaeger.library.StatusBarUtil;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import cn.bmob.v3.Bmob;
@@ -42,6 +46,7 @@ public class UserMsgActivity extends Activity {
     private SQLiteDatabase mSQL, mSQL1;
     private String MAN = "男", WOMAN = "女";
     private String HIGH = "高", MIDDLE = "中", LOW = "低";
+    private String CurrentDate;
 
 
     @Override
@@ -75,18 +80,23 @@ public class UserMsgActivity extends Activity {
         low = findViewById(R.id.low);
 
         ok = findViewById(R.id.ok);
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date(System.currentTimeMillis());
+        CurrentDate = simpleDateFormat.format(date);
+
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 addDatas();
                 saveToBmob();
                 query();
+                querySql();
             }
         });
     }
 
     private void addDatas() {
-
         insertUsersMsg();
         String add_sex;
         if (man.isChecked()) {
@@ -102,9 +112,8 @@ public class UserMsgActivity extends Activity {
         } else {
             add_sport = LOW;
         }
-        saveConfig(UserMsgActivity.this, mAge.getText().toString(), mHeight.getText().toString(), mWeight.getText().toString(), mWaist.getText().toString(), mNeck.getText().toString(), add_sex, add_sport);
-        ToastShow b = new ToastShow();
-        b.toastShow(UserMsgActivity.this, "添加成功！");
+        saveConfig(UserMsgActivity.this, mAge.getText().toString(), mHeight.getText().toString(), mWeight.getText().toString(), mWaist.getText().toString(), mNeck.getText().toString(), add_sex, add_sport, CurrentDate);
+        Toast.makeText(this, "添加成功", Toast.LENGTH_SHORT).show();
     }
 
     public void insertUsersMsg() {
@@ -119,6 +128,7 @@ public class UserMsgActivity extends Activity {
         users.weight = mWeight.getText().toString();
         users.waist = mWaist.getText().toString();
         users.neck = mNeck.getText().toString();
+        users.currentDate = CurrentDate;
         if (man.isChecked()) {
             users.sex = MAN;
         } else {
@@ -136,30 +146,37 @@ public class UserMsgActivity extends Activity {
 
     private ContentValues userToContentValues(UsersMsg usersMsg) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put("age", usersMsg.age);
-        contentValues.put("height", usersMsg.height);
-        contentValues.put("weight", usersMsg.weight);
-        contentValues.put("waist", usersMsg.waist);
-        contentValues.put("neck", usersMsg.neck);
-        contentValues.put("sex", usersMsg.sex);
-        contentValues.put("sport", usersMsg.sport);
-        return contentValues;
+        if (!usersMsg.age.equals("")&&!usersMsg.height.equals("")&& !usersMsg.weight.equals("")&& !usersMsg.waist.equals("")&& !usersMsg.neck.equals("")){
+            contentValues.put("Age", usersMsg.age);
+            contentValues.put("Height", usersMsg.height);
+            contentValues.put("Weight", usersMsg.weight);
+            contentValues.put("Waist", usersMsg.waist);
+            contentValues.put("Neck", usersMsg.neck);
+            contentValues.put("Sex", usersMsg.sex);
+            contentValues.put("Sport", usersMsg.sport);
+            contentValues.put("CurrentDate", usersMsg.currentDate);
+            return contentValues;
+        }
+        return null;
     }
 
     /**
      * 存在sharePreference
      */
-    public void saveConfig(Context context, String age, String height, String weight, String waist, String neck, String sex, String sport) {
+    public void saveConfig(Context context, String age, String height, String weight, String waist, String neck, String sex, String sport, String currentDate) {
         SharedPreferences s = context.getSharedPreferences("config", MODE_PRIVATE);
         SharedPreferences.Editor editor = s.edit();
-        editor.putString("age", age);
-        editor.putString("height", height);
-        editor.putString("weight", weight);
-        editor.putString("waist", waist);
-        editor.putString("neck", neck);
-        editor.putString("sex", sex);
-        editor.putString("sport", sport);
-        editor.commit(); //提交数据保存至config文件
+        if (!age.equals("")&& !height.equals("")&& !weight.equals("") && !waist.equals("") && !neck.equals("")){
+            editor.putString("age", age);
+            editor.putString("height", height);
+            editor.putString("weight", weight);
+            editor.putString("waist", waist);
+            editor.putString("neck", neck);
+            editor.putString("sex", sex);
+            editor.putString("sport", sport);
+            editor.putString("currentDate", currentDate);
+            editor.commit(); //提交数据保存至config文件
+        }
     }
 
     /**
@@ -167,36 +184,42 @@ public class UserMsgActivity extends Activity {
      */
     private void saveToBmob() {
         User_Message user_message = new User_Message();
-        user_message.setAge(mAge.getText().toString());
-        user_message.setHeight(mHeight.getText().toString());
-        user_message.setWeight(mWeight.getText().toString());
-        user_message.setWaist(mWaist.getText().toString());
-        user_message.setNeck(mNeck.getText().toString());
-        if (man.isChecked()) {
-            user_message.setSex(MAN) ;
-        } else {
-            user_message.setSex(WOMAN) ;
-        }
-        if (high.isChecked()) {
-            user_message.setSport(HIGH);
-        } else if (middle.isChecked()) {
-            user_message.setSport(MIDDLE) ;
-        } else {
-            user_message.setSport(LOW) ;
-        }
-
-        user_message.setAuthor(BmobUser.getCurrentUser(MyUsers.class));
-        user_message.save(new SaveListener<String>() {
-            @Override
-            public void done(String s, BmobException e) {
-                if (e == null){
-                    Log.d("saveToBmob","okokokokoko");
-                }else {
-                    Log.e("saveToBmob",e.toString());
-                }
+        if (!mAge.getText().toString().equals("") &&
+                !mHeight.getText().toString().equals("") &&
+                !mWeight.getText().toString().equals("") &&
+                !mWaist.getText().toString().equals("") &&
+                !mNeck.getText().toString().equals("")){
+            user_message.setAge(mAge.getText().toString());
+            user_message.setHeight(mHeight.getText().toString());
+            user_message.setWeight(mWeight.getText().toString());
+            user_message.setWaist(mWaist.getText().toString());
+            user_message.setNeck(mNeck.getText().toString());
+            user_message.setCurrentDate(CurrentDate);
+            if (man.isChecked()) {
+                user_message.setSex(MAN) ;
+            } else {
+                user_message.setSex(WOMAN) ;
             }
-        });
+            if (high.isChecked()) {
+                user_message.setSport(HIGH);
+            } else if (middle.isChecked()) {
+                user_message.setSport(MIDDLE) ;
+            } else {
+                user_message.setSport(LOW) ;
+            }
 
+            user_message.setAuthor(BmobUser.getCurrentUser(MyUsers.class));
+            user_message.save(new SaveListener<String>() {
+                @Override
+                public void done(String s, BmobException e) {
+                    if (e == null){
+                        Log.d("saveToBmob","okokokokoko");
+                    }else {
+                        Log.e("saveToBmob",e.toString());
+                    }
+                }
+            });
+        }
     }
 
     /**
@@ -220,6 +243,7 @@ public class UserMsgActivity extends Activity {
                         user_message.getWaist();
                         user_message.getWeight();
                         user_message.getNeck();
+                        user_message.getCurrentDate();
                         Log.d("年龄", user_message.getAge());
                     }
                     Log.d("queryFromBmob","查询成功");
@@ -230,5 +254,12 @@ public class UserMsgActivity extends Activity {
 
         });
 
+    }
+
+    public void querySql(){
+        Cursor cursor = mSQL1.query(DBHelper.TABLE_NAME, null, null, null, null, null, null);
+        if (cursor != null && cursor.getCount() > 0){
+            Log.e("cursor的大小", String.valueOf(cursor.getCount()));
+        }
     }
 }

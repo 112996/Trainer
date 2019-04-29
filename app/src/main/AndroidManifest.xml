@@ -84,7 +84,7 @@
         <activity
             android:name=".Me_Activty.Health_NewsActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity android:name=".activities.AddNoteActivity"
             android:configChanges="screenSize"
             android:screenOrientation="portrait"/>

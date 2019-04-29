@@ -8,6 +8,7 @@ public class UsersMsg {
     public String neck;
     public String sex;
     public String sport;
+    public String currentDate;
 
     public String getAge() {
         return age;
@@ -63,6 +64,14 @@ public class UsersMsg {
 
     public void setSport(String sport) {
         this.sport = sport;
+    }
+
+    public String getCurrentDate() {
+        return currentDate;
+    }
+
+    public void setCurrentDate(String currentDate) {
+        this.currentDate = currentDate;
     }
 
 }

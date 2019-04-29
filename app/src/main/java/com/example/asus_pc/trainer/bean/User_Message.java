@@ -10,6 +10,7 @@ public class User_Message extends BmobObject {
     public String neck;
     public String sex;
     public String sport;
+    public String currentDate;
     private MyUsers author;
 
     public String getAge() {
@@ -74,6 +75,15 @@ public class User_Message extends BmobObject {
 
     public void setAuthor(MyUsers author) {
         this.author = author;
+    }
+
+
+    public String getCurrentDate() {
+        return currentDate;
+    }
+
+    public void setCurrentDate(String currentDate) {
+        this.currentDate = currentDate;
     }
 
 }

@@ -7,6 +7,7 @@ public class User_Args extends BmobObject {
     private String bmr;
     private String bfr;
     private String whtr;
+    private String currentDate;
     private MyUsers author;
 
     public String getBmi() {
@@ -49,5 +50,12 @@ public class User_Args extends BmobObject {
         this.author = author;
     }
 
+    public String getCurrentDate() {
+        return currentDate;
+    }
+
+    public void setCurrentDate(String currentDate) {
+        this.currentDate = currentDate;
+    }
 
 }

@@ -91,7 +91,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="1880kcal"
+        android:text="请完成前面各参数"
         android:id="@+id/bmr_res"
         android:textSize="25sp"
         android:textColor="#FFCD41"
@@ -112,7 +112,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="3196 - 3760kcal"
+        android:text="请完成各参数以获得正确结果"
         android:id="@+id/kll_range"
         android:textSize="25sp"
         android:layout_margin="10dp"

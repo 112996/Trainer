@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="500dp"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="6dp"
+            android:layout_marginLeft="12dp"
             android:layout_marginRight="6dp"
             android:id="@+id/scrollView"
             android:scrollbars="none"

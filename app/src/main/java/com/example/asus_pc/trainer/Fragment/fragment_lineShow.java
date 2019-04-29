@@ -38,7 +38,8 @@ public class fragment_lineShow extends Fragment implements View.OnClickListener 
     private View mView;
 
     private LineChartView lineChart;
-    String[] date = {"10-22", "11-22", "12-22", "1-22", "6-22", "5-23", "5-22", "6-22", "5-23", "5-22"};//X轴的标注
+    //String[] date = {"10-22", "11-22", "12-22", "1-22", "6-22", "5-23", "5-22", "6-22", "5-23", "5-22"};//X轴的标注
+    String[] date = {};
 
     private List<PointValue> mPointValues_Weight = new ArrayList<PointValue>();
     private List<PointValue> mPointValues_BMI = new ArrayList<PointValue>();
@@ -49,6 +50,7 @@ public class fragment_lineShow extends Fragment implements View.OnClickListener 
     private List list_BMR = new ArrayList();
     private List list_BFR = new ArrayList();
     private List list_Whtr = new ArrayList();
+    private List list_date = new ArrayList();
     private boolean isFirst = true, isSecond = true;
     private float minY = 0f, maxY = 100f;
     private List<AxisValue> mAxisYValues = new ArrayList<AxisValue>();
@@ -67,17 +69,9 @@ public class fragment_lineShow extends Fragment implements View.OnClickListener 
 
         lineChart = mView.findViewById(R.id.lineChartView);
 
-        getAxisXLables();//获取x轴的标注
         query(); //查询以获取点的坐标
         initLineChart();//初始化
 
-    }
-
-
-    private void getAxisXLables() {
-        for (int i = 0; i < date.length; i++) {
-            mAxisXValues.add(new AxisValue(i).setLabel(date[i]));
-        }
     }
 
     private void query() {
@@ -109,14 +103,12 @@ public class fragment_lineShow extends Fragment implements View.OnClickListener 
         });
 
         //BMI ,BFR, BMR, Whtr
-
         BmobQuery<User_Args> query_other = new BmobQuery<>();
         query_other.addWhereEqualTo("author", BmobUser.getCurrentUser(MyUsers.class));
         query_other.order("-updatedAt");
         //包含作者信息
         query_other.include("author");
         query_other.findObjects(new FindListener<User_Args>() {
-
             @Override
             public void done(List<User_Args> object, BmobException e) {
                 if (e == null) {
@@ -128,19 +120,21 @@ public class fragment_lineShow extends Fragment implements View.OnClickListener 
                             list_BFR.add(user_Args.getBfr());
                             list_BMR.add(user_Args.getBmr());
                             list_Whtr.add(user_Args.getWhtr());
-                            Log.d("BMI", list_BMI.toString());
+                            list_date.add(user_Args.getCurrentDate());
                         }
                     }
                     if (isSecond) {
-                        for (int i = 0; i < list_BMI.size(); i++) {
+                        for (int i = list_BMI.size() - 1; i >= 0 ; i--){
                             mPointValues_BMI.add(new PointValue(i, Float.parseFloat((String) list_BMI.get(i))));
                         }
-                        for (int j = 0; j < list_BFR.size(); j++) {
+                        for (int j = list_BFR.size() - 1; j >= 0; j--){
                             mPointValues_BFR.add(new PointValue(j, Float.parseFloat((String) list_BFR.get(j))));
+                        }
+                        for (int k = list_date.size() - 1 ; k >= 0; k--){
+                            mAxisXValues.add(new AxisValue(k).setLabel(list_date.get(k).toString())); //获取x轴的标注
                         }
                     }
                     isSecond = false;
-
                 } else {
                     Log.e("FromBmob", e.toString());
                 }

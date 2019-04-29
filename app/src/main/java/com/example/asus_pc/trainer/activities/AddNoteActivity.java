@@ -262,6 +262,18 @@ public class AddNoteActivity extends Activity implements DatePickerDialog.OnDate
                 startActivity(new Intent(mContext, PhotoViewActivity.class).putExtra("pictureUrl", pictureList.get(0)));
                 break;
             case R.id.add_keep_fit_submit:
+                if (addKeepFitDateTv.getText().toString() == null ||
+                        addKeepFitTimeLength.getText().toString() == null ||
+                        addKeepFitRunLength.getText().toString()== null ||
+                        addKeepFitSitUps.getText().toString()== null ||
+                        addKeepFitSportsApparatusTimes.getText().toString() == null ||
+                        addKeepFitSpace.getText().toString() == null ||
+                        pictureList == null ||
+                        addKeepFitOthers.getText().toString() == null
+                        ){
+                    return;
+
+                }
                 TrainNoteEntity bean = new TrainNoteEntity();
                 bean.setDate(addKeepFitDateTv.getText().toString());
                 bean.setExerciseDuration(Float.valueOf(addKeepFitTimeLength.getText().toString()));

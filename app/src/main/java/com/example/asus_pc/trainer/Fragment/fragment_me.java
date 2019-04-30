@@ -57,6 +57,9 @@ import com.example.asus_pc.trainer.until.CleanCache;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -294,13 +297,17 @@ public class fragment_me extends Fragment {
             startActivityForResult(takeIntent, CODE_TAKE_PHOTO);
 */
             // 步骤一：创建存储照片的文件
-            file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "hahaha");
+            // file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "hahaha");
+            file = new File(Environment.getExternalStorageDirectory() + File.separator + "pictures", "portrait.jpg");
+            Log.e("file", String.valueOf(file));
             if (!file.getParentFile().exists())
                 file.getParentFile().mkdirs();
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 //步骤二：Android 7.0及以上获取文件 Uri
-                mUri = FileProvider.getUriForFile(getActivity(), "com.example.asus_pc.trainer" + ".fileprovider", file);
+                String p = getActivity().getPackageName() + ".FileProvider";
+                mUri = FileProvider.getUriForFile(getActivity(), p, file);
+                Log.e("mUri", String.valueOf(mUri));
             } else {
                 //步骤三：获取文件Uri
                 mUri = Uri.fromFile(file);
@@ -361,18 +368,10 @@ public class fragment_me extends Fragment {
                 break;
             case CODE_TAKE_PHOTO:
                 if (resultCode == Activity.RESULT_OK) {
-                    if (data != null) {
-                        if (data.hasExtra("data")) {
-                            Log.i("URI", "data is not null");
-                            Bitmap bitmap = data.getParcelableExtra("data");
-                            user_protrait.setImageBitmap(bitmap);//当前页面需要展示照片的控件，可替换
-                            savePortraitToSP();
-                        }
-                    } else {
-                        Log.i("URI", "Data is null");
-                        Bitmap bitmap = BitmapFactory.decodeFile(mUri.getPath());
-                        user_protrait.setImageBitmap(bitmap);//为当前页面需要展示照片的控件，可替换
-                    }
+                    ////Bitmap bitmap = BitmapFactory.decodeFile(mUri.getPath());
+                    //Bitmap bitmap = getBitmapFromUri(mUri);
+                    //user_protrait.setImageBitmap(bitmap);//为当前页面需要展示照片的控件，可替换
+
                 }
         }
 
@@ -510,23 +509,23 @@ public class fragment_me extends Fragment {
 
     /**
      * 更新保存nickname到服务器
+     *
      * @param nickname
      */
-    private void updateUser(String nickname){
+    private void updateUser(String nickname) {
         MyUsers myUsers = BmobUser.getCurrentUser(MyUsers.class);
         myUsers.setNickname(nickname);
         myUsers.update(new UpdateListener() {
             @Override
             public void done(BmobException e) {
-                if (e == null){
+                if (e == null) {
                     Log.e("更新成功", "success");
-                }else {
+                } else {
                     Log.e("更新失败", e.toString());
                 }
             }
         });
     }
-
 
     @Override
     public void onDestroyView() {
@@ -534,6 +533,7 @@ public class fragment_me extends Fragment {
         //savePortraitToSQLite(); 最开始未设置头像，这里会出错，显示bitmap是个空对象
         ((ViewGroup) mView.getParent()).removeView(mView);
     }
+
 }
 
 

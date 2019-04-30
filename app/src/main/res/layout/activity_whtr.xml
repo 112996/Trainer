@@ -32,7 +32,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="#55DFDF"
+            android:background="#f17c67"
             android:text="点击获取结果"
             android:id="@+id/whtr_res"
             android:gravity="center"
@@ -40,7 +40,7 @@
             android:textColor="@android:color/white"/>
         <View
             android:layout_width="match_parent"
-            android:layout_height="15dp"
+            android:layout_height="8dp"
             android:layout_marginTop="2dp"
             android:background="#44DF"/>
         <View

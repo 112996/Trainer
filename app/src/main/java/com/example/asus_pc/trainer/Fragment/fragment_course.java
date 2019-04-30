@@ -59,7 +59,6 @@ public class fragment_course extends Fragment {
         srl = mView.findViewById(R.id.srl);    //新增
         logRecycler = mView.findViewById(R.id.log_recycler);
         logRecycler.setLayoutManager(new LinearLayoutManager(MyApplication.mContext));
-        trainNoteEntityList = new ArrayList<>();
         note_add = mView.findViewById(R.id.note_add);
         total_times = mView.findViewById(R.id.total_times);
         total_days = mView.findViewById(R.id.total_days);
@@ -103,7 +102,10 @@ public class fragment_course extends Fragment {
     }
 
     private void refreshList(List<TrainNoteEntity> list) {
-        trainNoteEntityList = list;
+        trainNoteEntityList = new ArrayList<>();
+        for(int i = list.size() -1; i >= 0; i--){
+            trainNoteEntityList.add(list.get(i));
+        }
         trainNoteAdapter = new TrainNoteAdapter(getActivity(), trainNoteEntityList);
         trainNoteAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
         logRecycler.setAdapter(trainNoteAdapter);

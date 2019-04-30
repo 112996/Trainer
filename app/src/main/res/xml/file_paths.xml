@@ -4,7 +4,7 @@
     <!--cache-path  相当于 getCacheDir（）-->
     <cache-path name="lalala" path="cache_image"/>
     <!--external-path  相当于 Environment.getExternalStorageDirectory()-->
-    <external-path  name="hahaha" path="."/>
+    <external-path  name="hahaha" path="pictures"/>
     <!--external-files-path  相当于 getExternalFilesDir("") -->
     <external-files-path name="paly" path="freeSoft"/>
     <!--external-cache-path  相当于 getExternalCacheDir（） -->

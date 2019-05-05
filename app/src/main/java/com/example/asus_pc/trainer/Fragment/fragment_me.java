@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -50,6 +51,7 @@ import com.example.asus_pc.trainer.Me_Activty.Health_NewsActivity;
 import com.example.asus_pc.trainer.Me_Activty.UserMsgActivity;
 import com.example.asus_pc.trainer.Me_Activty.WhtrActivity;
 import com.example.asus_pc.trainer.R;
+import com.example.asus_pc.trainer.until.GetBitmapFromUri;
 import com.example.asus_pc.trainer.until.ToastShow;
 import com.example.asus_pc.trainer.until.ActivityCollector;
 import com.example.asus_pc.trainer.until.CleanCache;
@@ -57,11 +59,7 @@ import com.example.asus_pc.trainer.until.CleanCache;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobUser;
@@ -291,13 +289,7 @@ public class fragment_me extends Fragment {
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, 1);
         } else {
-            /*Intent takeIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            Uri photoUri = getMediaFileUri(TYPE_TAKE_PHOTO);
-            takeIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-            startActivityForResult(takeIntent, CODE_TAKE_PHOTO);
-*/
             // 步骤一：创建存储照片的文件
-            // file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "hahaha");
             file = new File(Environment.getExternalStorageDirectory() + File.separator + "pictures", "portrait.jpg");
             Log.e("file", String.valueOf(file));
             if (!file.getParentFile().exists())
@@ -317,31 +309,6 @@ public class fragment_me extends Fragment {
             intent.putExtra(MediaStore.EXTRA_OUTPUT, mUri);
             startActivityForResult(intent, CODE_TAKE_PHOTO);
         }
-    }
-
-    /**
-     * 获取Uri
-     * 封装类
-     *
-     * @param type
-     * @return
-     */
-    public Uri getMediaFileUri(int type) {
-        mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "hahaha");
-        if (!mediaStorageDir.exists()) {
-            if (!mediaStorageDir.mkdirs()) {
-                return null;
-            }
-        }
-        //创建Media File
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        File mediaFile;
-        if (type == TYPE_TAKE_PHOTO) {
-            mediaFile = new File(mediaStorageDir.getPath() + File.separator + "IMG_" + timeStamp + ".jpg");
-        } else {
-            return null;
-        }
-        return Uri.fromFile(mediaFile);
     }
 
     /**
@@ -368,10 +335,15 @@ public class fragment_me extends Fragment {
                 break;
             case CODE_TAKE_PHOTO:
                 if (resultCode == Activity.RESULT_OK) {
-                    ////Bitmap bitmap = BitmapFactory.decodeFile(mUri.getPath());
-                    //Bitmap bitmap = getBitmapFromUri(mUri);
-                    //user_protrait.setImageBitmap(bitmap);//为当前页面需要展示照片的控件，可替换
-
+                    //user_protrait.setImageURI(mUri);  //直接设置会因为原始Bitmap过大而造成OOM,需要进行压缩，（质量压缩法）
+                    Bitmap bm = null;
+                    try {
+                        bm = GetBitmapFromUri.getInstance().getBitmapFormUri(getActivity(), mUri);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    user_protrait.setImageBitmap(bm);
+                    savePortraitToSP();
                 }
         }
 
@@ -383,6 +355,9 @@ public class fragment_me extends Fragment {
      * @param intent
      */
     private void selectPic(Intent intent) {
+        if (intent == null || intent.getData() == null){
+            return;
+        }
         Uri selectImageUri = intent.getData();
         String[] filePathColumn = {MediaStore.Images.Media.DATA};
         Cursor cursor = getActivity().getContentResolver().query(selectImageUri, filePathColumn, null, null, null);
@@ -392,6 +367,7 @@ public class fragment_me extends Fragment {
         cursor.close();
         user_protrait.setImageBitmap(BitmapFactory.decodeFile(picturePath));
     }
+
 
     /**
      * 保存头像到SP
@@ -496,7 +472,7 @@ public class fragment_me extends Fragment {
         public void run() {
             CleanCache.clearAllCache(getActivity());
             try {
-                Thread.sleep(3000);
+                Thread.sleep(1500);
                 if (CleanCache.getTotalCacheSize(getActivity()).startsWith("0")) ;
                 handler.sendEmptyMessage(0);
             } catch (InterruptedException e) {

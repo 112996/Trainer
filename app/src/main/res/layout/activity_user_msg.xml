@@ -17,7 +17,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
+            android:textColor="@color/Me_textColor"
             android:padding="15dp"
             android:text="个人信息"
             android:layout_gravity="center_horizontal"
@@ -37,7 +37,7 @@
             android:gravity="center"
             android:textSize="20sp"
             android:padding="10dp"
-            android:textColor="@android:color/white"/>
+            android:textColor="@color/Me_textColor"/>
         <EditText
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -74,7 +74,7 @@
             android:gravity="center"
             android:textSize="20sp"
             android:padding="10dp"
-            android:textColor="@android:color/white"/>
+            android:textColor="@color/Me_textColor"/>
         <EditText
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -91,7 +91,7 @@
             android:text="@string/cm"
             android:textSize="20sp"
             android:gravity="center"
-            android:textColor="@android:color/white"
+            android:textColor="@color/Me_textColor"
             android:background="#00000000"/>
     </LinearLayout>
     <LinearLayout
@@ -107,7 +107,7 @@
             android:gravity="center"
             android:textSize="20sp"
             android:padding="10dp"
-            android:textColor="@android:color/white"/>
+            android:textColor="@color/Me_textColor"/>
         <EditText
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -126,7 +126,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/kg"
-            android:textColor="@android:color/white"
+            android:textColor="@color/Me_textColor"
             android:textSize="20sp"
             android:gravity="center"
             android:background="#00000000"/>
@@ -151,7 +151,7 @@
                 android:singleLine="false"
                 android:gravity="center"
                 android:textSize="20sp"
-                android:textColor="@android:color/white"/>
+                android:textColor="@color/Me_textColor"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -159,7 +159,7 @@
                 android:gravity="center"
                 android:textSize="12sp"
                 android:layout_marginTop="5dp"
-                android:textColor="@android:color/white"/>
+                android:textColor="@color/Me_textColor"/>
 
         </LinearLayout>
         <EditText
@@ -184,7 +184,7 @@
             android:text="@string/cm"
             android:textSize="20sp"
             android:gravity="center"
-            android:textColor="@android:color/white"
+            android:textColor="@color/Me_textColor"
             android:background="#00000000"/>
     </LinearLayout>
     <LinearLayout
@@ -206,7 +206,7 @@
                 android:singleLine="false"
                 android:gravity="center"
                 android:textSize="20sp"
-                android:textColor="@android:color/white"/>
+                android:textColor="@color/Me_textColor"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -214,7 +214,7 @@
                 android:gravity="center"
                 android:textSize="12sp"
                 android:layout_marginTop="5dp"
-                android:textColor="@android:color/white"/>
+                android:textColor="@color/Me_textColor"/>
 
         </LinearLayout>
         <EditText
@@ -240,7 +240,7 @@
             android:text="@string/cm"
             android:textSize="20sp"
             android:gravity="center"
-            android:textColor="@android:color/white"
+            android:textColor="@color/Me_textColor"
             android:background="#00000000"/>
     </LinearLayout>
     <LinearLayout
@@ -256,7 +256,7 @@
             android:gravity="center"
             android:textSize="20sp"
             android:padding="10dp"
-            android:textColor="@android:color/white"/>
+            android:textColor="@color/Me_textColor"/>
         <RadioGroup
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -268,21 +268,21 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:id="@+id/high"
-                android:textColor="@android:color/white"
+                android:textColor="@color/Me_textColor"
                 android:text="@string/high"/>
             <RadioButton
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:id="@+id/middle"
-                android:textColor="@android:color/white"
+                android:textColor="@color/Me_textColor"
                 android:text="@string/middle"/>
             <RadioButton
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:id="@+id/low"
-                android:textColor="@android:color/white"
+                android:textColor="@color/Me_textColor"
                 android:text="@string/low"/>
         </RadioGroup>
     </LinearLayout>
@@ -317,7 +317,7 @@
             android:gravity="center"
             android:textSize="20sp"
             android:padding="10dp"
-            android:textColor="@android:color/white"/>
+            android:textColor="@color/Me_textColor"/>
        <RadioGroup
            android:layout_width="0dp"
            android:layout_height="wrap_content"
@@ -329,28 +329,30 @@
                android:layout_height="wrap_content"
                android:layout_weight="1"
                android:id="@+id/man"
-               android:textColor="@android:color/white"
+               android:textColor="@color/Me_textColor"
                android:text="男"/>
            <RadioButton
                android:layout_width="0dp"
                android:layout_height="wrap_content"
                android:layout_weight="1"
                android:id="@+id/woman"
-               android:textColor="@android:color/white"
+               android:textColor="@color/Me_textColor"
                android:text="女"/>
        </RadioGroup>
     </LinearLayout>
 
     <Button
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
         android:id="@+id/ok"
-        android:background="@drawable/ok_btn"
-        android:text="OK"
-        android:textColor="@android:color/white"
-        android:textSize="30sp"
-        android:layout_gravity="center"/>
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/addnote_submit_style"
+        android:gravity="center"
+        android:text="@string/sure"
+        android:textColor="@color/Me_textColor"
+        android:textSize="14sp" />
 
 
 </LinearLayout>

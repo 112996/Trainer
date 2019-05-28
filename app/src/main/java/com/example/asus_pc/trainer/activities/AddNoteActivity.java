@@ -350,7 +350,7 @@ public class AddNoteActivity extends Activity implements DatePickerDialog.OnDate
 
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        String date = year + formatSingle(monthOfYear) + formatSingle(dayOfMonth);
+        String date = year + "-"+formatSingle(monthOfYear + 1)+"-" + formatSingle(dayOfMonth);
         addKeepFitDateTv.setText(date);
     }
     private String formatSingle(int num) {

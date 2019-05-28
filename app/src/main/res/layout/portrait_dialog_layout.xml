@@ -1,42 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
 
     <Button
-        android:layout_width="365dp"
+        android:layout_width="345dp"
         android:layout_height="45dp"
         android:id="@+id/takePhoto"
         android:text="@string/takePhoto"
         android:background="@drawable/portrait_dialog_layout_background"
         android:layout_gravity="center_horizontal"
-        android:textColor="#000000"
+        android:textColor="#D4D29F"
         android:layout_marginTop="10dp"
-        android:textSize="18dp"
-        android:textStyle="bold"/>
+        android:textSize="18dp"/>
     <Button
-        android:layout_width="365dp"
+        android:layout_width="345dp"
         android:layout_height="45dp"
         android:id="@+id/choosePhoto"
         android:text="@string/gallery"
         android:background="@drawable/portrait_dialog_layout_background"
         android:layout_gravity="center_horizontal"
-        android:textColor="#000000"
-        android:layout_marginTop="10dp"
-        android:textSize="18dp"
-        android:textStyle="bold"/>
+        android:textColor="#D4D29F"
+        android:layout_marginTop="5dp"
+        android:textSize="18dp"/>
     <Button
-        android:layout_width="365dp"
+        android:layout_width="345dp"
         android:layout_height="45dp"
         android:id="@+id/btn_cancel"
         android:text="@string/cancel"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/portrait_dialog_layout_background2"
-        android:textColor="#000000"
+        android:textColor="#2D374C"
         android:layout_marginTop="10dp"
-        android:textSize="18dp"
-        android:textStyle="bold"/>
+        android:layout_marginBottom="10dp"
+        android:textSize="18dp"/>
 
 </LinearLayout>

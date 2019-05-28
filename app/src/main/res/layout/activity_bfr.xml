@@ -15,7 +15,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/white"
+        android:textColor="@color/Me_textColor"
         android:padding="15dp"
         android:text="@string/bfr"
         android:layout_gravity="center_horizontal"
@@ -42,7 +42,7 @@
                 android:singleLine="false"
                 android:gravity="center"
                 android:textSize="20sp"
-                android:textColor="@android:color/white"/>
+                android:textColor="@color/Me_textColor"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -50,7 +50,7 @@
                 android:gravity="center"
                 android:textSize="15sp"
                 android:layout_marginTop="5dp"
-                android:textColor="@android:color/white"/>
+                android:textColor="@color/Me_textColor"/>
 
         </LinearLayout>
 
@@ -70,7 +70,7 @@
             android:layout_weight="1"
             android:text="CM"
             android:layout_gravity="center"
-            android:textColor="@android:color/white"
+            android:textColor="@color/Me_textColor"
             android:textSize="20sp"
             android:gravity="center"
             android:background="#00000000"/>
@@ -94,12 +94,12 @@
             android:layout_width="match_parent"
             android:layout_height="8dp"
             android:layout_marginTop="2dp"
-            android:background="#44DF"/>
+            android:background="#D4D29F"/>
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#C0C0C0"
-            android:layout_marginTop="5dp"/>
+            android:layout_marginTop="2dp"/>
 
     </LinearLayout>
 
@@ -112,7 +112,7 @@
             android:layout_height="35dp"
             android:layout_weight="1"
             android:text="低"
-            android:textColor="@android:color/white"
+            android:textColor="@color/Me_textColor"
             android:textSize="15sp"
             android:gravity="center"/>
         <TextView
@@ -120,7 +120,7 @@
             android:layout_height="35dp"
             android:layout_weight="1"
             android:text="@string/less_11"
-            android:textColor="@android:color/white"
+            android:textColor="@color/Me_textColor"
             android:textSize="15sp"
             android:gravity="center"/>
     </LinearLayout>
@@ -133,7 +133,7 @@
             android:layout_height="35dp"
             android:layout_weight="1"
             android:text="正常"
-            android:textColor="@android:color/white"
+            android:textColor="@color/Me_textColor"
             android:textSize="15sp"
             android:gravity="center"/>
         <TextView
@@ -141,7 +141,7 @@
             android:layout_height="35dp"
             android:layout_weight="1"
             android:text="11 - 22%"
-            android:textColor="@android:color/white"
+            android:textColor="@color/Me_textColor"
             android:textSize="15sp"
             android:gravity="center"/>
     </LinearLayout>
@@ -154,7 +154,7 @@
             android:layout_height="35dp"
             android:layout_weight="1"
             android:text="高"
-            android:textColor="@android:color/white"
+            android:textColor="@color/Me_textColor"
             android:textSize="15sp"
             android:gravity="center"/>
         <TextView
@@ -162,7 +162,7 @@
             android:layout_height="35dp"
             android:layout_weight="1"
             android:text="22 - 28%"
-            android:textColor="@android:color/white"
+            android:textColor="@color/Me_textColor"
             android:textSize="15sp"
             android:gravity="center"/>
     </LinearLayout>
@@ -175,7 +175,7 @@
             android:layout_height="35dp"
             android:layout_weight="1"
             android:text="非常高"
-            android:textColor="@android:color/white"
+            android:textColor="@color/Me_textColor"
             android:textSize="15sp"
             android:gravity="center"/>
         <TextView
@@ -183,7 +183,7 @@
             android:layout_height="35dp"
             android:layout_weight="1"
             android:text="@string/more_28"
-            android:textColor="@android:color/white"
+            android:textColor="@color/Me_textColor"
             android:textSize="15sp"
             android:gravity="center"/>
     </LinearLayout>

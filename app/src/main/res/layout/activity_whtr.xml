@@ -15,7 +15,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
+            android:textColor="@color/Me_textColor"
             android:padding="15dp"
             android:text="腰围身高比"
             android:layout_gravity="center_horizontal"
@@ -42,7 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="8dp"
             android:layout_marginTop="2dp"
-            android:background="#44DF"/>
+            android:background="#D4D29F"/>
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -60,7 +60,7 @@
             android:layout_height="35dp"
             android:layout_weight="1"
             android:text="体重不足"
-            android:textColor="@android:color/white"
+            android:textColor="@color/Me_textColor"
             android:textSize="15sp"
             android:gravity="center"/>
         <TextView
@@ -68,7 +68,7 @@
             android:layout_height="35dp"
             android:layout_weight="1"
             android:text="@string/less_0.43"
-            android:textColor="@android:color/white"
+            android:textColor="@color/Me_textColor"
             android:textSize="15sp"
             android:gravity="center"/>
     </LinearLayout>
@@ -81,7 +81,7 @@
             android:layout_height="35dp"
             android:layout_weight="1"
             android:text="体重正常"
-            android:textColor="@android:color/white"
+            android:textColor="@color/Me_textColor"
             android:textSize="15sp"
             android:gravity="center"/>
         <TextView
@@ -89,7 +89,7 @@
             android:layout_height="35dp"
             android:layout_weight="1"
             android:text="0.43 - 0.53"
-            android:textColor="@android:color/white"
+            android:textColor="@color/Me_textColor"
             android:textSize="15sp"
             android:gravity="center"/>
     </LinearLayout>
@@ -102,7 +102,7 @@
             android:layout_height="35dp"
             android:layout_weight="1"
             android:text="超重"
-            android:textColor="@android:color/white"
+            android:textColor="@color/Me_textColor"
             android:textSize="15sp"
             android:gravity="center"/>
         <TextView
@@ -110,7 +110,7 @@
             android:layout_height="35dp"
             android:layout_weight="1"
             android:text="0.53 - 0.58"
-            android:textColor="@android:color/white"
+            android:textColor="@color/Me_textColor"
             android:textSize="15sp"
             android:gravity="center"/>
     </LinearLayout>
@@ -123,7 +123,7 @@
             android:layout_height="35dp"
             android:layout_weight="1"
             android:text="肥胖"
-            android:textColor="@android:color/white"
+            android:textColor="@color/Me_textColor"
             android:textSize="15sp"
             android:gravity="center"/>
         <TextView
@@ -131,7 +131,7 @@
             android:layout_height="35dp"
             android:layout_weight="1"
             android:text="0.58 - 0.63"
-            android:textColor="@android:color/white"
+            android:textColor="@color/Me_textColor"
             android:textSize="15sp"
             android:gravity="center"/>
     </LinearLayout>
@@ -144,7 +144,7 @@
             android:layout_height="35dp"
             android:layout_weight="1"
             android:text="病态肥胖"
-            android:textColor="@android:color/white"
+            android:textColor="@color/Me_textColor"
             android:textSize="15sp"
             android:gravity="center"/>
         <TextView
@@ -152,7 +152,7 @@
             android:layout_height="35dp"
             android:layout_weight="1"
             android:text="@string/more_0.63"
-            android:textColor="@android:color/white"
+            android:textColor="@color/Me_textColor"
             android:textSize="15sp"
             android:gravity="center"/>
     </LinearLayout>
@@ -171,7 +171,7 @@
             android:layout_height="35dp"
             android:layout_weight="1"
             android:text="理想腰围（CM）："
-            android:textColor="@android:color/white"
+            android:textColor="@color/Me_textColor"
             android:textSize="20sp"
             android:gravity="center"/>
         <TextView

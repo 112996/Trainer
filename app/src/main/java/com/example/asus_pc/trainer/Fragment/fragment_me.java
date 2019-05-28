@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -67,6 +66,7 @@ import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.UpdateListener;
 import io.reactivex.annotations.Nullable;
 
+import static android.app.Activity.RESULT_OK;
 import static android.content.Context.MODE_PRIVATE;
 
 
@@ -158,7 +158,6 @@ public class fragment_me extends Fragment {
         String trainer_ID_name = preferences.getString("user_id", "");
         if (trainer_ID_name != null) {
             if (!trainer_ID_name.isEmpty()) {
-                Log.e("trainer号", trainer_ID_name);
                 trainer_ID.setText("trainer号：" + trainer_ID_name);
 
             } else {
@@ -168,10 +167,8 @@ public class fragment_me extends Fragment {
         String nickName = preferences.getString("nickname", "");
         if (nickName != null) {
             if (!nickName.isEmpty()) {
-                Log.e("user_ID", nickName);
                 user_ID.setText(nickName);
             } else {
-                Log.e("user_ID", "为空");
                 user_ID.setText("昵称");
             }
         }
@@ -285,7 +282,6 @@ public class fragment_me extends Fragment {
      * 拍照
      */
     private void takePhoto() {
-
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, 1);
         } else {
@@ -323,9 +319,13 @@ public class fragment_me extends Fragment {
         }
     }
 
-    @Override
+
+     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if ( resultCode != RESULT_OK){
+            return;
+        }
         switch (requestCode) {
             case CODE_SELECT_IMAGE:
                 if (resultCode == Activity.RESULT_OK) {

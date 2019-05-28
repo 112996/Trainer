@@ -15,7 +15,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
+            android:textColor="@color/Me_textColor"
             android:padding="15dp"
             android:text="基础代谢率"
             android:layout_gravity="center_horizontal"
@@ -39,7 +39,7 @@
             android:gravity="center"
             android:textSize="20sp"
             android:padding="10dp"
-            android:textColor="@android:color/white"/>
+            android:textColor="@color/Me_textColor"/>
         <RadioGroup
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
                 android:text="@string/high"
                 android:id="@+id/Rhigh"
                 android:textSize="20sp"
-                android:textColor="@android:color/white"/>
+                android:textColor="@color/Me_textColor"/>
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
                 android:text="@string/middle"
                 android:id="@+id/Rmiddle"
                 android:textSize="20sp"
-                android:textColor="@android:color/white"/>
+                android:textColor="@color/Me_textColor"/>
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -70,23 +70,25 @@
                 android:text="@string/low"
                 android:id="@+id/Rlow"
                 android:textSize="20sp"
-                android:textColor="@android:color/white"/>
+                android:textColor="@color/Me_textColor"/>
         </RadioGroup>
 
     </LinearLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="1.5dp"
+        android:layout_height="1dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
         android:background="#C0C0C0"
         android:layout_marginTop="5dp"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="基础代谢率："
+        android:text="基础代谢率:"
         android:textSize="25sp"
         android:layout_margin="10dp"
         android:layout_marginBottom="10dp"
-        android:textColor="#FFCD41"
+        android:textColor="@color/Me_textColor"
         android:gravity="center"/>
     <TextView
         android:layout_width="match_parent"
@@ -94,20 +96,22 @@
         android:text="请完成前面各参数"
         android:id="@+id/bmr_res"
         android:textSize="25sp"
-        android:textColor="#FFCD41"
+        android:textColor="@android:color/white"
         android:gravity="center"/>
     <View
         android:layout_width="match_parent"
-        android:layout_height="1.5dp"
+        android:layout_height="1dp"
         android:background="#C0C0C0"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="总能量消耗"
+        android:text="总能量消耗:"
         android:layout_marginTop="5dp"
         android:textSize="25sp"
-        android:textColor="@android:color/white"
+        android:textColor="@color/Me_textColor"
         android:gravity="center"/>
     <TextView
         android:layout_width="match_parent"
@@ -122,8 +126,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="(取决于您的活动)"
-        android:textSize="25sp"
-        android:textColor="#FFCD41"
+        android:textSize="20sp"
+        android:textColor="@android:color/white"
         android:gravity="center"/>
 
 </LinearLayout>

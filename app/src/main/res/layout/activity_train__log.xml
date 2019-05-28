@@ -20,15 +20,6 @@
             android:layout_centerHorizontal="true"
             android:textSize="25sp"
             android:id="@+id/title"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/title"
-            android:id="@+id/tname"
-            android:textSize="18sp"
-            android:layout_marginRight="30dp"/>
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="500dp"
@@ -37,8 +28,8 @@
             android:layout_marginRight="6dp"
             android:id="@+id/scrollView"
             android:scrollbars="none"
-            android:layout_below="@+id/tname">
-            <TextView
+            android:layout_below="@+id/title">
+            <WebView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"

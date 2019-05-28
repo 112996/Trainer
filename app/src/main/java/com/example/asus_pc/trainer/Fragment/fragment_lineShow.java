@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.asus_pc.trainer.bean.MyUsers;
 import com.example.asus_pc.trainer.R;
@@ -38,8 +40,7 @@ public class fragment_lineShow extends Fragment implements View.OnClickListener 
     private View mView;
 
     private LineChartView lineChart;
-    //String[] date = {"10-22", "11-22", "12-22", "1-22", "6-22", "5-23", "5-22", "6-22", "5-23", "5-22"};//X轴的标注
-    String[] date = {};
+    private LinearLayout load;
 
     private List<PointValue> mPointValues_Weight = new ArrayList<PointValue>();
     private List<PointValue> mPointValues_BMI = new ArrayList<PointValue>();
@@ -54,6 +55,7 @@ public class fragment_lineShow extends Fragment implements View.OnClickListener 
     private boolean isFirst = true, isSecond = true;
     private float minY = 0f, maxY = 100f;
     private List<AxisValue> mAxisYValues = new ArrayList<AxisValue>();
+    private boolean flag = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -67,11 +69,16 @@ public class fragment_lineShow extends Fragment implements View.OnClickListener 
     public void onStart() {
         super.onStart();
 
-        lineChart = mView.findViewById(R.id.lineChartView);
+        load = mView.findViewById(R.id.load);
+        load.setVisibility(View.VISIBLE);
 
         query(); //查询以获取点的坐标
-        initLineChart();//初始化
-
+        if (flag){
+            lineChart = mView.findViewById(R.id.lineChartView);
+            lineChart.setVisibility(View.VISIBLE);
+            load.setVisibility(View.GONE);
+            initLineChart();//初始化
+        }
     }
 
     private void query() {
@@ -86,15 +93,18 @@ public class fragment_lineShow extends Fragment implements View.OnClickListener 
             @Override
             public void done(List<User_Message> object, BmobException e) {
                 if (e == null) {
-                    for (User_Message user_message : object) {
-                        list_Weight.add(user_message.getWeight());
-                    }
-                    if (isFirst) {
-                        for (int i = 0; i < list_Weight.size(); i++) {
-                            mPointValues_Weight.add(new PointValue(i, Float.parseFloat((String) list_Weight.get(i))));
+                    if(object.size() > 0){
+                        flag = true;
+                        for (User_Message user_message : object) {
+                            list_Weight.add(user_message.getWeight());
                         }
+                        if (isFirst) {
+                            for (int i = 0; i < list_Weight.size(); i++) {
+                                mPointValues_Weight.add(new PointValue(i, Float.parseFloat((String) list_Weight.get(i))));
+                            }
+                        }
+                        isFirst = false;
                     }
-                    isFirst = false;
                 } else {
                     Log.e("FromBmob", e.toString());
                 }

@@ -162,8 +162,8 @@ public class BMRActivity extends Activity {
             KLL_low = bmr * 1.375;
             KLL_high = bmr * 1.725;
 
-            bmr_res.setText(String.format("%.2f", bmr) + "kcal");
-            kll_range.setText(String.format("%.2f", KLL_low) + "-" + String.format("%.2f", KLL_high));
+            bmr_res.setText(String.format("%.2f", bmr) + " kcal");
+            kll_range.setText(String.format("%.2f", KLL_low) + "——" + String.format("%.2f", KLL_high)+" kcal");
             saveBMRToSP(String.valueOf(bmr));
             saveAllToSQL();
         }

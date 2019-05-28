@@ -10,4 +10,5 @@
     <color name="toast_textview_color">#00000000</color>
     <color name="radioButton_textColr_checked">#FF6398</color>
     <color name="titleBar_color">#2D374C</color>
+    <color name="Me_textColor">#D4D29F</color>
 </resources>

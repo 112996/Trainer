@@ -81,6 +81,8 @@ public class UserMsgActivity extends Activity {
 
         ok = findViewById(R.id.ok);
 
+        readConfig();
+
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date(System.currentTimeMillis());
         CurrentDate = simpleDateFormat.format(date);
@@ -94,6 +96,37 @@ public class UserMsgActivity extends Activity {
                 querySql();
             }
         });
+    }
+
+    private void readConfig(){
+        SharedPreferences s  = getSharedPreferences("config", MODE_PRIVATE);
+        if (s != null){
+            String con_age = s.getString("age", "");
+            String con_height = s.getString("height", "");
+            String con_weight = s.getString("weight", "");
+            String con_waist = s.getString("waist", "");
+            String con_neck = s.getString("neck", "");
+            String con_sex = s.getString("sex", "");
+            String con_sport = s.getString("sport", "");
+            mAge.setText(con_age);
+            mHeight.setText(con_height);
+            mWeight.setText(con_weight);
+            mWaist.setText(con_waist);
+            mNeck.setText(con_neck);
+            if (con_sex.equals(MAN)){
+                man.setChecked(true);
+            }else{
+                woman.setChecked(true);
+            }
+
+            if (con_sport.equals(HIGH)){
+                high.setChecked(true);
+            }else if (con_sport.equals(MIDDLE)){
+                middle.setChecked(true);
+            }else{
+                low.setChecked(true);
+            }
+        }
     }
 
     private void addDatas() {

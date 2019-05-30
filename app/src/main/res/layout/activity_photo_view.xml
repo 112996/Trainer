@@ -30,6 +30,7 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/photo_view_title_tb"
         android:scaleType="centerCrop"
+        android:background="#2D374C"
         android:visibility="visible" />
 
     <com.wang.avi.AVLoadingIndicatorView

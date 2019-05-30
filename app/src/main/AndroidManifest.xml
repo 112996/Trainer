@@ -38,17 +38,20 @@
         </activity>
         <activity
             android:name=".activities.LoginActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity
             android:name=".activities.RegisterActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity
             android:name=".activities.LineShowActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".activities.MainActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity
             android:name=".Me_Activty.BMIActivity"
             android:screenOrientation="portrait"
@@ -80,7 +83,8 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".activities.ForgetPasswdActivity" />
+        <activity android:name=".activities.ForgetPasswdActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity
             android:name=".Me_Activty.Health_NewsActivity"
             android:screenOrientation="portrait"

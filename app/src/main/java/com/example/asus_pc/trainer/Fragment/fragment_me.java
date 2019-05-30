@@ -40,6 +40,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.bumptech.glide.Glide;
 import com.example.asus_pc.trainer.bean.MyUsers;
 import com.example.asus_pc.trainer.until.CircleImageView;
 import com.example.asus_pc.trainer.db.DBHelper;
@@ -62,8 +63,10 @@ import java.io.IOException;
 
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.UpdateListener;
+import cn.bmob.v3.listener.UploadFileListener;
 import io.reactivex.annotations.Nullable;
 
 import static android.app.Activity.RESULT_OK;
@@ -85,13 +88,16 @@ public class fragment_me extends Fragment {
     public final int CODE_SELECT_IMAGE = 2;//相册RequestCode
     private DBHelper mDBHelper;
     private SQLiteDatabase mSQL, mSQL2;
+    private String username, nickname, picPath;
 
     public Handler handler = new Handler() {
 
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case 0:
-                    Toast.makeText(getActivity(), "清理完成", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getActivity(), "清理完成", Toast.LENGTH_SHORT).show();
+                    ToastShow ts = new ToastShow();
+                    ts.toastShow(getActivity(), "清理完成！");
                     try {
                         cache.setText(CleanCache.getTotalCacheSize(getActivity()));
                     } catch (Exception e) {
@@ -154,24 +160,7 @@ public class fragment_me extends Fragment {
         //进入应用时的user_id和trainer号
         user_ID = mView.findViewById(R.id.user_ID); //昵称
         trainer_ID = mView.findViewById(R.id.trainer_ID);  //用户名
-        SharedPreferences preferences = getActivity().getSharedPreferences("UserMsg", MODE_PRIVATE);
-        String trainer_ID_name = preferences.getString("user_id", "");
-        if (trainer_ID_name != null) {
-            if (!trainer_ID_name.isEmpty()) {
-                trainer_ID.setText("trainer号：" + trainer_ID_name);
-
-            } else {
-                Log.e("trainer号", "为空");
-            }
-        }
-        String nickName = preferences.getString("nickname", "");
-        if (nickName != null) {
-            if (!nickName.isEmpty()) {
-                user_ID.setText(nickName);
-            } else {
-                user_ID.setText("昵称");
-            }
-        }
+        getUserAndNick();
 
 
         //头像显示
@@ -181,6 +170,8 @@ public class fragment_me extends Fragment {
             byte[] base64byte = Base64.decode(resImageBase64, Base64.DEFAULT);
             ByteArrayInputStream instream = new ByteArrayInputStream(base64byte);
             user_protrait.setImageDrawable(Drawable.createFromStream(instream, "res_img"));
+        }else{
+            getPicFromBmob();
         }
 
 
@@ -217,6 +208,7 @@ public class fragment_me extends Fragment {
             }
         });
 
+        //修改昵称
         user_compile.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("ResourceAsColor")
             @Override
@@ -236,11 +228,6 @@ public class fragment_me extends Fragment {
                     public void onClick(View view) {
                         if (!input_ID.getText().toString().isEmpty()) {
                             user_ID.setText(input_ID.getText().toString()); //显示昵称
-
-                            SharedPreferences preferences1 = getActivity().getSharedPreferences("UserMsg", MODE_PRIVATE);
-                            SharedPreferences.Editor editor = preferences1.edit();
-                            editor.putString("nickname", input_ID.getText().toString());
-                            editor.commit();
                             updateUser(input_ID.getText().toString());
 
                         } else {
@@ -344,9 +331,20 @@ public class fragment_me extends Fragment {
                     }
                     user_protrait.setImageBitmap(bm);
                     savePortraitToSP();
+                    uploadPic(String.valueOf(file));
                 }
         }
 
+    }
+
+    public String bitmapToString(Bitmap bitmap){
+        //将Bitmap转换成字符串
+        String string=null;
+        ByteArrayOutputStream bStream=new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG,100,bStream);
+        byte[]bytes=bStream.toByteArray();
+        string=Base64.encodeToString(bytes,Base64.DEFAULT);
+        return string;
     }
 
     /**
@@ -364,8 +362,10 @@ public class fragment_me extends Fragment {
         cursor.moveToFirst();
         int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
         String picturePath = cursor.getString(columnIndex);
+        Log.e("选择路径", picturePath);
         cursor.close();
         user_protrait.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+        uploadPic(picturePath);
     }
 
 
@@ -435,7 +435,6 @@ public class fragment_me extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent("com.example.asus_pc.trainer.logout");
-
                 SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserMsg", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.clear();
@@ -498,6 +497,79 @@ public class fragment_me extends Fragment {
                     Log.e("更新成功", "success");
                 } else {
                     Log.e("更新失败", e.toString());
+                }
+            }
+        });
+    }
+
+    /**
+     * 从服务器获取昵称和Id
+     */
+    private void getUserAndNick(){
+        MyUsers myUsers = BmobUser.getCurrentUser(MyUsers.class);
+        nickname = myUsers.getNickname();
+        username = myUsers.getUsername();
+
+
+
+        if (!username.isEmpty()) {
+                trainer_ID.setText("trainer号：" + username);
+            } else {
+                Log.e("trainer号", "为空");
+            }
+        if (nickname == null ){
+            user_ID.setText("昵称");
+        }else{
+            user_ID.setText(nickname);
+        }
+
+    }
+
+    /**
+     * sp里面没有数据就从服务器拿头像
+     */
+    private void getPicFromBmob(){
+        MyUsers myUsers = BmobUser.getCurrentUser(MyUsers.class);
+        picPath = myUsers.getPic();
+
+        if (!picPath.isEmpty()){
+            Glide.with(getActivity())
+                    .load(picPath)
+                    .placeholder(R.drawable.item_time)
+                    .dontAnimate()
+                    .thumbnail(0.1f)
+                    .into(user_protrait);
+        }else{
+            Log.e("trainer号", picPath);
+        }
+    }
+
+
+
+    private void uploadPic(String path){
+        final BmobFile file = new BmobFile(new File(path));
+        file.upload(new UploadFileListener() {
+            @Override
+            public void done(BmobException e) {
+                if (e== null){
+                    afterUploadPic(file.getFileUrl());
+                }else{
+                    Log.e("上传pic失败", e.toString());
+                }
+            }
+        });
+    }
+
+    private void afterUploadPic(String path){
+        MyUsers myUsers = BmobUser.getCurrentUser(MyUsers.class);
+        myUsers.setPic(path);
+        myUsers.update(new UpdateListener() {
+            @Override
+            public void done(BmobException e) {
+                if (e == null) {
+
+                } else {
+                    Log.e("更新hhhh失败", e.toString());
                 }
             }
         });

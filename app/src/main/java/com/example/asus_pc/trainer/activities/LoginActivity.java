@@ -71,7 +71,6 @@ public class LoginActivity extends BaseCompatActivity {
                     public void done(BmobUser bmobUser, BmobException e) {
                         ToastShow b = new ToastShow();
                         if (e == null) {
-                            b.toastShow(LoginActivity.this, "登录成功");
                             saveUserMsgToSP();
                             startActivity(new Intent(LoginActivity.this, LineShowActivity.class));
                             finish();

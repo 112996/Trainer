@@ -23,6 +23,7 @@ import com.daimajia.numberprogressbar.NumberProgressBar;
 import com.example.asus_pc.trainer.R;
 import com.example.asus_pc.trainer.bean.MyUsers;
 import com.example.asus_pc.trainer.bean.TrainNoteEntity;
+import com.example.asus_pc.trainer.until.ToastShow;
 import com.jaeger.library.StatusBarUtil;
 import com.liuguangqiang.ipicker.IPicker;
 import com.wang.avi.AVLoadingIndicatorView;
@@ -285,16 +286,18 @@ public class AddNoteActivity extends Activity implements DatePickerDialog.OnDate
                 bean.setPictures(pictureList);
                 bean.setUserId(BmobUser.getCurrentUser().getObjectId());
                 bean.setAuthor(BmobUser.getCurrentUser(MyUsers.class));
+                final ToastShow ts = new ToastShow();
                 if (isEdit) {
                     bean.update(objectId, new UpdateListener() {
                         @Override
                         public void done(BmobException e) {
                             if (e == null) {
-                                Toast.makeText(AddNoteActivity.this, "更新成功", Toast.LENGTH_SHORT).show();
+
+//                                ts.toastShow(AddNoteActivity.this, "更新成功");
                                 finish();
                             } else {
                                 Log.d(TAG, "done: " + e.getMessage());
-                                Toast.makeText(AddNoteActivity.this, "更新失败", Toast.LENGTH_SHORT).show();
+//                                ts.toastShow(AddNoteActivity.this, "更新失败");
                             }
                         }
                     });
@@ -303,10 +306,10 @@ public class AddNoteActivity extends Activity implements DatePickerDialog.OnDate
                         @Override
                         public void done(String objectId, BmobException e) {
                             if (e == null) {
-                                Toast.makeText(AddNoteActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
+//                                ts.toastShow(AddNoteActivity.this, "添加成功");
                                 finish();
                             } else {
-                                Toast.makeText(AddNoteActivity.this, "添加失败", Toast.LENGTH_SHORT).show();
+//                                ts.toastShow(AddNoteActivity.this, "添加失败");
                                 Log.e("出错", e.toString());
                             }
                         }
@@ -321,6 +324,7 @@ public class AddNoteActivity extends Activity implements DatePickerDialog.OnDate
         final BmobFile bmobFile = new BmobFile(file);
         final AlertDialog dialog = new AlertDialog.Builder(mContext).create();
         final View view = getLayoutInflater().inflate(R.layout.dialog_view, null);
+        final ToastShow ts =new ToastShow();
         dialog.setView(view, 0, 0, 0, 0);
         dialog.setCancelable(false);
         if (!dialog.isShowing()) {
@@ -334,9 +338,11 @@ public class AddNoteActivity extends Activity implements DatePickerDialog.OnDate
                     pictureList = new ArrayList<String>();
                     pictureList.add(bmobFile.getFileUrl());//getFileUrl()--返回的上传文件的完整地址
                     dialog.dismiss();
-                    Toast.makeText(mContext, "上传成功！", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(mContext, "上传成功！", Toast.LENGTH_SHORT).show();
+                    ts.toastShow(mContext, "上传成功！");
                 } else {
-                    Toast.makeText(AddNoteActivity.this, "上传失败!" + e.getMessage(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(AddNoteActivity.this, "上传失败!" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    ts.toastShow(mContext, "上传失败！");
                 }
             }
 

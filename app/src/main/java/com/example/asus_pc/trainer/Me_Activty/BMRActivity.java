@@ -253,25 +253,29 @@ public class BMRActivity extends Activity {
 
             @Override
             public void done(List<User_Args> object, BmobException e) {
-
                 if (e == null) {
-                    for (User_Args user_Args : object) {
-                        if (user_Args.getBmi().isEmpty() && user_Args.getBfr().isEmpty() && user_Args.getWhtr().isEmpty() && user_Args.getBmr().isEmpty()) {
-                            Log.e("数据不全", "数据不全");
-                        } else {
-                            list_t.add(user_Args.getCurrentDate());
-                            list_objectId.add(user_Args.getObjectId());
-                        }
-                    }
-                    t = list_t.get(0).toString();
-                    ObjectId = list_objectId.get(0).toString();
-                    if (!t.equals(CurrentDate)){
+                    if (object.size() <= 0){
                         isSave = true;
+                        saveToBmob();
                     }else{
-                        isUpdate = true;
-                        //isSave = true;   ///////测试用
+                        for (User_Args user_Args : object) {
+                            if (user_Args.getBmi().isEmpty() && user_Args.getBfr().isEmpty() && user_Args.getWhtr().isEmpty() && user_Args.getBmr().isEmpty()) {
+                                Log.e("数据不全", "数据不全");
+                            } else {
+                                list_t.add(user_Args.getCurrentDate());
+                                list_objectId.add(user_Args.getObjectId());
+                            }
+                        }
+                        t = list_t.get(0).toString();
+                        ObjectId = list_objectId.get(0).toString();
+                        if (!t.equals(CurrentDate)){
+                            isSave = true;
+                        }else{
+//                            isUpdate = true;
+                            isSave = true;   ///////测试用
+                        }
+                        saveToBmob();
                     }
-                    saveToBmob();
                 }else{
                     Log.e("查找Bmob失败", e.toString());
                 }

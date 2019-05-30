@@ -1,5 +1,7 @@
 package com.example.asus_pc.trainer.Fragment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -41,6 +44,9 @@ public class fragment_lineShow extends Fragment implements View.OnClickListener 
 
     private LineChartView lineChart;
     private LinearLayout load;
+    private LinearLayout lines;
+    private ImageView isNew;
+    private TextView no_tip;
 
     private List<PointValue> mPointValues_Weight = new ArrayList<PointValue>();
     private List<PointValue> mPointValues_BMI = new ArrayList<PointValue>();
@@ -69,16 +75,35 @@ public class fragment_lineShow extends Fragment implements View.OnClickListener 
     public void onStart() {
         super.onStart();
 
-        load = mView.findViewById(R.id.load);
-        load.setVisibility(View.VISIBLE);
 
-        query(); //查询以获取点的坐标
-        if (flag){
-            lineChart = mView.findViewById(R.id.lineChartView);
-            lineChart.setVisibility(View.VISIBLE);
+        String is = isUserUser();
+        if (is.equals("1")){
+            load = mView.findViewById(R.id.load);
+            load.setVisibility(View.VISIBLE);
+            query(); //查询以获取点的坐标
+            if (flag){
+                lineChart = mView.findViewById(R.id.lineChartView);
+                lineChart.setVisibility(View.VISIBLE);
+                load.setVisibility(View.GONE);
+                initLineChart();//初始化
+            }
+        }else{
+            lines = mView.findViewById(R.id.lines);
+            lines.setVisibility(View.GONE);
+            load = mView.findViewById(R.id.load);
             load.setVisibility(View.GONE);
-            initLineChart();//初始化
+            isNew = mView.findViewById(R.id.isNew);
+            isNew.setVisibility(View.VISIBLE);
+
         }
+
+
+    }
+
+    private String isUserUser(){
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("isNewUser", Context.MODE_PRIVATE);
+        String isNew = sharedPreferences.getString("isNew", "");
+        return isNew;
     }
 
     private void query() {
@@ -106,6 +131,7 @@ public class fragment_lineShow extends Fragment implements View.OnClickListener 
                         isFirst = false;
                     }
                 } else {
+                    flag = false;
                     Log.e("FromBmob", e.toString());
                 }
             }
@@ -157,8 +183,9 @@ public class fragment_lineShow extends Fragment implements View.OnClickListener 
     private void initLineChart() {
         Line line = new Line(mPointValues_Weight).setColor(Color.parseColor("#FFCD41")); //折线的颜色（橘黄色）
         List<Line> lines = new ArrayList<Line>();
-        LineChartValueFormatter chartValueFormatter = new SimpleLineChartValueFormatter(1);
-        line.setFormatter(chartValueFormatter);//显示小数点
+        LineChartValueFormatter chartValueFormatter = new SimpleLineChartValueFormatter(2);
+        LineChartValueFormatter chartValueFormatter1 = new SimpleLineChartValueFormatter(1);
+        line.setFormatter(chartValueFormatter1);//显示小数点
         line.setShape(ValueShape.CIRCLE);//折线图上每个数据点的形状 这里是圆形 （有三种 ：ValueShape.SQUARE ValueShape.CIRCLE ValueShape.DIAMOND）
         line.setCubic(false);//曲线是否平滑，即是曲线还是折线
         line.setFilled(false);//是否填充曲线的面积

@@ -179,8 +179,6 @@ public class ForgetPasswdActivity extends AppCompatActivity {
             @Override
             public void done(BmobException e) {
                 if (e == null) {
-                    ToastShow b = new ToastShow();
-                    b.toastShow(ForgetPasswdActivity.this, "登录成功");
                     startActivity(new Intent(ForgetPasswdActivity.this, LineShowActivity.class));
                     finish();
                     Log.e("bomb", "验证通过");

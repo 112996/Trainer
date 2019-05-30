@@ -28,6 +28,7 @@ import com.example.asus_pc.trainer.until.ActivityCollector;
 import com.jaeger.library.StatusBarUtil;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -37,6 +38,8 @@ import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UpdateListener;
+import lecho.lib.hellocharts.model.Line;
 
 public class UserMsgActivity extends Activity {
     private EditText mAge, mHeight, mWeight, mWaist, mNeck;
@@ -47,6 +50,11 @@ public class UserMsgActivity extends Activity {
     private String MAN = "男", WOMAN = "女";
     private String HIGH = "高", MIDDLE = "中", LOW = "低";
     private String CurrentDate;
+    private boolean isUpdate, isSave;
+    private String objectId, t;
+    private List list_t = new ArrayList();
+    private List list_objectId = new ArrayList();
+
 
 
     @Override
@@ -91,7 +99,7 @@ public class UserMsgActivity extends Activity {
             @Override
             public void onClick(View view) {
                 addDatas();
-                saveToBmob();
+//                saveToBmob();
                 query();
                 querySql();
             }
@@ -146,7 +154,9 @@ public class UserMsgActivity extends Activity {
             add_sport = LOW;
         }
         saveConfig(UserMsgActivity.this, mAge.getText().toString(), mHeight.getText().toString(), mWeight.getText().toString(), mWaist.getText().toString(), mNeck.getText().toString(), add_sex, add_sport, CurrentDate);
-        Toast.makeText(this, "添加成功", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "添加成功", Toast.LENGTH_SHORT).show();
+        ToastShow ts = new ToastShow();
+        ts.toastShow(UserMsgActivity.this, "更新成功！");
     }
 
     public void insertUsersMsg() {
@@ -242,16 +252,31 @@ public class UserMsgActivity extends Activity {
             }
 
             user_message.setAuthor(BmobUser.getCurrentUser(MyUsers.class));
-            user_message.save(new SaveListener<String>() {
-                @Override
-                public void done(String s, BmobException e) {
-                    if (e == null){
-                        Log.d("saveToBmob","okokokokoko");
-                    }else {
-                        Log.e("saveToBmob",e.toString());
+            if (isSave){
+                user_message.save(new SaveListener<String>() {
+                    @Override
+                    public void done(String s, BmobException e) {
+                        if (e == null){
+                            Log.d("saveToBmob","okokokokoko");
+                        }else {
+                            Log.e("saveToBmob",e.toString());
+                        }
                     }
-                }
-            });
+                });
+            }
+            if (isUpdate){
+                user_message.update(objectId, new UpdateListener() {
+                    @Override
+                    public void done(BmobException e) {
+                        if (e == null) {
+                            Log.e("更新", "update");
+                        } else {
+                            Log.e("TAG","done: " + e.getMessage());
+                        }
+                    }
+                });
+            }
+
         }
     }
 
@@ -269,17 +294,33 @@ public class UserMsgActivity extends Activity {
             @Override
             public void done(List<User_Message> object, BmobException e) {
                 if (e == null) {
-                    //object.size();
-                    for (User_Message user_message : object){
-                        user_message.getAge();
-                        user_message.getHeight();
-                        user_message.getWaist();
-                        user_message.getWeight();
-                        user_message.getNeck();
-                        user_message.getCurrentDate();
-                        Log.d("年龄", user_message.getAge());
+                    if (object.size() <= 0){
+                        isSave = true;
+                        saveToBmob();
+                    }else{
+                        for (User_Message user_message : object){
+                            user_message.getAge();
+                            user_message.getHeight();
+                            user_message.getWaist();
+                            user_message.getWeight();
+                            user_message.getNeck();
+                            user_message.getCurrentDate();
+//                            Log.d("年龄", user_message.getAge());
+                            list_t.add(user_message.getCurrentDate());
+                            list_objectId.add(user_message.getObjectId());
+                        }
+                        t = list_t.get(0).toString();
+                        objectId = list_objectId.get(0).toString();
+                        if (!t.equals(CurrentDate)){
+                            isSave = true;
+                        }else{
+//                            isUpdate = true;
+                            isSave = true;   ///////测试用
+                        }
+                        saveToBmob();
+                        Log.d("queryFromBmob","查询成功");
                     }
-                    Log.d("queryFromBmob","查询成功");
+
                 } else {
                     Log.e("FromBmob", e.toString());
                 }

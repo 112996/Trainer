@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -16,11 +17,15 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.asus_pc.trainer.R;
 import com.example.asus_pc.trainer.activities.AddNoteActivity;
 import com.example.asus_pc.trainer.activities.PhotoViewActivity;
+import com.example.asus_pc.trainer.bean.MyUsers;
 import com.example.asus_pc.trainer.bean.TrainNoteEntity;
+import com.example.asus_pc.trainer.until.CircleImageView;
 import com.example.asus_pc.trainer.until.DecimalUtils;
 
 import java.io.ByteArrayInputStream;
 import java.util.List;
+
+import cn.bmob.v3.BmobUser;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -79,8 +84,23 @@ public class TrainNoteAdapter extends BaseQuickAdapter<TrainNoteEntity, BaseView
         if (!resImageBase64.isEmpty()) {
             byte[] base64byte = Base64.decode(resImageBase64, Base64.DEFAULT);
             ByteArrayInputStream instream = new ByteArrayInputStream(base64byte);
-            helper.getView(R.id.item_avatar).setBackground(Drawable.createFromStream(instream, "res_img"));
-    }
+            CircleImageView user_protrait1 = helper.getView(R.id.item_avatar);
+            user_protrait1.setImageDrawable(Drawable.createFromStream(instream, "res_img"));
+    }else{
+            CircleImageView user_protrait = helper.getView(R.id.item_avatar);
+            MyUsers myUsers = BmobUser.getCurrentUser(MyUsers.class);
+            String picPath = myUsers.getPic();
 
+            if (!picPath.isEmpty()){
+                Glide.with(mContext)
+                        .load(picPath)
+                        .placeholder(R.drawable.item_time)
+                        .dontAnimate()
+                        .thumbnail(0.1f)
+                        .into(user_protrait);
+            }else{
+                Log.e("trainer号", picPath);
+            }
+        }
     }
 }

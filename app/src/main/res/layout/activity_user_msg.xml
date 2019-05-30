@@ -114,8 +114,7 @@
             android:background="@drawable/edit_bg"
             android:gravity="center"
             android:id="@+id/weight"
-            android:digits="1234567890"
-            android:inputType="number|phone"
+
             android:singleLine="true"
             android:maxLength="6"
             android:textColor="@android:color/white"

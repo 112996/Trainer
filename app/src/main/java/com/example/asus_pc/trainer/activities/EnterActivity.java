@@ -1,5 +1,6 @@
 package com.example.asus_pc.trainer.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
@@ -32,6 +33,8 @@ public class EnterActivity extends AppCompatActivity {
 
     private void ifUserFromSP() {
         SharedPreferences s = getSharedPreferences("UserMsg", MODE_PRIVATE);
+        SharedPreferences s1 = getSharedPreferences("isNewUser", MODE_PRIVATE);
+        final SharedPreferences.Editor editor = s1.edit();
         String user_id = s.getString("user_id", "");
         String user_pass = s.getString("user_pass", "");
         if (user_id.isEmpty() || user_pass.isEmpty()) {
@@ -44,13 +47,14 @@ public class EnterActivity extends AppCompatActivity {
             bmobUser.login(new SaveListener<BmobUser>() {
                 @Override
                 public void done(BmobUser bmobUser, BmobException e) {
-                    ToastShow b = new ToastShow();
                     if (e == null) {
-                       // b.toastShow(EnterActivity.this,"登录成功");
+                        editor.putString("isNew", "1");
+                        editor.commit();
                         startActivity(new Intent(EnterActivity.this, LineShowActivity.class));
                         finish();
                     } else {
-                        b.toastShow(EnterActivity.this,"未注册!");
+                        editor.putString("isNew", "0");
+                        editor.commit();
                         startActivity(new Intent(EnterActivity.this, MainActivity.class));
                         finish();
                     }

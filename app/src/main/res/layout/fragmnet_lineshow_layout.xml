@@ -38,6 +38,7 @@
         android:layout_height="0dp"
         android:layout_weight="1.2"
         android:layout_gravity="bottom"
+        android:id="@+id/lines"
         android:gravity="bottom"
         android:layout_marginBottom="55dp"
         android:orientation="vertical">
@@ -80,7 +81,7 @@
                 android:layout_marginBottom="10dp"
                 android:textColor="@android:color/white"
                 android:layout_marginLeft="20dp"
-                android:text="BMI" />
+                android:text="BMI（20-25）" />
         </LinearLayout>
 
         <LinearLayout
@@ -101,10 +102,19 @@
                 android:layout_height="25dp"
                 android:textColor="@android:color/white"
                 android:layout_marginLeft="20dp"
-                android:text="BFR" />
+                android:text="BFR（11-22%）" />
         </LinearLayout>
 
 
     </LinearLayout>
+
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:src="@drawable/portrait"
+        android:id="@+id/isNew"/>
 
 </LinearLayout>

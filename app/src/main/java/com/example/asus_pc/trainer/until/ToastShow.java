@@ -24,7 +24,7 @@ public class ToastShow {
         int height = vm.getDefaultDisplay().getHeight();
 
         //y坐标偏移量设为屏幕高度的1/7，适配所有机型
-        toastStart.setGravity(Gravity.BOTTOM, 0, height / 7);
+        toastStart.setGravity(Gravity.BOTTOM, 0, height / 9);
         toastStart.setDuration(Toast.LENGTH_SHORT);
         toastStart.setView(rootView);
         toastStart.show();

@@ -21,27 +21,29 @@
             android:background="@mipmap/app_icon"/>
     </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="vertical"
-        android:layout_weight="1">
+        android:layout_weight="2">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TRAINERS"
+            android:id="@+id/trainers"
+            android:layout_centerHorizontal="true"
             android:textStyle="bold"
             android:typeface="monospace"
             android:textColor="@android:color/white"
             android:textSize="38sp"
-            android:layout_marginTop="@dimen/trainer_marginTop"
-            android:gravity="center_horizontal"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_marginTop="20dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="IT'S SIMPLE"
+            android:id="@+id/it"
+            android:layout_below="@+id/trainers"
+            android:layout_centerHorizontal="true"
             android:typeface="monospace"
             android:textSize="15sp"
             android:layout_margin="@dimen/it_simple_margin"
@@ -52,31 +54,33 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="BUT NOT EASY"
+            android:id="@+id/but"
+            android:layout_below="@+id/it"
+            android:layout_centerHorizontal="true"
             android:typeface="monospace"
             android:textSize="15sp"
             android:textColor="@android:color/white"
             android:textStyle="bold"
             android:layout_gravity="center_horizontal"/>
 
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_below="@+id/but">
+
         <Button
             android:layout_width="@dimen/login_btn_width"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
             android:background="@drawable/login_btn_style"
             android:textColor="#FFFFFF"
             android:text="登   录"
             android:textSize="25sp"
             android:typeface="monospace"
             android:id="@+id/login_btn"
-            android:textAllCaps="false"
-            android:layout_marginTop="@dimen/login_btn_marginTop" />
-
-    </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+            android:textAllCaps="false" />
 
         <Button
             android:layout_width="@dimen/register_btn_width"
@@ -84,12 +88,15 @@
             android:background="@drawable/register_btn_style"
             android:id="@+id/regist_btn"
             android:layout_centerHorizontal="true"
+            android:layout_below="@id/login_btn"
+            android:layout_marginTop="25dp"
             android:text="注   册"
             android:textSize="25sp"
             android:typeface="monospace"
             android:textAllCaps="false"
-            android:textColor="@android:color/white"
-            android:layout_marginTop="@dimen/regist_btn_marginTop"/>
+            android:textColor="@android:color/white"/>
+
+    </RelativeLayout>
 
         <TextView
             android:layout_width="wrap_content"
@@ -97,6 +104,7 @@
             android:text="Don't have an account? Start free tried."
             android:layout_gravity="center_horizontal"
             android:layout_alignParentBottom="true"
+            android:layout_marginBottom="5dp"
             android:layout_centerHorizontal="true"
             android:textColor="@android:color/white"/>
 

@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import a.We;
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
@@ -188,6 +189,9 @@ public class UserMsgActivity extends Activity {
     }
 
     private ContentValues userToContentValues(UsersMsg usersMsg) {
+        if (usersMsg == null){
+            return null;
+        }
         ContentValues contentValues = new ContentValues();
         if (!usersMsg.age.equals("")&&!usersMsg.height.equals("")&& !usersMsg.weight.equals("")&& !usersMsg.waist.equals("")&& !usersMsg.neck.equals("")){
             contentValues.put("Age", usersMsg.age);

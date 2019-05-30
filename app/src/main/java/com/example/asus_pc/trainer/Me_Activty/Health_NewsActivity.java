@@ -227,6 +227,9 @@ public class Health_NewsActivity extends Activity {
 
     @SuppressLint("JavascriptInterface")
     private void aboutWebView(String url){
+        if (url == null){
+            return;
+        }
         content.loadUrl(url);
         content.addJavascriptInterface(this, "android");
         content.setWebViewClient(webViewClient);

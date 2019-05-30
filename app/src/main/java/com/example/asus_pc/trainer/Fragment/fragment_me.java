@@ -68,6 +68,7 @@ import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadFileListener;
 import io.reactivex.annotations.Nullable;
+import okhttp3.internal.http.RetryableSink;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.Context.MODE_PRIVATE;
@@ -81,7 +82,7 @@ public class fragment_me extends Fragment {
     private CircleImageView user_protrait;
     private Dialog dialog;
     private View inflate;
-    private File file, mediaStorageDir;
+    private File file;
     private Uri mUri;
     public final int TYPE_TAKE_PHOTO = 1;//Uri获取类型判断
     public final int CODE_TAKE_PHOTO = 1;//相机RequestCode
@@ -338,6 +339,9 @@ public class fragment_me extends Fragment {
     }
 
     public String bitmapToString(Bitmap bitmap){
+        if (bitmap == null){
+            return  null;
+        }
         //将Bitmap转换成字符串
         String string=null;
         ByteArrayOutputStream bStream=new ByteArrayOutputStream();
@@ -488,6 +492,9 @@ public class fragment_me extends Fragment {
      * @param nickname
      */
     private void updateUser(String nickname) {
+        if (nickname == null){
+            return;
+        }
         MyUsers myUsers = BmobUser.getCurrentUser(MyUsers.class);
         myUsers.setNickname(nickname);
         myUsers.update(new UpdateListener() {
@@ -547,6 +554,9 @@ public class fragment_me extends Fragment {
 
 
     private void uploadPic(String path){
+        if (path == null){
+            return;
+        }
         final BmobFile file = new BmobFile(new File(path));
         file.upload(new UploadFileListener() {
             @Override
@@ -561,6 +571,9 @@ public class fragment_me extends Fragment {
     }
 
     private void afterUploadPic(String path){
+        if (path == null){
+            return;
+        }
         MyUsers myUsers = BmobUser.getCurrentUser(MyUsers.class);
         myUsers.setPic(path);
         myUsers.update(new UpdateListener() {

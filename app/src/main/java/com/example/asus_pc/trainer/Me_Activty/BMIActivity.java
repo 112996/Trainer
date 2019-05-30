@@ -156,6 +156,9 @@ public class BMIActivity extends Activity {
     }
 
     private void saveBMIToSP(String bmi){
+        if (bmi == null){
+            return;
+        }
         SharedPreferences sharedPreferences = getSharedPreferences("config",MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("BMI", bmi);

@@ -140,6 +140,9 @@ public class BFRActivity extends Activity {
     }
 
     private void saveBFRToSP(String bfr){
+        if (bfr == null){
+            return;
+        }
         SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("BFR", bfr);

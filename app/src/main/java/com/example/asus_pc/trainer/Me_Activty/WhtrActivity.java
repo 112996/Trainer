@@ -141,6 +141,9 @@ public class WhtrActivity extends Activity {
     }
 
     private void saveWhtrToSP(String whtr) {
+        if (whtr == null){
+            return;
+        }
         SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("Whtr", whtr);

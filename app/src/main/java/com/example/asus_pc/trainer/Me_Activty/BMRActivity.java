@@ -75,7 +75,6 @@ public class BMRActivity extends Activity {
         showConfig();
         click();
         searchBmob();
-        //saveToBmob();
         checkBoxListener();
     }
 
@@ -172,6 +171,9 @@ public class BMRActivity extends Activity {
     }
 
     private void saveBMRToSP(String bmr) {
+        if (bmr ==null){
+            return;
+        }
         SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("BMR", bmr);

@@ -102,6 +102,9 @@ public class fragment_course extends Fragment {
     }
 
     private void refreshList(List<TrainNoteEntity> list) {
+        if (list == null || list.size() <= 0){
+            return;
+        }
         trainNoteEntityList = new ArrayList<>();
         for(int i = list.size() -1; i >= 0; i--){
             trainNoteEntityList.add(list.get(i));

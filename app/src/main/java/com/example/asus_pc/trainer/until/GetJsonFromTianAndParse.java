@@ -46,20 +46,17 @@ public class GetJsonFromTianAndParse {
                     conn.setRequestMethod("GET");
                     if (conn.getResponseCode() == REQUEST_CODE) {
                         InputStream in = conn.getInputStream();
-                        HealthBean healthBean = null;
-                        JsoupBean jsoupBean = null;
+                          List<HealthBean> healthBeanList = null;
                         try {
-                            healthBean = parseJson(in);
-                            //jsoupBean = jsoupData(healthBean);
+                            healthBeanList = parseJson(in);
                             Log.e("in", String.valueOf(in));
 
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        if (healthBean!= null) {
+                        if (healthBeanList!= null) {
                             msg.what = PARSESUCCESS;
-                            msg.obj = healthBean;
-                           // msg.obj = jsoupBean;
+                            msg.obj = healthBeanList;
                             handler.sendMessage(msg);
                         } else {
                             msg.what = FAILED;
@@ -74,7 +71,8 @@ public class GetJsonFromTianAndParse {
         }).start();
     }
 
-    protected HealthBean parseJson(InputStream inputStream) throws Exception {
+    protected List<HealthBean> parseJson(InputStream inputStream) throws Exception {
+        List<HealthBean> list = new ArrayList<HealthBean>();
         byte[] jsonBytes = convertIsToByteArray(inputStream);
         String json = new String(jsonBytes);
         JSONObject jsonObject = new JSONObject(json);
@@ -90,8 +88,9 @@ public class GetJsonFromTianAndParse {
             healthBean.setTitle(title);
             healthBean.setDescription(description);
             healthBean.setUrl(url);
+            list.add(healthBean);
         }
-        return healthBean;
+        return list;
     }
 
     private byte[] convertIsToByteArray(InputStream inputStream) throws IOException {
